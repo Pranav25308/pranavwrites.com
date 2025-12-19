@@ -1,104 +1,210 @@
-import { MongoClient } from 'mongodb'
-import { v4 as uuidv4 } from 'uuid'
-import { NextResponse } from 'next/server'
+import { MongoClient, ObjectId } from 'mongodb';
+import { NextResponse } from 'next/server';
+import { v4 as uuidv4 } from 'uuid';
 
-// MongoDB connection
-let client
-let db
+const client = new MongoClient(process.env.MONGO_URL);
+let db;
 
-async function connectToMongo() {
-  if (!client) {
-    client = new MongoClient(process.env.MONGO_URL)
-    await client.connect()
-    db = client.db(process.env.DB_NAME)
+async function connectDB() {
+  if (!db) {
+    await client.connect();
+    db = client.db('portfolio');
   }
-  return db
+  return db;
 }
 
-// Helper function to handle CORS
-function handleCORS(response) {
-  response.headers.set('Access-Control-Allow-Origin', process.env.CORS_ORIGINS || '*')
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  response.headers.set('Access-Control-Allow-Credentials', 'true')
-  return response
-}
+// Admin credentials (in production, use hashed passwords)
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'admin';
 
-// OPTIONS handler for CORS
-export async function OPTIONS() {
-  return handleCORS(new NextResponse(null, { status: 200 }))
-}
-
-// Route handler function
-async function handleRoute(request, { params }) {
-  const { path = [] } = params
-  const route = `/${path.join('/')}`
-  const method = request.method
-
+export async function GET(request, { params }) {
   try {
-    const db = await connectToMongo()
+    const db = await connectDB();
+    const path = params.path?.join('/') || '';
+    const url = new URL(request.url);
 
-    // Root endpoint - GET /api/root (since /api/ is not accessible with catch-all)
-    if (route === '/root' && method === 'GET') {
-      return handleCORS(NextResponse.json({ message: "Hello World" }))
-    }
-    // Root endpoint - GET /api/root (since /api/ is not accessible with catch-all)
-    if (route === '/' && method === 'GET') {
-      return handleCORS(NextResponse.json({ message: "Hello World" }))
+    // Get all reviews or filter by type
+    if (path === 'reviews') {
+      const type = url.searchParams.get('type');
+      const query = type ? { type } : {};
+      const reviews = await db.collection('reviews')
+        .find(query)
+        .sort({ date: -1 })
+        .toArray();
+      return NextResponse.json(reviews);
     }
 
-    // Status endpoints - POST /api/status
-    if (route === '/status' && method === 'POST') {
-      const body = await request.json()
-      
-      if (!body.client_name) {
-        return handleCORS(NextResponse.json(
-          { error: "client_name is required" }, 
-          { status: 400 }
-        ))
+    // Get single review
+    if (path.startsWith('reviews/')) {
+      const id = path.split('/')[1];
+      const review = await db.collection('reviews').findOne({ id });
+      if (!review) {
+        return NextResponse.json({ error: 'Review not found' }, { status: 404 });
+      }
+      return NextResponse.json(review);
+    }
+
+    // Get about content
+    if (path === 'about') {
+      let about = await db.collection('about').findOne({});
+      if (!about) {
+        about = { content: 'Welcome to my portfolio. This is a placeholder text.' };
+        await db.collection('about').insertOne(about);
+      }
+      return NextResponse.json(about);
+    }
+
+    // Get analytics
+    if (path === 'analytics') {
+      const token = request.headers.get('authorization');
+      if (token !== 'admin-session') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
 
-      const statusObj = {
-        id: uuidv4(),
-        client_name: body.client_name,
-        timestamp: new Date()
+      let analytics = await db.collection('analytics').findOne({});
+      if (!analytics) {
+        analytics = {
+          totalViews: 0,
+          totalVisits: 0,
+          pageViews: { home: 0, blogs: 0, movies: 0, books: 0, products: 0, about: 0 },
+          recentViews: []
+        };
+        await db.collection('analytics').insertOne(analytics);
       }
-
-      await db.collection('status_checks').insertOne(statusObj)
-      return handleCORS(NextResponse.json(statusObj))
+      return NextResponse.json(analytics);
     }
 
-    // Status endpoints - GET /api/status
-    if (route === '/status' && method === 'GET') {
-      const statusChecks = await db.collection('status_checks')
-        .find({})
-        .limit(1000)
-        .toArray()
-
-      // Remove MongoDB's _id field from response
-      const cleanedStatusChecks = statusChecks.map(({ _id, ...rest }) => rest)
-      
-      return handleCORS(NextResponse.json(cleanedStatusChecks))
-    }
-
-    // Route not found
-    return handleCORS(NextResponse.json(
-      { error: `Route ${route} not found` }, 
-      { status: 404 }
-    ))
-
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
   } catch (error) {
-    console.error('API Error:', error)
-    return handleCORS(NextResponse.json(
-      { error: "Internal server error" }, 
-      { status: 500 }
-    ))
+    console.error('GET Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// Export all HTTP methods
-export const GET = handleRoute
-export const POST = handleRoute
-export const PUT = handleRoute
-export const DELETE = handleRoute
-export const PATCH = handleRoute
+export async function POST(request, { params }) {
+  try {
+    const db = await connectDB();
+    const path = params.path?.join('/') || '';
+    const body = await request.json();
+
+    // Admin login
+    if (path === 'auth/login') {
+      const { username, password } = body;
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        return NextResponse.json({ success: true, token: 'admin-session' });
+      }
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    // Create review (admin only)
+    if (path === 'reviews') {
+      const token = request.headers.get('authorization');
+      if (token !== 'admin-session') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const review = {
+        id: uuidv4(),
+        type: body.type,
+        title: body.title,
+        image: body.image,
+        description: body.description,
+        date: new Date().toISOString()
+      };
+      await db.collection('reviews').insertOne(review);
+      return NextResponse.json(review);
+    }
+
+    // Track analytics
+    if (path === 'analytics/track') {
+      const { page } = body;
+      await db.collection('analytics').updateOne(
+        {},
+        {
+          $inc: {
+            totalViews: 1,
+            [`pageViews.${page}`]: 1
+          },
+          $push: {
+            recentViews: {
+              $each: [{ page, timestamp: new Date().toISOString() }],
+              $slice: -50
+            }
+          }
+        },
+        { upsert: true }
+      );
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch (error) {
+    console.error('POST Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function PUT(request, { params }) {
+  try {
+    const db = await connectDB();
+    const path = params.path?.join('/') || '';
+    const token = request.headers.get('authorization');
+    const body = await request.json();
+
+    if (token !== 'admin-session') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Update review
+    if (path.startsWith('reviews/')) {
+      const id = path.split('/')[1];
+      const updateData = {
+        type: body.type,
+        title: body.title,
+        image: body.image,
+        description: body.description
+      };
+      await db.collection('reviews').updateOne({ id }, { $set: updateData });
+      return NextResponse.json({ success: true });
+    }
+
+    // Update about
+    if (path === 'about') {
+      await db.collection('about').updateOne(
+        {},
+        { $set: { content: body.content } },
+        { upsert: true }
+      );
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch (error) {
+    console.error('PUT Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request, { params }) {
+  try {
+    const db = await connectDB();
+    const path = params.path?.join('/') || '';
+    const token = request.headers.get('authorization');
+
+    if (token !== 'admin-session') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Delete review
+    if (path.startsWith('reviews/')) {
+      const id = path.split('/')[1];
+      await db.collection('reviews').deleteOne({ id });
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  } catch (error) {
+    console.error('DELETE Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
