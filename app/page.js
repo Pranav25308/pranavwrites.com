@@ -826,11 +826,163 @@ export default function App() {
           </div>
         )}
 
-        {/* Admin Pages placeholder for now */}
-        {(currentPage === 'visits' || currentPage === 'analysis' || currentPage === 'roles' || currentPage === 'settings' || currentPage.startsWith('manage-')) && isAdmin && (
-          <div className="text-center py-20">
-            <h1 className="text-4xl font-bold mb-4 text-blue-800 dark:text-blue-400 capitalize">{currentPage.replace('-', ' ')}</h1>
-            <p className="text-slate-600 dark:text-slate-400">Admin page - Under construction</p>
+        {/* Admin Visits Page */}
+        {currentPage === 'visits' && isAdmin && (
+          <div className="min-h-screen">
+            <h1 className="text-5xl font-bold mb-12 text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Visits Overview</h1>
+            {analytics && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><Eye className="w-6 h-6" /><span>Total Views</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.totalViews || 0}</p></CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-cyan-600 to-cyan-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-100">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><TrendingUp className="w-6 h-6" /><span>Home Page</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.home || 0}</p></CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-teal-600 to-teal-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-200">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><BookOpen className="w-6 h-6" /><span>Blogs</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.blogs || 0}</p></CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-300">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><Film className="w-6 h-6" /><span>Movies</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.movies || 0}</p></CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-violet-600 to-violet-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-400">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><Book className="w-6 h-6" /><span>Books</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.books || 0}</p></CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-purple-600 to-purple-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-500">
+                  <CardHeader><CardTitle className="flex items-center space-x-2"><Package className="w-6 h-6" /><span>Products</span></CardTitle></CardHeader>
+                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.products || 0}</p></CardContent>
+                </Card>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Admin Analysis Page */}
+        {currentPage === 'analysis' && isAdmin && (
+          <div className="min-h-screen">
+            <h1 className="text-5xl font-bold mb-12 text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Detailed Analysis</h1>
+            {analytics && (
+              <div className="space-y-8">
+                <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-2xl hover:shadow-3xl transition-all duration-500 animate-in fade-in-0 zoom-in-95">
+                  <CardHeader><CardTitle className="text-2xl flex items-center space-x-3 text-blue-800 dark:text-blue-400"><BarChart3 className="w-8 h-8" /><span>Overall Statistics</span></CardTitle></CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div><p className="text-slate-600 dark:text-slate-400 mb-2">Total Views</p><p className="text-5xl font-bold text-blue-600 dark:text-blue-400">{analytics.totalViews || 0}</p></div>
+                      <div><p className="text-slate-600 dark:text-slate-400 mb-2">Total Reviews</p><p className="text-5xl font-bold text-blue-600 dark:text-blue-400">{reviews.length}</p></div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-500 animate-in fade-in-0 slide-in-from-left-4 delay-100">
+                    <CardHeader><CardTitle className="text-blue-800 dark:text-blue-400">Page Performance</CardTitle></CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {Object.entries(analytics.pageViews || {}).map(([page, views]) => (
+                          <div key={page} className="flex justify-between items-center group">
+                            <span className="capitalize font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{page}</span>
+                            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{views}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-500 animate-in fade-in-0 slide-in-from-right-4 delay-200">
+                    <CardHeader><CardTitle className="text-blue-800 dark:text-blue-400">Content Breakdown</CardTitle></CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Blogs</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'blog').length}</span></div>
+                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Movies</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'movie').length}</span></div>
+                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Books</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'book').length}</span></div>
+                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Products</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'product').length}</span></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Admin Roles Management Page */}
+        {currentPage === 'roles' && isAdmin && (
+          <div className="min-h-screen">
+            <div className="flex justify-between items-center mb-12">
+              <h1 className="text-5xl font-bold text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Manage Typing Roles</h1>
+              <Button onClick={() => { setEditingRole(null); setRoleForm({ title: '' }); setShowRoleModal(true); }} className="bg-blue-600 text-white hover:bg-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"><Plus className="w-4 h-4 mr-2" />Add Role</Button>
+            </div>
+            <div className="space-y-4">
+              {roles.map((role, index) => (
+                <Card key={role.id} className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-102 animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 100}ms` }}>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-2xl font-bold text-slate-400 dark:text-slate-600">#{role.order}</span>
+                        <span className="text-xl font-semibold text-slate-800 dark:text-slate-100">{role.title}</span>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button onClick={() => { setEditingRole(role); setRoleForm({ title: role.title }); setShowRoleModal(true); }} variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={async () => { if (!confirm('Delete this role?')) return; try { const token = localStorage.getItem('adminToken'); await fetch(`/api/roles/${role.id}`, { method: 'DELETE', headers: { 'Authorization': token } }); fetchRoles(); } catch (error) { console.error('Error deleting role:', error); } }} variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Trash2 className="w-4 h-4" /></Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {roles.length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-bounce">⚙️</div><p className="text-xl text-slate-600 dark:text-slate-400">No roles yet.</p></div>)}
+            </div>
+          </div>
+        )}
+
+        {/* Admin Settings Page */}
+        {currentPage === 'settings' && isAdmin && (
+          <div className="min-h-screen max-w-3xl mx-auto">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Navigation Settings</h1>
+            <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
+              <CardContent className="pt-6">
+                <div className="space-y-6">
+                  <p className="text-slate-600 dark:text-slate-400 mb-4">Toggle visibility of navigation menu items. Hidden items won't appear in the navbar or home page.</p>
+                  <div className="space-y-4">
+                    {Object.entries(settings.navbar).map(([key, value]) => (
+                      <div key={key} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 transition-colors duration-300">
+                        <Label htmlFor={key} className="text-lg font-medium text-slate-800 dark:text-slate-100 capitalize cursor-pointer">{key}</Label>
+                        <input id={key} type="checkbox" checked={value} onChange={(e) => setSettings({ ...settings, navbar: { ...settings.navbar, [key]: e.target.checked } })} className="w-6 h-6 text-blue-600 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400 cursor-pointer" />
+                      </div>
+                    ))}
+                  </div>
+                  <Button onClick={async () => { try { const token = localStorage.getItem('adminToken'); const res = await fetch('/api/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ navbar: settings.navbar }) }); if (res.ok) { alert('Settings saved successfully!'); fetchSettings(); } } catch (error) { console.error('Error saving settings:', error); alert('Failed to save settings'); } }} className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" size="lg"><Settings className="w-5 h-5 mr-2" />Save Settings</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Admin Manage Pages */}
+        {currentPage.startsWith('manage-') && isAdmin && (
+          <div className="min-h-screen">
+            <div className="flex justify-between items-center mb-12 animate-in fade-in-0 slide-in-from-top-4 duration-500">
+              <h1 className="text-5xl font-bold text-blue-800 dark:text-blue-400 capitalize">Manage {currentPage.replace('manage-', '')}</h1>
+              <Button onClick={() => { setEditingReview(null); const type = currentPage.replace('manage-', '').slice(0, -1); setReviewForm({ type, title: '', image: '', description: '' }); setShowReviewModal(true); }} className="bg-blue-600 text-white hover:bg-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"><Plus className="w-4 h-4 mr-2" />Add New</Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).map((review, index) => (
+                <Card key={review.id} className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:scale-102 transition-all duration-500 hover:border-blue-400 dark:hover:border-blue-500 animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 100}ms` }}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div><CardTitle className="text-xl text-slate-800 dark:text-slate-100">{review.title}</CardTitle><CardDescription className="uppercase text-slate-600 dark:text-slate-400 mt-2">{review.type}</CardDescription></div>
+                      <div className="flex space-x-2">
+                        <Button onClick={() => handleEditReview(review)} variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Edit className="w-4 h-4" /></Button>
+                        <Button onClick={() => handleDeleteReview(review.id)} variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Trash2 className="w-4 h-4" /></Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent><p className="text-slate-600 dark:text-slate-400 line-clamp-2">{review.description}</p></CardContent>
+                </Card>
+              ))}
+            </div>
+            {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-bounce">📝</div><p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage.replace('manage-', '')} yet. Start creating!</p></div>)}
           </div>
         )}
 
