@@ -13,7 +13,7 @@ async function connectDB() {
   return db;
 }
 
-// Admin credentials (in production, use hashed passwords)
+// Admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'admin';
 
@@ -66,12 +66,26 @@ export async function GET(request, { params }) {
         analytics = {
           totalViews: 0,
           totalVisits: 0,
-          pageViews: { home: 0, blogs: 0, movies: 0, books: 0, products: 0, about: 0 },
+          pageViews: { home: 0, blogs: 0, movies: 0, books: 0, products: 0, about: 0, contact: 0 },
           recentViews: []
         };
         await db.collection('analytics').insertOne(analytics);
       }
       return NextResponse.json(analytics);
+    }
+
+    // Get contacts
+    if (path === 'contacts') {
+      const token = request.headers.get('authorization');
+      if (token !== 'admin-session') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const contacts = await db.collection('contacts')
+        .find({})
+        .sort({ date: -1 })
+        .toArray();
+      return NextResponse.json(contacts);
     }
 
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -113,6 +127,20 @@ export async function POST(request, { params }) {
       };
       await db.collection('reviews').insertOne(review);
       return NextResponse.json(review);
+    }
+
+    // Submit contact form
+    if (path === 'contacts') {
+      const contact = {
+        id: uuidv4(),
+        name: body.name,
+        email: body.email,
+        subject: body.subject,
+        message: body.message,
+        date: new Date().toISOString()
+      };
+      await db.collection('contacts').insertOne(contact);
+      return NextResponse.json({ success: true, contact });
     }
 
     // Track analytics
