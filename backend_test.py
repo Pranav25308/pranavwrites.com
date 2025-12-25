@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 
 # Get base URL from environment
-BASE_URL = "https://nextfolio-12.preview.emergentagent.com/api"
+BASE_URL = "https://nextfolio-14.preview.emergentagent.com/api"
 
 class PortfolioAPITester:
     def __init__(self):
