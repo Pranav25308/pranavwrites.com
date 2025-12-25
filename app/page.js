@@ -137,6 +137,8 @@ export default function App() {
   ]);
 
   useEffect(() => {
+    fetchRoles();
+    fetchSettings();
     fetchReviews();
     fetchAbout();
     trackPageView('home');
