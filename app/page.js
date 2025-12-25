@@ -76,7 +76,7 @@ export default function App() {
           isDeleting = true;
         }, 2000);
       } else if (isDeleting && charIndex > 0) {
-        currentText = currentRole.substring(0, charIndex - 1);
+        currentText = currentRole.title.substring(0, charIndex - 1);
         setTypedText(currentText);
         charIndex--;
       } else if (isDeleting && charIndex === 0) {
