@@ -67,11 +67,11 @@ export default function App() {
     let isDeleting = false;
     
     const typeInterval = setInterval(() => {
-      if (!isDeleting && charIndex <= currentRole.length) {
-        currentText = currentRole.substring(0, charIndex);
+      if (!isDeleting && charIndex <= currentRole.title.length) {
+        currentText = currentRole.title.substring(0, charIndex);
         setTypedText(currentText);
         charIndex++;
-      } else if (charIndex === currentRole.length && !isDeleting) {
+      } else if (charIndex === currentRole.title.length && !isDeleting) {
         setTimeout(() => {
           isDeleting = true;
         }, 2000);
