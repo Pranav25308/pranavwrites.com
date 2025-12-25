@@ -29,9 +29,12 @@ export default function App() {
   const [typedText, setTypedText] = useState('');
   const [contacts, setContacts] = useState([]);
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
-
-  const roles = ['Software Developer', 'Roku Developer', 'Data Engineer', 'Full Stack Developer'];
+  const [roles, setRoles] = useState([]);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [settings, setSettings] = useState({ navbar: { about: true, blogs: true, movies: true, books: true, products: true } });
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [editingRole, setEditingRole] = useState(null);
+  const [roleForm, setRoleForm] = useState({ title: '' });
 
   // Typing animation effect
   useEffect(() => {
