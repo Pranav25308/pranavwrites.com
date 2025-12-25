@@ -361,7 +361,7 @@ export default function App() {
     if (page === 'visits' && isAdmin) {
       fetchAnalytics();
     }
-    if (page === 'contacts' && isAdmin) {
+    if (page === 'messages' && isAdmin) {
       fetchContacts();
     }
   };
