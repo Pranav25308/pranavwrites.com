@@ -87,7 +87,7 @@ export default function App() {
     }, isDeleting ? 50 : 100);
 
     return () => clearInterval(typeInterval);
-  }, [currentRoleIndex]);
+  }, [currentRoleIndex, roles]);
 
   const [skills] = useState([
     { name: 'Roku', icon: Laptop, color: 'from-purple-500 to-indigo-500' },
