@@ -1094,6 +1094,64 @@ export default function App() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Role Management Modal */}
+      <Dialog open={showRoleModal} onOpenChange={setShowRoleModal}>
+        <DialogContent className="sm:max-w-md dark:bg-slate-800 dark:border-slate-700">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-blue-800 dark:text-blue-400">{editingRole ? 'Edit Role' : 'Add Role'}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={async (e) => { e.preventDefault(); try { const token = localStorage.getItem('adminToken'); if (editingRole) { await fetch(`/api/roles/${editingRole.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify(roleForm) }); } else { await fetch('/api/roles', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify(roleForm) }); } setShowRoleModal(false); setEditingRole(null); setRoleForm({ title: '' }); fetchRoles(); } catch (error) { console.error('Error saving role:', error); } }} className="space-y-4">
+            <div>
+              <Label htmlFor="role-title" className="dark:text-slate-300">Role Title</Label>
+              <Input id="role-title" value={roleForm.title} onChange={(e) => setRoleForm({ title: e.target.value })} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100" placeholder="e.g., Software Developer" />
+            </div>
+            <div className="flex space-x-2">
+              <Button type="submit" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">Save</Button>
+              <Button type="button" onClick={() => { setShowRoleModal(false); setEditingRole(null); }} variant="outline" className="hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-600 dark:hover:border-blue-400">Cancel</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Review Management Modal */}
+      <Dialog open={showReviewModal} onOpenChange={setShowReviewModal}>
+        <DialogContent className="max-w-2xl dark:bg-slate-800 dark:border-slate-700">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-blue-800 dark:text-blue-400">{editingReview ? 'Edit Review' : 'Add Review'}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSaveReview} className="space-y-4">
+            <div>
+              <Label htmlFor="type">Type</Label>
+              <Select value={reviewForm.type} onValueChange={(value) => setReviewForm({ ...reviewForm, type: value })}>
+                <SelectTrigger className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="blog">Blog</SelectItem>
+                  <SelectItem value="movie">Movie</SelectItem>
+                  <SelectItem value="book">Book</SelectItem>
+                  <SelectItem value="product">Product</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input id="title" value={reviewForm.title} onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
+            </div>
+            <div>
+              <Label htmlFor="image">Image URL</Label>
+              <Input id="image" value={reviewForm.image} onChange={(e) => setReviewForm({ ...reviewForm, image: e.target.value })} placeholder="https://example.com/image.jpg" className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
+            </div>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea id="description" value={reviewForm.description} onChange={(e) => setReviewForm({ ...reviewForm, description: e.target.value })} rows={6} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
+            </div>
+            <div className="flex space-x-2">
+              <Button type="submit" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">Save</Button>
+              <Button type="button" onClick={() => { setShowReviewModal(false); setEditingReview(null); }} variant="outline" className="hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-600 dark:hover:border-blue-400">Cancel</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
