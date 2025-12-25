@@ -13,7 +13,6 @@ async function connectDB() {
   return db;
 }
 
-// Admin credentials
 const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'admin';
 
@@ -23,69 +22,69 @@ export async function GET(request, { params }) {
     const path = params.path?.join('/') || '';
     const url = new URL(request.url);
 
-    // Get all reviews or filter by type
     if (path === 'reviews') {
       const type = url.searchParams.get('type');
       const query = type ? { type } : {};
-      const reviews = await db.collection('reviews')
-        .find(query)
-        .sort({ date: -1 })
-        .toArray();
+      const reviews = await db.collection('reviews').find(query).sort({ date: -1 }).toArray();
       return NextResponse.json(reviews);
     }
 
-    // Get single review
     if (path.startsWith('reviews/')) {
       const id = path.split('/')[1];
       const review = await db.collection('reviews').findOne({ id });
-      if (!review) {
-        return NextResponse.json({ error: 'Review not found' }, { status: 404 });
-      }
+      if (!review) return NextResponse.json({ error: 'Review not found' }, { status: 404 });
       return NextResponse.json(review);
     }
 
-    // Get about content
     if (path === 'about') {
       let about = await db.collection('about').findOne({});
       if (!about) {
-        about = { content: 'Welcome to my portfolio. This is a placeholder text.' };
+        about = { content: 'Welcome to my portfolio.' };
         await db.collection('about').insertOne(about);
       }
       return NextResponse.json(about);
     }
 
-    // Get analytics
     if (path === 'analytics') {
       const token = request.headers.get('authorization');
-      if (token !== 'admin-session') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-
+      if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       let analytics = await db.collection('analytics').findOne({});
       if (!analytics) {
-        analytics = {
-          totalViews: 0,
-          totalVisits: 0,
-          pageViews: { home: 0, blogs: 0, movies: 0, books: 0, products: 0, about: 0, contact: 0 },
-          recentViews: []
-        };
+        analytics = { totalViews: 0, totalVisits: 0, pageViews: { home: 0, blogs: 0, movies: 0, books: 0, products: 0, about: 0, contact: 0 }, recentViews: [] };
         await db.collection('analytics').insertOne(analytics);
       }
       return NextResponse.json(analytics);
     }
 
-    // Get contacts
     if (path === 'contacts') {
       const token = request.headers.get('authorization');
-      if (token !== 'admin-session') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-
-      const contacts = await db.collection('contacts')
-        .find({})
-        .sort({ date: -1 })
-        .toArray();
+      if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      const contacts = await db.collection('contacts').find({}).sort({ date: -1 }).toArray();
       return NextResponse.json(contacts);
+    }
+
+    if (path === 'roles') {
+      const roles = await db.collection('roles').find({ active: true }).sort({ order: 1 }).toArray();
+      if (roles.length === 0) {
+        const defaultRoles = [
+          { id: uuidv4(), title: 'Software Developer', order: 1, active: true },
+          { id: uuidv4(), title: 'Streaming Engineer', order: 2, active: true },
+          { id: uuidv4(), title: 'NLP Engineer', order: 3, active: true },
+          { id: uuidv4(), title: 'Backend Developer', order: 4, active: true }
+        ];
+        await db.collection('roles').insertMany(defaultRoles);
+        return NextResponse.json(defaultRoles);
+      }
+      return NextResponse.json(roles);
+    }
+
+    if (path === 'settings') {
+      let settings = await db.collection('settings').findOne({});
+      if (!settings) {
+        settings = { navbar: { about: true, blogs: true, movies: true, books: true, products: true } };
+        await db.collection('settings').insertOne(settings);
+      }
+      return NextResponse.json(settings);
     }
 
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -101,7 +100,6 @@ export async function POST(request, { params }) {
     const path = params.path?.join('/') || '';
     const body = await request.json();
 
-    // Admin login
     if (path === 'auth/login') {
       const { username, password } = body;
       if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
@@ -110,59 +108,34 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Create review (admin only)
     if (path === 'reviews') {
       const token = request.headers.get('authorization');
-      if (token !== 'admin-session') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-
-      const review = {
-        id: uuidv4(),
-        type: body.type,
-        title: body.title,
-        image: body.image,
-        description: body.description,
-        date: new Date().toISOString()
-      };
+      if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      const review = { id: uuidv4(), type: body.type, title: body.title, image: body.image, description: body.description, date: new Date().toISOString() };
       await db.collection('reviews').insertOne(review);
       return NextResponse.json(review);
     }
 
-    // Submit contact form
     if (path === 'contacts') {
-      const contact = {
-        id: uuidv4(),
-        name: body.name,
-        email: body.email,
-        subject: body.subject,
-        message: body.message,
-        date: new Date().toISOString()
-      };
+      const contact = { id: uuidv4(), name: body.name, email: body.email, subject: body.subject, message: body.message, date: new Date().toISOString() };
       await db.collection('contacts').insertOne(contact);
       return NextResponse.json({ success: true, contact });
     }
 
-    // Track analytics
     if (path === 'analytics/track') {
       const { page } = body;
-      await db.collection('analytics').updateOne(
-        {},
-        {
-          $inc: {
-            totalViews: 1,
-            [`pageViews.${page}`]: 1
-          },
-          $push: {
-            recentViews: {
-              $each: [{ page, timestamp: new Date().toISOString() }],
-              $slice: -50
-            }
-          }
-        },
-        { upsert: true }
-      );
+      await db.collection('analytics').updateOne({}, { $inc: { totalViews: 1, [`pageViews.${page}`]: 1 }, $push: { recentViews: { $each: [{ page, timestamp: new Date().toISOString() }], $slice: -50 } } }, { upsert: true });
       return NextResponse.json({ success: true });
+    }
+
+    if (path === 'roles') {
+      const token = request.headers.get('authorization');
+      if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      const maxOrder = await db.collection('roles').find().sort({ order: -1 }).limit(1).toArray();
+      const newOrder = maxOrder.length > 0 ? maxOrder[0].order + 1 : 1;
+      const role = { id: uuidv4(), title: body.title, order: newOrder, active: true };
+      await db.collection('roles').insertOne(role);
+      return NextResponse.json(role);
     }
 
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -179,30 +152,28 @@ export async function PUT(request, { params }) {
     const token = request.headers.get('authorization');
     const body = await request.json();
 
-    if (token !== 'admin-session') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    // Update review
     if (path.startsWith('reviews/')) {
       const id = path.split('/')[1];
-      const updateData = {
-        type: body.type,
-        title: body.title,
-        image: body.image,
-        description: body.description
-      };
+      const updateData = { type: body.type, title: body.title, image: body.image, description: body.description };
       await db.collection('reviews').updateOne({ id }, { $set: updateData });
       return NextResponse.json({ success: true });
     }
 
-    // Update about
     if (path === 'about') {
-      await db.collection('about').updateOne(
-        {},
-        { $set: { content: body.content } },
-        { upsert: true }
-      );
+      await db.collection('about').updateOne({}, { $set: { content: body.content } }, { upsert: true });
+      return NextResponse.json({ success: true });
+    }
+
+    if (path.startsWith('roles/')) {
+      const id = path.split('/')[1];
+      await db.collection('roles').updateOne({ id }, { $set: { title: body.title, order: body.order, active: body.active } });
+      return NextResponse.json({ success: true });
+    }
+
+    if (path === 'settings') {
+      await db.collection('settings').updateOne({}, { $set: { navbar: body.navbar } }, { upsert: true });
       return NextResponse.json({ success: true });
     }
 
@@ -219,14 +190,17 @@ export async function DELETE(request, { params }) {
     const path = params.path?.join('/') || '';
     const token = request.headers.get('authorization');
 
-    if (token !== 'admin-session') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (token !== 'admin-session') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    // Delete review
     if (path.startsWith('reviews/')) {
       const id = path.split('/')[1];
       await db.collection('reviews').deleteOne({ id });
+      return NextResponse.json({ success: true });
+    }
+
+    if (path.startsWith('roles/')) {
+      const id = path.split('/')[1];
+      await db.collection('roles').deleteOne({ id });
       return NextResponse.json({ success: true });
     }
 
