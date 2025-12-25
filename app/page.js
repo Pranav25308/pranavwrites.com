@@ -456,6 +456,28 @@ export default function App() {
               <MessageSquare className="w-4 h-4" />
               <span>Messages</span>
             </button>
+            <button
+              onClick={() => changePage('roles')}
+              className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                currentPage === 'roles' 
+                  ? 'bg-blue-600 text-white font-semibold shadow-lg' 
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              <span>Roles</span>
+            </button>
+            <button
+              onClick={() => changePage('settings')}
+              className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
+                currentPage === 'settings' 
+                  ? 'bg-blue-600 text-white font-semibold shadow-lg' 
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              <span>Settings</span>
+            </button>
             <div className="relative group">
               <button className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 px-4 py-2 rounded-lg flex items-center space-x-2">
                 <Edit className="w-4 h-4" />
