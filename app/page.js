@@ -219,6 +219,14 @@ export default function App() {
     }
   };
 
+  // Get background class based on page
+  const getBackgroundClass = () => {
+    if (isAdmin) {
+      return 'bg-admin-pattern';
+    }
+    return 'bg-public-pattern';
+  };
+
   // Public Navigation
   const PublicNav = () => (
     <nav className="border-b bg-white/80 backdrop-blur-lg supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50 shadow-sm">
@@ -382,7 +390,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <div className={`min-h-screen ${getBackgroundClass()}`}>
       {/* Navigation */}
       {isAdmin ? <AdminNav /> : <PublicNav />}
 
@@ -392,7 +400,7 @@ export default function App() {
           <div>
             {/* Hero Section */}
             <div className="text-center py-20 mb-16 relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-200/30 to-cyan-200/30 blur-3xl -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 blur-3xl -z-10 rounded-full"></div>
               <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 text-white text-5xl font-bold mb-6 shadow-2xl hover:scale-110 transition-transform duration-500">
                 P
               </div>
@@ -964,6 +972,29 @@ export default function App() {
           to {
             width: var(--final-width);
           }
+        }
+
+        /* Public Pages Background - Light Geometric Pattern */
+        .bg-public-pattern {
+          background-color: #f8fafc;
+          background-image: 
+            radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 40% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+            repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(148, 163, 184, 0.03) 60px, rgba(148, 163, 184, 0.03) 61px);
+          background-attachment: fixed;
+        }
+
+        /* Admin Pages Background - Dark Tech Pattern */
+        .bg-admin-pattern {
+          background-color: #0f172a;
+          background-image: 
+            radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+            radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+            repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.05) 0px, transparent 1px, transparent 80px, rgba(148, 163, 184, 0.05) 81px),
+            repeating-linear-gradient(0deg, rgba(148, 163, 184, 0.05) 0px, transparent 1px, transparent 80px, rgba(148, 163, 184, 0.05) 81px);
+          background-attachment: fixed;
         }
       `}</style>
     </div>
