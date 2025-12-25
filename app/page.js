@@ -773,6 +773,67 @@ export default function App() {
           </div>
         )}
 
+        {/* About Page */}
+        {currentPage === 'about' && (
+          <div className="max-w-5xl mx-auto">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">About Me</h1>
+            {/* Domain Expertise */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-100">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center flex items-center justify-center gap-3"><Award className="w-8 h-8 text-blue-600 dark:text-blue-400" />Domain Expertise</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {domains.map((domain, index) => {
+                  const Icon = domain.icon;
+                  return <Card key={domain.name} className="group hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 bg-white dark:bg-slate-800 cursor-pointer animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 150}ms` }}><CardContent className="pt-6 text-center"><div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${domain.gradient} mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}><Icon className="w-8 h-8 text-white" /></div><h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{domain.name}</h3><p className="text-slate-600 dark:text-slate-400 text-sm">{domain.description}</p></CardContent></Card>;
+                })}
+              </div>
+            </div>
+            {/* Skills */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-right-4 duration-700 delay-200">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center">Technical Skills</h2>
+              <div className="flex flex-wrap justify-center gap-4">
+                {skills.map((skill, index) => {
+                  const Icon = skill.icon;
+                  return <div key={skill.name} className="group animate-in fade-in-0 zoom-in-95" style={{ animationDelay: `${index * 80}ms` }}><Card className="bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-110 hover:-translate-y-1 cursor-pointer"><CardContent className="pt-6 pb-6 px-8"><div className="flex items-center space-x-3"><div className={`p-2 bg-gradient-to-br ${skill.color} rounded-lg group-hover:rotate-12 transition-transform duration-300`}><Icon className="w-5 h-5 text-white" /></div><span className="font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{skill.name}</span></div></CardContent></Card></div>;
+                })}
+              </div>
+            </div>
+            {/* Work Experience */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-300">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center flex items-center justify-center gap-3"><Briefcase className="w-8 h-8 text-blue-600 dark:text-blue-400" />Work Experience</h2>
+              <div className="space-y-6">
+                {workExperience.map((job, index) => (
+                  <Card key={index} className="bg-white dark:bg-slate-800 border-l-4 border-blue-600 dark:border-blue-400 hover:shadow-xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-102 hover:border-cyan-600 dark:hover:border-cyan-400 group animate-in fade-in-0 slide-in-from-left-4" style={{ animationDelay: `${index * 100}ms` }}><CardContent className="pt-6"><div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3"><div><h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{job.position}</h3><p className="text-lg text-blue-600 dark:text-blue-400 font-semibold">{job.company}</p></div><span className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-2 md:mt-0 bg-blue-50 dark:bg-slate-700 px-3 py-1 rounded-full">{job.duration}</span></div><p className="text-slate-600 dark:text-slate-400">{job.description}</p></CardContent></Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Blogs/Movies/Books/Products Pages */}
+        {(currentPage === 'blogs' || currentPage === 'movies' || currentPage === 'books' || currentPage === 'products') && (
+          <div>
+            <h1 className="text-5xl font-bold mb-12 capitalize text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">{currentPage}</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredReviews.map((review, index) => (
+                <Card key={review.id} className="overflow-hidden hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 zoom-in-95 group cursor-pointer" style={{ animationDelay: `${index * 100}ms` }}>
+                  {review.image && (<div className="relative overflow-hidden"><img src={review.image} alt={review.title} className="w-full h-52 object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2" /><div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div>)}
+                  <CardHeader><CardTitle className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 text-slate-800 dark:text-slate-100">{review.title}</CardTitle></CardHeader>
+                  <CardContent><p className="text-slate-600 dark:text-slate-400">{review.description}</p></CardContent>
+                </Card>
+              ))}
+            </div>
+            {filteredReviews.length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-pulse">🔍</div><p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage} yet.</p></div>)}
+          </div>
+        )}
+
+        {/* Admin Pages placeholder for now */}
+        {(currentPage === 'visits' || currentPage === 'analysis' || currentPage === 'roles' || currentPage === 'settings' || currentPage.startsWith('manage-')) && isAdmin && (
+          <div className="text-center py-20">
+            <h1 className="text-4xl font-bold mb-4 text-blue-800 dark:text-blue-400 capitalize">{currentPage.replace('-', ' ')}</h1>
+            <p className="text-slate-600 dark:text-slate-400">Admin page - Under construction</p>
+          </div>
+        )}
+
         {/* Other pages would continue with dark mode classes... */}
         {/* For brevity, I'll just show the pattern - all pages need dark: classes added */}
       </main>
