@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { BookOpen, Film, Book, Package, User, LogIn, LogOut, Plus, Edit, Trash2, BarChart3, TrendingUp, Eye, Activity, Shield, Code, Laptop, Database, Cloud, Layers } from 'lucide-react';
+import { BookOpen, Film, Book, Package, User, LogIn, LogOut, Plus, Edit, Trash2, BarChart3, TrendingUp, Eye, Activity, Shield, Code, Laptop, Database, Cloud, Layers, Briefcase, Award, Sparkles, ChevronRight, Mail, Github, Linkedin, Twitter } from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -26,16 +26,60 @@ export default function App() {
   const [aboutEditMode, setAboutEditMode] = useState(false);
   const [aboutEditContent, setAboutEditContent] = useState('');
 
-  // Sample skills data
+  // Sample skills data - without percentage
   const [skills] = useState([
-    { name: 'JavaScript', level: 90, icon: Code },
-    { name: 'React', level: 85, icon: Layers },
-    { name: 'Node.js', level: 80, icon: Database },
-    { name: 'Python', level: 75, icon: Code },
-    { name: 'MongoDB', level: 70, icon: Database },
-    { name: 'Next.js', level: 85, icon: Laptop },
-    { name: 'AWS', level: 65, icon: Cloud },
-    { name: 'TypeScript', level: 80, icon: Code }
+    { name: 'JavaScript', icon: Code, color: 'from-yellow-500 to-orange-500' },
+    { name: 'React', icon: Layers, color: 'from-blue-500 to-cyan-500' },
+    { name: 'Node.js', icon: Database, color: 'from-green-500 to-emerald-500' },
+    { name: 'Python', icon: Code, color: 'from-blue-600 to-indigo-600' },
+    { name: 'MongoDB', icon: Database, color: 'from-green-600 to-teal-600' },
+    { name: 'Next.js', icon: Laptop, color: 'from-slate-700 to-slate-900' },
+    { name: 'AWS', icon: Cloud, color: 'from-orange-500 to-red-500' },
+    { name: 'TypeScript', icon: Code, color: 'from-blue-500 to-blue-700' }
+  ]);
+
+  // Work Experience data
+  const [workExperience] = useState([
+    {
+      company: 'Tech Company',
+      position: 'Senior Developer',
+      duration: '2022 - Present',
+      description: 'Leading development of cutting-edge web applications using modern technologies.'
+    },
+    {
+      company: 'Startup Inc',
+      position: 'Full Stack Developer',
+      duration: '2020 - 2022',
+      description: 'Built scalable solutions and mentored junior developers.'
+    },
+    {
+      company: 'Digital Agency',
+      position: 'Frontend Developer',
+      duration: '2018 - 2020',
+      description: 'Developed responsive web applications for various clients.'
+    }
+  ]);
+
+  // Domain Expertise
+  const [domains] = useState([
+    {
+      name: 'Data Engineering',
+      description: 'Building robust data pipelines and ETL processes',
+      icon: Database,
+      gradient: 'from-blue-600 to-cyan-600'
+    },
+    {
+      name: 'Streaming',
+      description: 'Real-time data processing and event-driven architectures',
+      icon: Activity,
+      gradient: 'from-purple-600 to-pink-600'
+    },
+    {
+      name: 'Game Development',
+      description: 'Creating interactive gaming experiences',
+      icon: Sparkles,
+      gradient: 'from-orange-600 to-red-600'
+    }
   ]);
 
   useEffect(() => {
@@ -293,15 +337,8 @@ export default function App() {
               About
             </button>
           </div>
-          <div>
-            <Button 
-              onClick={() => setShowAdminLogin(true)} 
-              variant="ghost" 
-              size="icon"
-              className="hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-full"
-            >
-              <Shield className="w-5 h-5" />
-            </Button>
+          <div className="w-10">
+            {/* Empty space - no icon */}
           </div>
         </div>
       </div>
@@ -401,23 +438,23 @@ export default function App() {
             {/* Hero Section */}
             <div className="text-center py-20 mb-16 relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-cyan-400/20 blur-3xl -z-10 rounded-full"></div>
-              <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 text-white text-5xl font-bold mb-6 shadow-2xl hover:scale-110 transition-transform duration-500">
-                P
-              </div>
-              <h1 className="text-6xl font-bold mb-4 text-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
-                Welcome to My Portfolio
+              
+              {/* Namaskar with emoji */}
+              <h1 className="text-7xl font-bold mb-4 text-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 flex items-center justify-center gap-4">
+                <span className="text-6xl animate-bounce">🙏</span>
+                <span>Namaskar</span>
               </h1>
               <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000">
                 Explore my thoughts and reviews on blogs, movies, books, and products.
               </p>
               
-              {/* About Me Preview Card */}
+              {/* About Me Preview Card with animations */}
               <div className="max-w-3xl mx-auto mt-12 animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
-                <Card className="bg-white/90 backdrop-blur-sm border border-slate-200 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-500">
+                <Card className="bg-white/90 backdrop-blur-sm border border-slate-200 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-500 group">
                   <CardHeader>
                     <div className="flex items-center justify-center space-x-3 mb-4">
-                      <User className="w-6 h-6 text-blue-600" />
-                      <CardTitle className="text-3xl text-slate-800">
+                      <User className="w-6 h-6 text-blue-600 group-hover:rotate-12 transition-transform duration-300" />
+                      <CardTitle className="text-3xl text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
                         About Me
                       </CardTitle>
                     </div>
@@ -428,9 +465,10 @@ export default function App() {
                     </p>
                     <Button 
                       onClick={() => changePage('about')} 
-                      className="mt-6 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                      className="mt-6 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
                     >
                       Learn More About Me
+                      <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                     </Button>
                   </CardContent>
                 </Card>
@@ -446,26 +484,26 @@ export default function App() {
                 {filteredReviews.map((review, index) => (
                   <Card 
                     key={review.id} 
-                    className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-slate-200 bg-white/90 backdrop-blur-sm animate-in fade-in-0 slide-in-from-bottom-4"
+                    className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-slate-200 bg-white/90 backdrop-blur-sm animate-in fade-in-0 slide-in-from-bottom-4 group cursor-pointer"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {review.image && (
-                      <div className="relative overflow-hidden group">
+                      <div className="relative overflow-hidden">
                         <img
                           src={review.image}
                           alt={review.title}
-                          className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                     )}
                     <CardHeader>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full uppercase shadow-md">
+                        <span className="text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full uppercase shadow-md group-hover:scale-110 transition-transform duration-300">
                           {review.type}
                         </span>
                       </div>
-                      <CardTitle className="hover:text-blue-600 transition-colors duration-300 text-slate-800">{review.title}</CardTitle>
+                      <CardTitle className="group-hover:text-blue-600 transition-colors duration-300 text-slate-800">{review.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-slate-600 line-clamp-3">{review.description}</p>
@@ -475,7 +513,7 @@ export default function App() {
               </div>
               {filteredReviews.length === 0 && (
                 <div className="text-center py-20">
-                  <div className="text-6xl mb-4">📝</div>
+                  <div className="text-6xl mb-4 animate-bounce">📝</div>
                   <p className="text-xl text-slate-600">No reviews yet. Start creating amazing content!</p>
                 </div>
               )}
@@ -485,28 +523,28 @@ export default function App() {
 
         {(currentPage === 'blogs' || currentPage === 'movies' || currentPage === 'books' || currentPage === 'products') && (
           <div>
-            <h1 className="text-5xl font-bold mb-12 capitalize text-center text-slate-800">
+            <h1 className="text-5xl font-bold mb-12 capitalize text-center text-slate-800 animate-in fade-in-0 zoom-in-95 duration-500">
               {currentPage}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredReviews.map((review, index) => (
                 <Card 
                   key={review.id} 
-                  className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-slate-200 bg-white/90 backdrop-blur-sm animate-in fade-in-0 zoom-in-95"
+                  className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-slate-200 bg-white/90 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 group cursor-pointer"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {review.image && (
-                    <div className="relative overflow-hidden group">
+                    <div className="relative overflow-hidden">
                       <img
                         src={review.image}
                         alt={review.title}
-                        className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-52 object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   )}
                   <CardHeader>
-                    <CardTitle className="hover:text-blue-600 transition-colors duration-300 text-slate-800">{review.title}</CardTitle>
+                    <CardTitle className="group-hover:text-blue-600 transition-colors duration-300 text-slate-800">{review.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-slate-600">{review.description}</p>
@@ -516,7 +554,7 @@ export default function App() {
             </div>
             {filteredReviews.length === 0 && (
               <div className="text-center py-20">
-                <div className="text-6xl mb-4">🔍</div>
+                <div className="text-6xl mb-4 animate-pulse">🔍</div>
                 <p className="text-xl text-slate-600">No {currentPage} yet.</p>
               </div>
             )}
@@ -525,12 +563,12 @@ export default function App() {
 
         {currentPage === 'about' && (
           <div className="max-w-5xl mx-auto">
-            <h1 className="text-5xl font-bold mb-12 text-center text-slate-800">
+            <h1 className="text-5xl font-bold mb-12 text-center text-slate-800 animate-in fade-in-0 zoom-in-95 duration-500">
               About Me
             </h1>
             
             {/* About Content */}
-            <Card className="shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 bg-white/90 backdrop-blur-sm mb-12">
+            <Card className="shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 bg-white/90 backdrop-blur-sm mb-12 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
               <CardContent className="pt-6">
                 {isAdmin && aboutEditMode ? (
                   <div className="space-y-4">
@@ -572,41 +610,97 @@ export default function App() {
               </CardContent>
             </Card>
 
-            {/* Skills Section */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold mb-8 text-slate-800 text-center">Technical Skills</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {skills.map((skill, index) => {
-                  const Icon = skill.icon;
+            {/* Domain Expertise Section */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-100">
+              <h2 className="text-3xl font-bold mb-8 text-slate-800 text-center flex items-center justify-center gap-3">
+                <Award className="w-8 h-8 text-blue-600" />
+                Domain Expertise
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {domains.map((domain, index) => {
+                  const Icon = domain.icon;
                   return (
                     <Card 
-                      key={skill.name} 
-                      className="bg-white/90 backdrop-blur-sm border border-slate-200 hover:shadow-xl transition-all duration-500 hover:scale-105 animate-in fade-in-0 slide-in-from-left-4"
-                      style={{ animationDelay: `${index * 50}ms` }}
+                      key={domain.name}
+                      className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-transparent hover:border-blue-300 bg-white/90 backdrop-blur-sm cursor-pointer animate-in fade-in-0 slide-in-from-bottom-4"
+                      style={{ animationDelay: `${index * 150}ms` }}
                     >
-                      <CardContent className="pt-6">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
-                              <Icon className="w-5 h-5 text-white" />
-                            </div>
-                            <span className="font-semibold text-slate-800">{skill.name}</span>
-                          </div>
-                          <span className="text-sm font-bold text-blue-600">{skill.level}%</span>
+                      <CardContent className="pt-6 text-center">
+                        <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${domain.gradient} mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                          <Icon className="w-8 h-8 text-white" />
                         </div>
-                        <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                          <div 
-                            className="bg-gradient-to-r from-blue-600 to-cyan-600 h-2.5 rounded-full transition-all duration-1000 ease-out hover:from-blue-700 hover:to-cyan-700"
-                            style={{ 
-                              width: `${skill.level}%`,
-                              animation: 'slideIn 1s ease-out'
-                            }}
-                          ></div>
-                        </div>
+                        <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                          {domain.name}
+                        </h3>
+                        <p className="text-slate-600 text-sm">
+                          {domain.description}
+                        </p>
                       </CardContent>
                     </Card>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* Skills Section - Simplified without percentages */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-right-4 duration-700 delay-200">
+              <h2 className="text-3xl font-bold mb-8 text-slate-800 text-center">Technical Skills</h2>
+              <div className="flex flex-wrap justify-center gap-4">
+                {skills.map((skill, index) => {
+                  const Icon = skill.icon;
+                  return (
+                    <div
+                      key={skill.name}
+                      className="group animate-in fade-in-0 zoom-in-95"
+                      style={{ animationDelay: `${index * 80}ms` }}
+                    >
+                      <Card className="bg-white/90 backdrop-blur-sm border border-slate-200 hover:shadow-xl transition-all duration-500 hover:scale-110 hover:-translate-y-1 cursor-pointer">
+                        <CardContent className="pt-6 pb-6 px-8">
+                          <div className="flex items-center space-x-3">
+                            <div className={`p-2 bg-gradient-to-br ${skill.color} rounded-lg group-hover:rotate-12 transition-transform duration-300`}>
+                              <Icon className="w-5 h-5 text-white" />
+                            </div>
+                            <span className="font-semibold text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
+                              {skill.name}
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Work Experience Section */}
+            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-300">
+              <h2 className="text-3xl font-bold mb-8 text-slate-800 text-center flex items-center justify-center gap-3">
+                <Briefcase className="w-8 h-8 text-blue-600" />
+                Work Experience
+              </h2>
+              <div className="space-y-6">
+                {workExperience.map((job, index) => (
+                  <Card 
+                    key={index}
+                    className="bg-white/90 backdrop-blur-sm border-l-4 border-blue-600 hover:shadow-xl transition-all duration-500 hover:scale-102 hover:border-cyan-600 group animate-in fade-in-0 slide-in-from-left-4"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <CardContent className="pt-6">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
+                            {job.position}
+                          </h3>
+                          <p className="text-lg text-blue-600 font-semibold">{job.company}</p>
+                        </div>
+                        <span className="text-sm text-slate-500 font-medium mt-2 md:mt-0 bg-blue-50 px-3 py-1 rounded-full">
+                          {job.duration}
+                        </span>
+                      </div>
+                      <p className="text-slate-600">{job.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
           </div>
@@ -615,10 +709,10 @@ export default function App() {
         {/* Admin Pages */}
         {currentPage === 'visits' && isAdmin && (
           <div className="min-h-screen">
-            <h1 className="text-5xl font-bold mb-12 text-white drop-shadow-lg">Visits Overview</h1>
+            <h1 className="text-5xl font-bold mb-12 text-white drop-shadow-lg animate-in fade-in-0 slide-in-from-top-4 duration-500">Visits Overview</h1>
             {analytics && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Eye className="w-6 h-6" />
@@ -629,7 +723,7 @@ export default function App() {
                     <p className="text-6xl font-bold">{analytics.totalViews || 0}</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-cyan-600 to-cyan-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-cyan-600 to-cyan-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-100">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <TrendingUp className="w-6 h-6" />
@@ -640,7 +734,7 @@ export default function App() {
                     <p className="text-6xl font-bold">{analytics.pageViews?.home || 0}</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-teal-600 to-teal-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-teal-600 to-teal-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-200">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <BookOpen className="w-6 h-6" />
@@ -651,7 +745,7 @@ export default function App() {
                     <p className="text-6xl font-bold">{analytics.pageViews?.blogs || 0}</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-300">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Film className="w-6 h-6" />
@@ -662,7 +756,7 @@ export default function App() {
                     <p className="text-6xl font-bold">{analytics.pageViews?.movies || 0}</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-violet-600 to-violet-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-violet-600 to-violet-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-400">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Book className="w-6 h-6" />
@@ -673,7 +767,7 @@ export default function App() {
                     <p className="text-6xl font-bold">{analytics.pageViews?.books || 0}</p>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-purple-600 to-purple-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2">
+                <Card className="bg-gradient-to-br from-purple-600 to-purple-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-500">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <Package className="w-6 h-6" />
@@ -691,10 +785,10 @@ export default function App() {
 
         {currentPage === 'analysis' && isAdmin && (
           <div className="min-h-screen">
-            <h1 className="text-5xl font-bold mb-12 text-white drop-shadow-lg">Detailed Analysis</h1>
+            <h1 className="text-5xl font-bold mb-12 text-white drop-shadow-lg animate-in fade-in-0 slide-in-from-top-4 duration-500">Detailed Analysis</h1>
             {analytics && (
               <div className="space-y-8">
-                <Card className="bg-slate-800 text-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-500">
+                <Card className="bg-slate-800 text-white border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 animate-in fade-in-0 zoom-in-95">
                   <CardHeader>
                     <CardTitle className="text-2xl flex items-center space-x-3">
                       <BarChart3 className="w-8 h-8" />
@@ -716,43 +810,43 @@ export default function App() {
                 </Card>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <Card className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:bg-white/20 transition-all duration-500">
+                  <Card className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:bg-white/20 transition-all duration-500 animate-in fade-in-0 slide-in-from-left-4 delay-100">
                     <CardHeader>
                       <CardTitle>Page Performance</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         {Object.entries(analytics.pageViews || {}).map(([page, views]) => (
-                          <div key={page} className="flex justify-between items-center">
-                            <span className="capitalize font-medium">{page}</span>
-                            <span className="text-2xl font-bold">{views}</span>
+                          <div key={page} className="flex justify-between items-center group">
+                            <span className="capitalize font-medium group-hover:text-cyan-300 transition-colors duration-300">{page}</span>
+                            <span className="text-2xl font-bold group-hover:scale-110 transition-transform duration-300">{views}</span>
                           </div>
                         ))}
                       </div>
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:bg-white/20 transition-all duration-500">
+                  <Card className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:bg-white/20 transition-all duration-500 animate-in fade-in-0 slide-in-from-right-4 delay-200">
                     <CardHeader>
                       <CardTitle>Content Breakdown</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium">Blogs</span>
-                          <span className="text-2xl font-bold">{reviews.filter(r => r.type === 'blog').length}</span>
+                        <div className="flex justify-between items-center group">
+                          <span className="font-medium group-hover:text-cyan-300 transition-colors duration-300">Blogs</span>
+                          <span className="text-2xl font-bold group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'blog').length}</span>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium">Movies</span>
-                          <span className="text-2xl font-bold">{reviews.filter(r => r.type === 'movie').length}</span>
+                        <div className="flex justify-between items-center group">
+                          <span className="font-medium group-hover:text-cyan-300 transition-colors duration-300">Movies</span>
+                          <span className="text-2xl font-bold group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'movie').length}</span>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium">Books</span>
-                          <span className="text-2xl font-bold">{reviews.filter(r => r.type === 'book').length}</span>
+                        <div className="flex justify-between items-center group">
+                          <span className="font-medium group-hover:text-cyan-300 transition-colors duration-300">Books</span>
+                          <span className="text-2xl font-bold group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'book').length}</span>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium">Products</span>
-                          <span className="text-2xl font-bold">{reviews.filter(r => r.type === 'product').length}</span>
+                        <div className="flex justify-between items-center group">
+                          <span className="font-medium group-hover:text-cyan-300 transition-colors duration-300">Products</span>
+                          <span className="text-2xl font-bold group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'product').length}</span>
                         </div>
                       </div>
                     </CardContent>
@@ -765,7 +859,7 @@ export default function App() {
 
         {(currentPage === 'manage-blogs' || currentPage === 'manage-movies' || currentPage === 'manage-books' || currentPage === 'manage-products') && isAdmin && (
           <div className="min-h-screen">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-12 animate-in fade-in-0 slide-in-from-top-4 duration-500">
               <h1 className="text-5xl font-bold text-white drop-shadow-lg capitalize">
                 Manage {currentPage.replace('manage-', '')}
               </h1>
@@ -785,8 +879,12 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {reviews
                 .filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1))
-                .map((review) => (
-                  <Card key={review.id} className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:scale-102 transition-all duration-500 hover:bg-white/20">
+                .map((review, index) => (
+                  <Card 
+                    key={review.id} 
+                    className="bg-white/10 backdrop-blur-md text-white border-slate-700 shadow-xl hover:shadow-2xl hover:scale-102 transition-all duration-500 hover:bg-white/20 animate-in fade-in-0 slide-in-from-bottom-4"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <div>
@@ -798,7 +896,7 @@ export default function App() {
                             onClick={() => handleEditReview(review)}
                             variant="outline"
                             size="sm"
-                            className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                            className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                           >
                             <Edit className="w-4 h-4" />
                           </Button>
@@ -806,7 +904,7 @@ export default function App() {
                             onClick={() => handleDeleteReview(review.id)}
                             variant="destructive"
                             size="sm"
-                            className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                            className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -821,7 +919,7 @@ export default function App() {
             </div>
             {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).length === 0 && (
               <div className="text-center py-20">
-                <div className="text-6xl mb-4 text-white/50">📝</div>
+                <div className="text-6xl mb-4 text-white/50 animate-bounce">📝</div>
                 <p className="text-xl text-white/70">No {currentPage.replace('manage-', '')} yet. Start creating!</p>
               </div>
             )}
@@ -829,17 +927,62 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* Footer for public pages */}
       {!isAdmin && (
         <footer className="border-t bg-white/80 backdrop-blur-sm mt-16">
-          <div className="container mx-auto px-4 py-8">
-            <div className="flex items-center justify-between">
+          <div className="container mx-auto px-4 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-800 mb-4">P</h3>
+                <p className="text-slate-600">
+                  Sharing insights and reviews to help you make informed decisions.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-slate-800 mb-4">Quick Links</h4>
+                <ul className="space-y-2">
+                  <li>
+                    <button onClick={() => changePage('home')} className="text-slate-600 hover:text-blue-600 transition-colors duration-300">
+                      Home
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => changePage('blogs')} className="text-slate-600 hover:text-blue-600 transition-colors duration-300">
+                      Blogs
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => changePage('about')} className="text-slate-600 hover:text-blue-600 transition-colors duration-300">
+                      About
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-slate-800 mb-4">Connect</h4>
+                <div className="flex space-x-4">
+                  <a href="#" className="text-slate-600 hover:text-blue-600 transition-all duration-300 hover:scale-110">
+                    <Github className="w-6 h-6" />
+                  </a>
+                  <a href="#" className="text-slate-600 hover:text-blue-600 transition-all duration-300 hover:scale-110">
+                    <Linkedin className="w-6 h-6" />
+                  </a>
+                  <a href="#" className="text-slate-600 hover:text-blue-600 transition-all duration-300 hover:scale-110">
+                    <Twitter className="w-6 h-6" />
+                  </a>
+                  <a href="#" className="text-slate-600 hover:text-blue-600 transition-all duration-300 hover:scale-110">
+                    <Mail className="w-6 h-6" />
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center">
               <p className="text-sm text-slate-600">
                 © 2025 Portfolio. All rights reserved.
               </p>
               <button
                 onClick={() => setShowAdminLogin(true)}
-                className="text-sm text-slate-600 hover:text-blue-600 transition-colors duration-300 hover:scale-105"
+                className="text-sm text-slate-600 hover:text-blue-600 transition-colors duration-300 hover:scale-105 mt-4 md:mt-0"
               >
                 Admin Access
               </button>
