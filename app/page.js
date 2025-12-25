@@ -36,9 +36,32 @@ export default function App() {
   const [editingRole, setEditingRole] = useState(null);
   const [roleForm, setRoleForm] = useState({ title: '' });
 
+  // Fetch roles and settings
+  const fetchRoles = async () => {
+    try {
+      const res = await fetch('/api/roles');
+      const data = await res.json();
+      setRoles(data);
+    } catch (error) {
+      console.error('Error fetching roles:', error);
+    }
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/settings');
+      const data = await res.json();
+      setSettings(data);
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  };
+
   // Typing animation effect
   useEffect(() => {
+    if (roles.length === 0) return;
     const currentRole = roles[currentRoleIndex];
+    if (!currentRole) return;
     let currentText = '';
     let charIndex = 0;
     let isDeleting = false;
