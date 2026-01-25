@@ -393,7 +393,7 @@ export default function App() {
               <div className="mb-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
                 <div className="inline-block">
                   <h1 className="text-7xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent flex items-center gap-4">
-                    <span className="text-6xl animate-bounce" role="img" aria-label="namaste" style={{ fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>🙏</span>
+                    <span className="text-6xl animate-bounce">&#x1F64F;</span>
                     <span>Namaskar</span>
                   </h1>
                 </div>
