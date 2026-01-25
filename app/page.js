@@ -202,6 +202,8 @@ export default function App() {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setCurrentPage('visits');
+      // Scroll to top after login
+      window.scrollTo(0, 0);
     } else {
       alert('Invalid credentials! Use username: admin, password: admin');
     }
