@@ -339,7 +339,7 @@ export default function App() {
                 <Edit className="w-4 h-4" />
                 <span>Manage</span>
               </button>
-              <div className="absolute hidden group-hover:block pt-2 animate-in fade-in-0 zoom-in-95">
+              <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 pt-1 z-50">
                 <div className="bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-700 rounded-lg shadow-xl p-2 space-y-1 min-w-[140px]">
                   <button onClick={() => changePage('manage-blogs')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Blogs</button>
                   <button onClick={() => changePage('manage-movies')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Movies</button>
