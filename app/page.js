@@ -81,7 +81,7 @@ export default function App() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [roles] = useState(DUMMY_ROLES);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [settings] = useState(DUMMY_SETTINGS);
+  const [settings, setSettings] = useState(DUMMY_SETTINGS);
 
   const [skills] = useState([
     { name: 'Roku', icon: Laptop, color: 'from-purple-500 to-indigo-500' },
