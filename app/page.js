@@ -223,6 +223,7 @@ export default function App() {
 
   const changePage = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
   const toggleDarkMode = () => {
