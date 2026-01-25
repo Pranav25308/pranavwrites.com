@@ -6,88 +6,82 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { BookOpen, Film, Book, Package, User, LogIn, LogOut, Plus, Edit, Trash2, BarChart3, TrendingUp, Eye, Activity, Shield, Code, Laptop, Database, Cloud, Layers, Briefcase, Award, Sparkles, ChevronRight, Mail, Github, Linkedin, Twitter, Zap, Gamepad2, Server, Moon, Sun, Send, MessageSquare, Settings, Users } from 'lucide-react';
 
+// ==================== DUMMY DATA ====================
+const DUMMY_ROLES = [
+  { id: '1', title: 'Software Developer', order: 1 },
+  { id: '2', title: 'Full Stack Engineer', order: 2 },
+  { id: '3', title: 'AI Enthusiast', order: 3 },
+  { id: '4', title: 'Problem Solver', order: 4 },
+];
+
+const DUMMY_REVIEWS = [
+  { id: '1', type: 'blog', title: 'Getting Started with React Hooks', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400', description: 'A comprehensive guide to understanding and using React Hooks effectively in your projects.' },
+  { id: '2', type: 'blog', title: 'Building Scalable APIs with Node.js', image: 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=400', description: 'Learn best practices for building robust and scalable REST APIs using Node.js and Express.' },
+  { id: '3', type: 'movie', title: 'Inception', image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400', description: 'A mind-bending thriller about dreams within dreams. Christopher Nolan at his finest.' },
+  { id: '4', type: 'movie', title: 'The Matrix', image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', description: 'A revolutionary sci-fi film that redefined the genre and visual effects in cinema.' },
+  { id: '5', type: 'book', title: 'Clean Code', image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400', description: 'Robert C. Martin\'s guide to writing clean, maintainable, and professional code.' },
+  { id: '6', type: 'book', title: 'The Pragmatic Programmer', image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400', description: 'A timeless classic on software development practices and career advice.' },
+  { id: '7', type: 'product', title: 'MacBook Pro M3', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400', description: 'The ultimate laptop for developers with incredible performance and battery life.' },
+  { id: '8', type: 'product', title: 'Mechanical Keyboard', image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=400', description: 'A premium mechanical keyboard that enhances typing experience for developers.' },
+];
+
+const DUMMY_CONTACTS = [
+  { id: '1', name: 'John Doe', email: 'john@example.com', subject: 'Project Inquiry', message: 'Hi, I would like to discuss a potential project collaboration.', createdAt: '2024-01-15' },
+  { id: '2', name: 'Jane Smith', email: 'jane@example.com', subject: 'Job Opportunity', message: 'We have an exciting opportunity at our company that might interest you.', createdAt: '2024-01-14' },
+  { id: '3', name: 'Bob Wilson', email: 'bob@example.com', subject: 'Technical Question', message: 'I had a question about your blog post on React Hooks.', createdAt: '2024-01-13' },
+];
+
+const DUMMY_ANALYTICS = {
+  totalVisits: 1542,
+  uniqueVisitors: 876,
+  pageViews: {
+    home: 654,
+    about: 234,
+    blogs: 312,
+    movies: 156,
+    books: 98,
+    products: 88,
+    contact: 145
+  },
+  topPages: [
+    { page: 'Home', views: 654 },
+    { page: 'Blogs', views: 312 },
+    { page: 'About', views: 234 },
+    { page: 'Movies', views: 156 },
+    { page: 'Contact', views: 145 }
+  ]
+};
+
+const DUMMY_ABOUT = `I'm a passionate Software Developer with expertise in building modern web applications and scalable backend systems. With a strong foundation in JavaScript, Python, and cloud technologies, I love turning complex problems into elegant solutions.
+
+My journey in tech started with a curiosity about how things work, which led me to pursue a career in software development. Today, I specialize in full-stack development, working with technologies like React, Node.js, and various cloud platforms.
+
+When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or sharing my knowledge through blog posts and technical articles.`;
+
+const DUMMY_SETTINGS = {
+  navbar: { about: true, blogs: true, movies: true, books: true, products: true }
+};
+
+// ==================== MAIN APP COMPONENT ====================
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [reviews, setReviews] = useState([]);
+  const [reviews] = useState(DUMMY_REVIEWS);
   const [filteredReviews, setFilteredReviews] = useState([]);
-  const [aboutContent, setAboutContent] = useState('');
+  const [aboutContent] = useState(DUMMY_ABOUT);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
-  const [analytics, setAnalytics] = useState(null);
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [editingReview, setEditingReview] = useState(null);
-  const [reviewForm, setReviewForm] = useState({ type: 'blog', title: '', image: '', description: '' });
-  const [aboutEditMode, setAboutEditMode] = useState(false);
-  const [aboutEditContent, setAboutEditContent] = useState('');
+  const [analytics] = useState(DUMMY_ANALYTICS);
   const [darkMode, setDarkMode] = useState(false);
   const [typedText, setTypedText] = useState('');
-  const [contacts, setContacts] = useState([]);
+  const [contacts] = useState(DUMMY_CONTACTS);
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [roles, setRoles] = useState([]);
+  const [roles] = useState(DUMMY_ROLES);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [settings, setSettings] = useState({ navbar: { about: true, blogs: true, movies: true, books: true, products: true } });
-  const [showRoleModal, setShowRoleModal] = useState(false);
-  const [editingRole, setEditingRole] = useState(null);
-  const [roleForm, setRoleForm] = useState({ title: '' });
-
-  // Fetch roles and settings
-  const fetchRoles = async () => {
-    try {
-      const res = await fetch('/api/roles');
-      const data = await res.json();
-      setRoles(data);
-    } catch (error) {
-      console.error('Error fetching roles:', error);
-    }
-  };
-
-  const fetchSettings = async () => {
-    try {
-      const res = await fetch('/api/settings');
-      const data = await res.json();
-      setSettings(data);
-    } catch (error) {
-      console.error('Error fetching settings:', error);
-    }
-  };
-
-  // Typing animation effect
-  useEffect(() => {
-    if (roles.length === 0) return;
-    const currentRole = roles[currentRoleIndex];
-    if (!currentRole) return;
-    let currentText = '';
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    const typeInterval = setInterval(() => {
-      if (!isDeleting && charIndex <= currentRole.title.length) {
-        currentText = currentRole.title.substring(0, charIndex);
-        setTypedText(currentText);
-        charIndex++;
-      } else if (charIndex === currentRole.title.length && !isDeleting) {
-        setTimeout(() => {
-          isDeleting = true;
-        }, 2000);
-      } else if (isDeleting && charIndex > 0) {
-        currentText = currentRole.title.substring(0, charIndex - 1);
-        setTypedText(currentText);
-        charIndex--;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-        clearInterval(typeInterval);
-      }
-    }, isDeleting ? 50 : 100);
-
-    return () => clearInterval(typeInterval);
-  }, [currentRoleIndex, roles]);
+  const [settings] = useState(DUMMY_SETTINGS);
 
   const [skills] = useState([
     { name: 'Roku', icon: Laptop, color: 'from-purple-500 to-indigo-500' },
@@ -136,21 +130,46 @@ export default function App() {
     }
   ]);
 
+  // Typing animation effect
   useEffect(() => {
-    fetchRoles();
-    fetchSettings();
-    fetchReviews();
-    fetchAbout();
-    trackPageView('home');
+    if (roles.length === 0) return;
+    const currentRole = roles[currentRoleIndex];
+    if (!currentRole) return;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    const typeInterval = setInterval(() => {
+      if (!isDeleting && charIndex <= currentRole.title.length) {
+        setTypedText(currentRole.title.substring(0, charIndex));
+        charIndex++;
+      } else if (charIndex > currentRole.title.length && !isDeleting) {
+        setTimeout(() => {
+          isDeleting = true;
+        }, 2000);
+      } else if (isDeleting && charIndex > 0) {
+        charIndex--;
+        setTypedText(currentRole.title.substring(0, charIndex));
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+        clearInterval(typeInterval);
+      }
+    }, isDeleting ? 50 : 100);
+
+    return () => clearInterval(typeInterval);
+  }, [currentRoleIndex, roles]);
+
+  // Initialize
+  useEffect(() => {
     const token = localStorage.getItem('adminToken');
-    if (token) {
+    if (token === 'admin-token-123') {
       setIsAdmin(true);
     }
-    // Load dark mode preference
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setDarkMode(savedDarkMode);
   }, []);
 
+  // Dark mode effect
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -160,6 +179,7 @@ export default function App() {
     localStorage.setItem('darkMode', darkMode.toString());
   }, [darkMode]);
 
+  // Filter reviews based on current page
   useEffect(() => {
     if (currentPage === 'home') {
       setFilteredReviews(reviews.slice(0, 6));
@@ -174,84 +194,16 @@ export default function App() {
     }
   }, [currentPage, reviews]);
 
-  const fetchReviews = async () => {
-    try {
-      const res = await fetch('/api/reviews');
-      const data = await res.json();
-      setReviews(data);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-  };
-
-  const fetchAbout = async () => {
-    try {
-      const res = await fetch('/api/about');
-      const data = await res.json();
-      setAboutContent(data.content);
-    } catch (error) {
-      console.error('Error fetching about:', error);
-    }
-  };
-
-  const fetchAnalytics = async () => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      const res = await fetch('/api/analytics', {
-        headers: { 'Authorization': token }
-      });
-      const data = await res.json();
-      setAnalytics(data);
-    } catch (error) {
-      console.error('Error fetching analytics:', error);
-    }
-  };
-
-  const fetchContacts = async () => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      const res = await fetch('/api/contacts', {
-        headers: { 'Authorization': token }
-      });
-      const data = await res.json();
-      setContacts(data);
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-    }
-  };
-
-  const trackPageView = async (page) => {
-    try {
-      await fetch('/api/analytics/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ page })
-      });
-    } catch (error) {
-      console.error('Error tracking page view:', error);
-    }
-  };
-
-  const handleLogin = async (e) => {
+  // Hardcoded login - username: admin, password: admin
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginForm)
-      });
-      const data = await res.json();
-      if (data.success) {
-        localStorage.setItem('adminToken', data.token);
-        setIsAdmin(true);
-        setShowAdminLogin(false);
-        setCurrentPage('visits');
-        fetchAnalytics();
-      } else {
-        alert('Invalid credentials');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
+    if (loginForm.username === 'admin' && loginForm.password === 'admin') {
+      localStorage.setItem('adminToken', 'admin-token-123');
+      setIsAdmin(true);
+      setShowAdminLogin(false);
+      setCurrentPage('visits');
+    } else {
+      alert('Invalid credentials! Use username: admin, password: admin');
     }
   };
 
@@ -261,116 +213,21 @@ export default function App() {
     setCurrentPage('home');
   };
 
-  const handleContactSubmit = async (e) => {
+  const handleContactSubmit = (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch('/api/contacts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactForm)
-      });
-      const data = await res.json();
-      if (data.success) {
-        alert('Message sent successfully!');
-        setContactForm({ name: '', email: '', subject: '', message: '' });
-      }
-    } catch (error) {
-      console.error('Error submitting contact:', error);
-      alert('Failed to send message. Please try again.');
-    }
-  };
-
-  const handleSaveReview = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem('adminToken');
-      if (editingReview) {
-        await fetch(`/api/reviews/${editingReview.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          },
-          body: JSON.stringify(reviewForm)
-        });
-      } else {
-        await fetch('/api/reviews', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          },
-          body: JSON.stringify(reviewForm)
-        });
-      }
-      setShowReviewModal(false);
-      setEditingReview(null);
-      setReviewForm({ type: 'blog', title: '', image: '', description: '' });
-      fetchReviews();
-    } catch (error) {
-      console.error('Error saving review:', error);
-    }
-  };
-
-  const handleDeleteReview = async (id) => {
-    if (!confirm('Are you sure you want to delete this review?')) return;
-    try {
-      const token = localStorage.getItem('adminToken');
-      await fetch(`/api/reviews/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': token }
-      });
-      fetchReviews();
-    } catch (error) {
-      console.error('Error deleting review:', error);
-    }
-  };
-
-  const handleEditReview = (review) => {
-    setEditingReview(review);
-    setReviewForm({
-      type: review.type,
-      title: review.title,
-      image: review.image,
-      description: review.description
-    });
-    setShowReviewModal(true);
-  };
-
-  const handleSaveAbout = async () => {
-    try {
-      const token = localStorage.getItem('adminToken');
-      await fetch('/api/about', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        body: JSON.stringify({ content: aboutEditContent })
-      });
-      setAboutContent(aboutEditContent);
-      setAboutEditMode(false);
-    } catch (error) {
-      console.error('Error saving about:', error);
-    }
+    alert('Message sent successfully! (Demo - no backend)');
+    setContactForm({ name: '', email: '', subject: '', message: '' });
   };
 
   const changePage = (page) => {
     setCurrentPage(page);
-    trackPageView(page);
-    if (page === 'visits' && isAdmin) {
-      fetchAnalytics();
-    }
-    if (page === 'messages' && isAdmin) {
-      fetchContacts();
-    }
   };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
-  // Public Navigation
+  // ==================== NAVIGATION COMPONENTS ====================
   const PublicNav = () => (
     <nav className="border-b bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-md transition-colors duration-300">
       <div className="container mx-auto px-4 py-4">
@@ -399,27 +256,24 @@ export default function App() {
             {settings.navbar.about && <button onClick={() => changePage('about')} className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${currentPage === 'about' ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-700 dark:text-slate-300'}`}>About</button>}
             <button onClick={() => changePage('contact')} className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${currentPage === 'contact' ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-700 dark:text-slate-300'}`}>Contact</button>
           </div>
-          <div>
-            <Button 
-              onClick={toggleDarkMode} 
-              variant="ghost" 
-              size="icon"
-              className="hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full"
-            >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
-          </div>
+          <Button 
+            onClick={toggleDarkMode} 
+            variant="ghost" 
+            size="icon"
+            className="text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full"
+          >
+            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </Button>
         </div>
       </div>
     </nav>
   );
 
-  // Admin Navigation
   const AdminNav = () => (
-    <nav className="border-b bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-lg transition-colors duration-300">
+    <nav className="border-b bg-gradient-to-r from-blue-900 to-cyan-900 dark:from-slate-900 dark:to-slate-800 sticky top-0 z-50 shadow-lg transition-colors duration-300">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent cursor-pointer hover:scale-110 transition-all duration-300">
+          <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent cursor-pointer hover:scale-110 transition-all duration-300">
             P
           </div>
           <div className="flex space-x-6">
@@ -428,7 +282,7 @@ export default function App() {
               className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
                 currentPage === 'visits' 
                   ? 'bg-blue-600 text-white font-semibold shadow-lg' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+                  : 'text-slate-300 hover:bg-blue-800 hover:text-white'
               }`}
             >
               <Eye className="w-4 h-4" />
@@ -439,7 +293,7 @@ export default function App() {
               className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
                 currentPage === 'analysis' 
                   ? 'bg-blue-600 text-white font-semibold shadow-lg' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+                  : 'text-slate-300 hover:bg-blue-800 hover:text-white'
               }`}
             >
               <Activity className="w-4 h-4" />
@@ -450,7 +304,7 @@ export default function App() {
               className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
                 currentPage === 'contacts' 
                   ? 'bg-blue-600 text-white font-semibold shadow-lg' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+                  : 'text-slate-300 hover:bg-blue-800 hover:text-white'
               }`}
             >
               <MessageSquare className="w-4 h-4" />
@@ -461,7 +315,7 @@ export default function App() {
               className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
                 currentPage === 'roles' 
                   ? 'bg-blue-600 text-white font-semibold shadow-lg' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+                  : 'text-slate-300 hover:bg-blue-800 hover:text-white'
               }`}
             >
               <Users className="w-4 h-4" />
@@ -472,43 +326,23 @@ export default function App() {
               className={`text-sm font-medium transition-all duration-300 flex items-center space-x-2 px-4 py-2 rounded-lg ${
                 currentPage === 'settings' 
                   ? 'bg-blue-600 text-white font-semibold shadow-lg' 
-                  : 'text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400'
+                  : 'text-slate-300 hover:bg-blue-800 hover:text-white'
               }`}
             >
               <Settings className="w-4 h-4" />
               <span>Settings</span>
             </button>
             <div className="relative group">
-              <button className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 px-4 py-2 rounded-lg flex items-center space-x-2">
+              <button className="text-sm font-medium text-slate-300 hover:bg-blue-800 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg flex items-center space-x-2">
                 <Edit className="w-4 h-4" />
                 <span>Manage</span>
               </button>
               <div className="absolute hidden group-hover:block pt-2 animate-in fade-in-0 zoom-in-95">
                 <div className="bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-700 rounded-lg shadow-xl p-2 space-y-1 min-w-[140px]">
-                  <button
-                    onClick={() => changePage('manage-blogs')}
-                    className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
-                  >
-                    Blogs
-                  </button>
-                  <button
-                    onClick={() => changePage('manage-movies')}
-                    className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
-                  >
-                    Movies
-                  </button>
-                  <button
-                    onClick={() => changePage('manage-books')}
-                    className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
-                  >
-                    Books
-                  </button>
-                  <button
-                    onClick={() => changePage('manage-products')}
-                    className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
-                  >
-                    Products
-                  </button>
+                  <button onClick={() => changePage('manage-blogs')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Blogs</button>
+                  <button onClick={() => changePage('manage-movies')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Movies</button>
+                  <button onClick={() => changePage('manage-books')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Books</button>
+                  <button onClick={() => changePage('manage-products')} className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 rounded transition-all duration-200">Products</button>
                 </div>
               </div>
             </div>
@@ -518,7 +352,7 @@ export default function App() {
               onClick={toggleDarkMode} 
               variant="ghost" 
               size="icon"
-              className="text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full"
+              className="text-slate-300 hover:bg-blue-800 hover:text-white transition-all duration-300 rounded-full"
             >
               {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
@@ -526,7 +360,7 @@ export default function App() {
               onClick={handleLogout} 
               variant="ghost" 
               size="icon"
-              className="text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full"
+              className="text-slate-300 hover:bg-blue-800 hover:text-white transition-all duration-300 rounded-full"
             >
               <LogOut className="w-5 h-5" />
             </Button>
@@ -536,28 +370,26 @@ export default function App() {
     </nav>
   );
 
+  // ==================== MAIN RENDER ====================
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
       darkMode 
         ? 'bg-slate-900' 
-        : isAdmin ? 'bg-slate-50' : 'bg-gradient-to-br from-white via-blue-50 to-white'
+        : 'bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50'
     }`}>
-      {/* Navigation */}
       {isAdmin ? <AdminNav /> : <PublicNav />}
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {currentPage === 'home' && (
-          <div>
-            {/* Hero Section with Typing Animation */}
-            <div className="text-center py-20 mb-16 relative overflow-hidden">
-              {/* Animated Background Elements */}
-              <div className="absolute inset-0 overflow-hidden -z-10">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+        {/* Home Page */}
+        {currentPage === 'home' && !isAdmin && (
+          <div className="min-h-screen">
+            {/* Hero Section */}
+            <div className="text-center py-20 relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-400/10 dark:bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-400/10 dark:bg-cyan-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
               </div>
               
-              {/* Greeting */}
               <div className="mb-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
                 <div className="inline-block">
                   <h1 className="text-7xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent flex items-center gap-4">
@@ -567,12 +399,10 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Welcome Text */}
               <p className="text-2xl font-semibold text-slate-600 dark:text-slate-300 mb-4 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000">
                 Welcome to my Digital World!
               </p>
 
-              {/* Typing Animation */}
               <div className="h-12 mb-8 flex items-center justify-center animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
                 <p className="text-xl text-blue-600 dark:text-blue-400 font-medium">
                   I'm a <span className="font-bold">{typedText}</span>
@@ -580,7 +410,6 @@ export default function App() {
                 </p>
               </div>
 
-              {/* CTA Button */}
               <Button
                 onClick={() => changePage('contact')}
                 className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 animate-in fade-in-0 zoom-in-95 duration-1000 delay-200"
@@ -591,111 +420,244 @@ export default function App() {
               </Button>
             </div>
 
-            {/* Recent Reviews */}
-            <div>
-              <h2 className="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
-                Recent Reviews
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Recent Reviews Section */}
+            <div className="mt-16">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-4xl font-bold text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-left-4 duration-500">Recent Reviews</h2>
+                <Button 
+                  onClick={() => changePage('blogs')} 
+                  variant="outline"
+                  className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-slate-900 transition-all duration-300 hover:scale-105"
+                >
+                  View All <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredReviews.map((review, index) => (
                   <Card 
                     key={review.id} 
-                    className="overflow-hidden hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 group cursor-pointer"
+                    className="group bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-blue-300 dark:hover:border-blue-500 cursor-pointer animate-in fade-in-0 slide-in-from-bottom-4"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    {review.image && (
-                      <div className="relative overflow-hidden">
-                        <img
-                          src={review.image}
-                          alt={review.title}
-                          className="w-full h-52 object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </div>
-                    )}
+                    <div className="aspect-video bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-slate-700 dark:to-slate-600 rounded-t-lg overflow-hidden">
+                      {review.image ? (
+                        <img src={review.image} alt={review.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <BookOpen className="w-16 h-16 text-blue-300 dark:text-slate-500" />
+                        </div>
+                      )}
+                    </div>
                     <CardHeader>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-1 rounded-full uppercase shadow-md group-hover:scale-110 transition-transform duration-300">
-                          {review.type}
-                        </span>
-                      </div>
-                      <CardTitle className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 text-slate-800 dark:text-slate-100">{review.title}</CardTitle>
+                      <CardTitle className="text-xl text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{review.title}</CardTitle>
+                      <CardDescription className="uppercase text-blue-600 dark:text-blue-400 font-semibold tracking-wide">{review.type}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-slate-600 dark:text-slate-400 line-clamp-3">{review.description}</p>
+                      <p className="text-slate-600 dark:text-slate-400 line-clamp-2">{review.description}</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
-              {filteredReviews.length === 0 && (
-                <div className="text-center py-20">
-                  <div className="text-6xl mb-4 animate-bounce">📝</div>
-                  <p className="text-xl text-slate-600 dark:text-slate-400">No reviews yet. Start creating amazing content!</p>
+            </div>
+          </div>
+        )}
+
+        {/* Reviews Pages (Blogs, Movies, Books, Products) */}
+        {['blogs', 'movies', 'books', 'products'].includes(currentPage) && !isAdmin && (
+          <div className="min-h-screen">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 capitalize animate-in fade-in-0 zoom-in-95 duration-500">{currentPage}</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredReviews.map((review, index) => (
+                <Card 
+                  key={review.id} 
+                  className="group bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:border-blue-300 dark:hover:border-blue-500 cursor-pointer animate-in fade-in-0 slide-in-from-bottom-4"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="aspect-video bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-slate-700 dark:to-slate-600 rounded-t-lg overflow-hidden">
+                    {review.image ? (
+                      <img src={review.image} alt={review.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <BookOpen className="w-16 h-16 text-blue-300 dark:text-slate-500" />
+                      </div>
+                    )}
+                  </div>
+                  <CardHeader>
+                    <CardTitle className="text-xl text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{review.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-slate-600 dark:text-slate-400">{review.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            {filteredReviews.length === 0 && (
+              <div className="text-center py-20">
+                <div className="text-6xl mb-4 animate-bounce">📚</div>
+                <p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage} yet. Check back soon!</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* About Page */}
+        {currentPage === 'about' && !isAdmin && (
+          <div className="min-h-screen max-w-6xl mx-auto">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">About Me</h1>
+            
+            <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 mb-12 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
+              <CardContent className="pt-8">
+                <div className="prose prose-lg dark:prose-invert max-w-none">
+                  {aboutContent.split('\n\n').map((paragraph, index) => (
+                    <p key={index} className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">{paragraph}</p>
+                  ))}
                 </div>
-              )}
+              </CardContent>
+            </Card>
+
+            {/* Skills Section */}
+            <div className="mb-16 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 delay-200">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 flex items-center">
+                <Sparkles className="w-8 h-8 mr-3" />
+                Skills & Technologies
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {skills.map((skill, index) => (
+                  <Card 
+                    key={skill.name} 
+                    className="group bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer animate-in fade-in-0 zoom-in-95"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <CardContent className="pt-6 text-center">
+                      <div className={`w-14 h-14 mx-auto mb-3 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        <skill.icon className="w-7 h-7 text-white" />
+                      </div>
+                      <p className="font-semibold text-slate-800 dark:text-slate-100">{skill.name}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Work Experience Section */}
+            <div className="mb-16 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 delay-300">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 flex items-center">
+                <Briefcase className="w-8 h-8 mr-3" />
+                Work Experience
+              </h2>
+              <div className="space-y-6">
+                {workExperience.map((job, index) => (
+                  <Card 
+                    key={index} 
+                    className="bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-102 animate-in fade-in-0 slide-in-from-left-4"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <CardContent className="pt-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">{job.position}</h3>
+                          <p className="text-blue-600 dark:text-blue-400 font-semibold">{job.company}</p>
+                          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{job.duration}</p>
+                        </div>
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg">
+                          <Briefcase className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-400 mt-4">{job.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Domain Expertise Section */}
+            <div className="animate-in fade-in-0 slide-in-from-bottom-4 duration-700 delay-400">
+              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 flex items-center">
+                <Award className="w-8 h-8 mr-3" />
+                Domain Expertise
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {domains.map((domain, index) => (
+                  <Card 
+                    key={domain.name} 
+                    className="group bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 cursor-pointer animate-in fade-in-0 zoom-in-95"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <CardContent className="pt-8 text-center">
+                      <div className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${domain.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300`}>
+                        <domain.icon className="w-10 h-10 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">{domain.name}</h3>
+                      <p className="text-slate-600 dark:text-slate-400">{domain.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
         {/* Contact Page */}
-        {currentPage === 'contact' && (
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">
-              Get In Touch
-            </h1>
+        {currentPage === 'contact' && !isAdmin && (
+          <div className="min-h-screen max-w-2xl mx-auto">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Get In Touch</h1>
             <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
-              <CardContent className="pt-6">
+              <CardHeader>
+                <CardTitle className="text-2xl text-slate-800 dark:text-slate-100">Send me a message</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400">I'd love to hear from you! Fill out the form below.</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <form onSubmit={handleContactSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="name" className="text-slate-700 dark:text-slate-300">Name *</Label>
-                      <Input
-                        id="name"
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        required
-                        className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
-                        placeholder="Your Name"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-slate-700 dark:text-slate-300">Name</Label>
+                      <Input 
+                        id="name" 
+                        value={contactForm.name} 
+                        onChange={(e) => setContactForm({...contactForm, name: e.target.value})} 
+                        placeholder="Your name" 
+                        required 
+                        className="border-blue-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">Email *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={contactForm.email}
-                        onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                        required
-                        className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
-                        placeholder="your.email@example.com"
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        value={contactForm.email} 
+                        onChange={(e) => setContactForm({...contactForm, email: e.target.value})} 
+                        placeholder="your@email.com" 
+                        required 
+                        className="border-blue-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="subject" className="text-slate-700 dark:text-slate-300">Subject *</Label>
-                    <Input
-                      id="subject"
-                      value={contactForm.subject}
-                      onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                      required
-                      className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
-                      placeholder="What's this about?"
+                  <div className="space-y-2">
+                    <Label htmlFor="subject" className="text-slate-700 dark:text-slate-300">Subject</Label>
+                    <Input 
+                      id="subject" 
+                      value={contactForm.subject} 
+                      onChange={(e) => setContactForm({...contactForm, subject: e.target.value})} 
+                      placeholder="What's this about?" 
+                      required 
+                      className="border-blue-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="message" className="text-slate-700 dark:text-slate-300">Message *</Label>
-                    <Textarea
-                      id="message"
-                      value={contactForm.message}
-                      onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      required
-                      rows={6}
-                      className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
-                      placeholder="Tell me what's on your mind..."
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-slate-700 dark:text-slate-300">Message</Label>
+                    <Textarea 
+                      id="message" 
+                      value={contactForm.message} 
+                      onChange={(e) => setContactForm({...contactForm, message: e.target.value})} 
+                      placeholder="Your message..." 
+                      rows={5} 
+                      required 
+                      className="border-blue-200 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
                     />
                   </div>
                   <Button 
-                    type="submit"
+                    type="submit" 
                     className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     size="lg"
                   >
@@ -708,40 +670,154 @@ export default function App() {
           </div>
         )}
 
-        {/* Rest of the pages remain the same but with dark mode classes added */}
-        {/* I'll add dark mode classes to other sections in the continuation */}
-        
-        {/* Admin Contacts Page */}
+        {/* Admin Pages */}
+        {/* Visits Page */}
+        {currentPage === 'visits' && isAdmin && (
+          <div className="min-h-screen">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Site Visits</h1>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+              <Card className="bg-gradient-to-br from-blue-600 to-cyan-600 text-white shadow-2xl animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-blue-100 text-sm">Total Visits</p>
+                      <p className="text-4xl font-bold">{analytics.totalVisits}</p>
+                    </div>
+                    <Eye className="w-12 h-12 text-blue-200" />
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-2xl animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-100">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-purple-100 text-sm">Unique Visitors</p>
+                      <p className="text-4xl font-bold">{analytics.uniqueVisitors}</p>
+                    </div>
+                    <User className="w-12 h-12 text-purple-200" />
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-orange-600 to-red-600 text-white shadow-2xl animate-in fade-in-0 slide-in-from-bottom-4 duration-500 delay-200">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-orange-100 text-sm">Top Page</p>
+                      <p className="text-4xl font-bold">{analytics.topPages[0]?.page}</p>
+                    </div>
+                    <TrendingUp className="w-12 h-12 text-orange-200" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+              <CardHeader>
+                <CardTitle className="text-2xl text-slate-800 dark:text-slate-100">Page Views Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {analytics.topPages.map((page, index) => (
+                    <div key={page.page} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="font-medium text-slate-800 dark:text-slate-100">{page.page}</span>
+                      <span className="text-blue-600 dark:text-blue-400 font-bold">{page.views} views</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Analysis Page */}
+        {currentPage === 'analysis' && isAdmin && (
+          <div className="min-h-screen">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Analytics</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-slate-800 dark:text-slate-100">
+                    <BarChart3 className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
+                    Content Overview
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Total Reviews</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{reviews.length}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Blogs</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{reviews.filter(r => r.type === 'blog').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Movies</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{reviews.filter(r => r.type === 'movie').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Books</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{reviews.filter(r => r.type === 'book').length}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Products</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{reviews.filter(r => r.type === 'product').length}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-slate-800 dark:text-slate-100">
+                    <MessageSquare className="w-6 h-6 mr-2 text-blue-600 dark:text-blue-400" />
+                    Engagement
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Total Messages</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{contacts.length}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                      <span className="text-slate-700 dark:text-slate-300">Active Roles</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{roles.length}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Messages Page */}
         {currentPage === 'contacts' && isAdmin && (
           <div className="min-h-screen">
-            <h1 className="text-5xl font-bold mb-12 text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Contact Messages</h1>
-            <div className="space-y-6">
+            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Messages</h1>
+            <div className="space-y-4">
               {contacts.map((contact, index) => (
                 <Card 
-                  key={contact.id}
-                  className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-102 animate-in fade-in-0 slide-in-from-bottom-4"
+                  key={contact.id} 
+                  className="bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all duration-300 animate-in fade-in-0 slide-in-from-bottom-4"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <CardHeader>
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <CardTitle className="text-xl text-slate-800 dark:text-slate-100">{contact.name}</CardTitle>
-                        <CardDescription className="text-slate-600 dark:text-slate-400">{contact.email}</CardDescription>
+                  <CardContent className="pt-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-4 mb-2">
+                          <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">{contact.name}</h3>
+                          <span className="text-sm text-slate-500 dark:text-slate-400">{contact.email}</span>
+                        </div>
+                        <p className="text-blue-600 dark:text-blue-400 font-semibold mb-2">{contact.subject}</p>
+                        <p className="text-slate-600 dark:text-slate-400">{contact.message}</p>
+                        <p className="text-sm text-slate-400 dark:text-slate-500 mt-2">{contact.createdAt}</p>
                       </div>
-                      <span className="text-sm text-slate-500 dark:text-slate-400 mt-2 md:mt-0">
-                        {new Date(contact.date).toLocaleDateString()}
-                      </span>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="font-semibold text-slate-800 dark:text-slate-200 mb-2">Subject: {contact.subject}</p>
-                    <p className="text-slate-600 dark:text-slate-400">{contact.message}</p>
                   </CardContent>
                 </Card>
               ))}
               {contacts.length === 0 && (
                 <div className="text-center py-20">
-                  <div className="text-6xl mb-4 animate-pulse">📬</div>
+                  <div className="text-6xl mb-4 animate-bounce">📬</div>
                   <p className="text-xl text-slate-600 dark:text-slate-400">No messages yet.</p>
                 </div>
               )}
@@ -749,150 +825,20 @@ export default function App() {
           </div>
         )}
 
-        {/* About Page */}
-        {currentPage === 'about' && (
-          <div className="max-w-5xl mx-auto">
-            <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">About Me</h1>
-            {/* Domain Expertise */}
-            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-100">
-              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center flex items-center justify-center gap-3"><Award className="w-8 h-8 text-blue-600 dark:text-blue-400" />Domain Expertise</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {domains.map((domain, index) => {
-                  const Icon = domain.icon;
-                  return <Card key={domain.name} className="group hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 bg-white dark:bg-slate-800 cursor-pointer animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 150}ms` }}><CardContent className="pt-6 text-center"><div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${domain.gradient} mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}><Icon className="w-8 h-8 text-white" /></div><h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{domain.name}</h3><p className="text-slate-600 dark:text-slate-400 text-sm">{domain.description}</p></CardContent></Card>;
-                })}
-              </div>
-            </div>
-            {/* Skills */}
-            <div className="mb-12 animate-in fade-in-0 slide-in-from-right-4 duration-700 delay-200">
-              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center">Technical Skills</h2>
-              <div className="flex flex-wrap justify-center gap-4">
-                {skills.map((skill, index) => {
-                  const Icon = skill.icon;
-                  return <div key={skill.name} className="group animate-in fade-in-0 zoom-in-95" style={{ animationDelay: `${index * 80}ms` }}><Card className="bg-white dark:bg-slate-800 border-2 border-blue-100 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-110 hover:-translate-y-1 cursor-pointer"><CardContent className="pt-6 pb-6 px-8"><div className="flex items-center space-x-3"><div className={`p-2 bg-gradient-to-br ${skill.color} rounded-lg group-hover:rotate-12 transition-transform duration-300`}><Icon className="w-5 h-5 text-white" /></div><span className="font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{skill.name}</span></div></CardContent></Card></div>;
-                })}
-              </div>
-            </div>
-            {/* Work Experience */}
-            <div className="mb-12 animate-in fade-in-0 slide-in-from-left-4 duration-700 delay-300">
-              <h2 className="text-3xl font-bold mb-8 text-blue-800 dark:text-blue-400 text-center flex items-center justify-center gap-3"><Briefcase className="w-8 h-8 text-blue-600 dark:text-blue-400" />Work Experience</h2>
-              <div className="space-y-6">
-                {workExperience.map((job, index) => (
-                  <Card key={index} className="bg-white dark:bg-slate-800 border-l-4 border-blue-600 dark:border-blue-400 hover:shadow-xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-102 hover:border-cyan-600 dark:hover:border-cyan-400 group animate-in fade-in-0 slide-in-from-left-4" style={{ animationDelay: `${index * 100}ms` }}><CardContent className="pt-6"><div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3"><div><h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{job.position}</h3><p className="text-lg text-blue-600 dark:text-blue-400 font-semibold">{job.company}</p></div><span className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-2 md:mt-0 bg-blue-50 dark:bg-slate-700 px-3 py-1 rounded-full">{job.duration}</span></div><p className="text-slate-600 dark:text-slate-400">{job.description}</p></CardContent></Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Blogs/Movies/Books/Products Pages */}
-        {(currentPage === 'blogs' || currentPage === 'movies' || currentPage === 'books' || currentPage === 'products') && (
-          <div>
-            <h1 className="text-5xl font-bold mb-12 capitalize text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">{currentPage}</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredReviews.map((review, index) => (
-                <Card key={review.id} className="overflow-hidden hover:shadow-2xl dark:hover:shadow-blue-900/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 zoom-in-95 group cursor-pointer" style={{ animationDelay: `${index * 100}ms` }}>
-                  {review.image && (<div className="relative overflow-hidden"><img src={review.image} alt={review.title} className="w-full h-52 object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2" /><div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></div>)}
-                  <CardHeader><CardTitle className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 text-slate-800 dark:text-slate-100">{review.title}</CardTitle></CardHeader>
-                  <CardContent><p className="text-slate-600 dark:text-slate-400">{review.description}</p></CardContent>
-                </Card>
-              ))}
-            </div>
-            {filteredReviews.length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-pulse">🔍</div><p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage} yet.</p></div>)}
-          </div>
-        )}
-
-        {/* Admin Visits Page */}
-        {currentPage === 'visits' && isAdmin && (
-          <div className="min-h-screen">
-            <h1 className="text-5xl font-bold mb-12 text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Visits Overview</h1>
-            {analytics && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><Eye className="w-6 h-6" /><span>Total Views</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.totalViews || 0}</p></CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-cyan-600 to-cyan-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-100">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><TrendingUp className="w-6 h-6" /><span>Home Page</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.home || 0}</p></CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-teal-600 to-teal-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-200">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><BookOpen className="w-6 h-6" /><span>Blogs</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.blogs || 0}</p></CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-300">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><Film className="w-6 h-6" /><span>Movies</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.movies || 0}</p></CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-violet-600 to-violet-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-400">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><Book className="w-6 h-6" /><span>Books</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.books || 0}</p></CardContent>
-                </Card>
-                <Card className="bg-gradient-to-br from-purple-600 to-purple-700 text-white border-0 shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-500 hover:-translate-y-2 animate-in fade-in-0 zoom-in-95 delay-500">
-                  <CardHeader><CardTitle className="flex items-center space-x-2"><Package className="w-6 h-6" /><span>Products</span></CardTitle></CardHeader>
-                  <CardContent><p className="text-6xl font-bold">{analytics.pageViews?.products || 0}</p></CardContent>
-                </Card>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Admin Analysis Page */}
-        {currentPage === 'analysis' && isAdmin && (
-          <div className="min-h-screen">
-            <h1 className="text-5xl font-bold mb-12 text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Detailed Analysis</h1>
-            {analytics && (
-              <div className="space-y-8">
-                <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-2xl hover:shadow-3xl transition-all duration-500 animate-in fade-in-0 zoom-in-95">
-                  <CardHeader><CardTitle className="text-2xl flex items-center space-x-3 text-blue-800 dark:text-blue-400"><BarChart3 className="w-8 h-8" /><span>Overall Statistics</span></CardTitle></CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-6">
-                      <div><p className="text-slate-600 dark:text-slate-400 mb-2">Total Views</p><p className="text-5xl font-bold text-blue-600 dark:text-blue-400">{analytics.totalViews || 0}</p></div>
-                      <div><p className="text-slate-600 dark:text-slate-400 mb-2">Total Reviews</p><p className="text-5xl font-bold text-blue-600 dark:text-blue-400">{reviews.length}</p></div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-500 animate-in fade-in-0 slide-in-from-left-4 delay-100">
-                    <CardHeader><CardTitle className="text-blue-800 dark:text-blue-400">Page Performance</CardTitle></CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {Object.entries(analytics.pageViews || {}).map(([page, views]) => (
-                          <div key={page} className="flex justify-between items-center group">
-                            <span className="capitalize font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{page}</span>
-                            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{views}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-500 animate-in fade-in-0 slide-in-from-right-4 delay-200">
-                    <CardHeader><CardTitle className="text-blue-800 dark:text-blue-400">Content Breakdown</CardTitle></CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Blogs</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'blog').length}</span></div>
-                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Movies</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'movie').length}</span></div>
-                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Books</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'book').length}</span></div>
-                        <div className="flex justify-between items-center group"><span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Products</span><span className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">{reviews.filter(r => r.type === 'product').length}</span></div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Admin Roles Management Page */}
+        {/* Roles Page */}
         {currentPage === 'roles' && isAdmin && (
           <div className="min-h-screen">
-            <div className="flex justify-between items-center mb-12">
-              <h1 className="text-5xl font-bold text-blue-800 dark:text-blue-400 animate-in fade-in-0 slide-in-from-top-4 duration-500">Manage Typing Roles</h1>
-              <Button onClick={() => { setEditingRole(null); setRoleForm({ title: '' }); setShowRoleModal(true); }} className="bg-blue-600 text-white hover:bg-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"><Plus className="w-4 h-4 mr-2" />Add Role</Button>
+            <div className="flex justify-between items-center mb-12 animate-in fade-in-0 slide-in-from-top-4 duration-500">
+              <h1 className="text-5xl font-bold text-blue-800 dark:text-blue-400">Manage Typing Roles</h1>
+              <p className="text-slate-500 dark:text-slate-400">(Demo - changes not saved)</p>
             </div>
             <div className="space-y-4">
               {roles.map((role, index) => (
-                <Card key={role.id} className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-102 animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 100}ms` }}>
+                <Card 
+                  key={role.id} 
+                  className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-102 animate-in fade-in-0 slide-in-from-bottom-4" 
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -900,231 +846,181 @@ export default function App() {
                         <span className="text-xl font-semibold text-slate-800 dark:text-slate-100">{role.title}</span>
                       </div>
                       <div className="flex space-x-2">
-                        <Button onClick={() => { setEditingRole(role); setRoleForm({ title: role.title }); setShowRoleModal(true); }} variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={async () => { if (!confirm('Delete this role?')) return; try { const token = localStorage.getItem('adminToken'); await fetch(`/api/roles/${role.id}`, { method: 'DELETE', headers: { 'Authorization': token } }); fetchRoles(); } catch (error) { console.error('Error deleting role:', error); } }} variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Trash2 className="w-4 h-4" /></Button>
+                        <Button variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
-              {roles.length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-bounce">⚙️</div><p className="text-xl text-slate-600 dark:text-slate-400">No roles yet.</p></div>)}
+              {roles.length === 0 && (
+                <div className="text-center py-20">
+                  <div className="text-6xl mb-4 animate-bounce">⚙️</div>
+                  <p className="text-xl text-slate-600 dark:text-slate-400">No roles yet.</p>
+                </div>
+              )}
             </div>
           </div>
         )}
 
-        {/* Admin Settings Page */}
+        {/* Settings Page */}
         {currentPage === 'settings' && isAdmin && (
           <div className="min-h-screen max-w-3xl mx-auto">
             <h1 className="text-5xl font-bold mb-12 text-center text-blue-800 dark:text-blue-400 animate-in fade-in-0 zoom-in-95 duration-500">Navigation Settings</h1>
             <Card className="shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
               <CardContent className="pt-6">
                 <div className="space-y-6">
-                  <p className="text-slate-600 dark:text-slate-400 mb-4">Toggle visibility of navigation menu items. Hidden items won't appear in the navbar or home page.</p>
+                  <p className="text-slate-600 dark:text-slate-400 mb-4">Toggle visibility of navigation menu items. (Demo - changes not saved)</p>
                   <div className="space-y-4">
                     {Object.entries(settings.navbar).map(([key, value]) => (
                       <div key={key} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 transition-colors duration-300">
                         <Label htmlFor={key} className="text-lg font-medium text-slate-800 dark:text-slate-100 capitalize cursor-pointer">{key}</Label>
-                        <input id={key} type="checkbox" checked={value} onChange={(e) => setSettings({ ...settings, navbar: { ...settings.navbar, [key]: e.target.checked } })} className="w-6 h-6 text-blue-600 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400 cursor-pointer" />
+                        <input 
+                          id={key} 
+                          type="checkbox" 
+                          checked={value} 
+                          readOnly
+                          className="w-6 h-6 text-blue-600 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 cursor-pointer" 
+                        />
                       </div>
                     ))}
                   </div>
-                  <Button onClick={async () => { try { const token = localStorage.getItem('adminToken'); const res = await fetch('/api/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ navbar: settings.navbar }) }); if (res.ok) { alert('Settings saved successfully!'); fetchSettings(); } } catch (error) { console.error('Error saving settings:', error); alert('Failed to save settings'); } }} className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" size="lg"><Settings className="w-5 h-5 mr-2" />Save Settings</Button>
+                  <Button 
+                    onClick={() => alert('Demo mode - changes not saved to backend')}
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" 
+                    size="lg"
+                  >
+                    <Settings className="w-5 h-5 mr-2" />
+                    Save Settings
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </div>
         )}
 
-        {/* Admin Manage Pages */}
+        {/* Manage Pages */}
         {currentPage.startsWith('manage-') && isAdmin && (
           <div className="min-h-screen">
             <div className="flex justify-between items-center mb-12 animate-in fade-in-0 slide-in-from-top-4 duration-500">
               <h1 className="text-5xl font-bold text-blue-800 dark:text-blue-400 capitalize">Manage {currentPage.replace('manage-', '')}</h1>
-              <Button onClick={() => { setEditingReview(null); const type = currentPage.replace('manage-', '').slice(0, -1); setReviewForm({ type, title: '', image: '', description: '' }); setShowReviewModal(true); }} className="bg-blue-600 text-white hover:bg-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"><Plus className="w-4 h-4 mr-2" />Add New</Button>
+              <p className="text-slate-500 dark:text-slate-400">(Demo - changes not saved)</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).map((review, index) => (
-                <Card key={review.id} className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:scale-102 transition-all duration-500 hover:border-blue-400 dark:hover:border-blue-500 animate-in fade-in-0 slide-in-from-bottom-4" style={{ animationDelay: `${index * 100}ms` }}>
+                <Card 
+                  key={review.id} 
+                  className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700 shadow-xl hover:shadow-2xl hover:scale-102 transition-all duration-500 animate-in fade-in-0 slide-in-from-bottom-4" 
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <div><CardTitle className="text-xl text-slate-800 dark:text-slate-100">{review.title}</CardTitle><CardDescription className="uppercase text-slate-600 dark:text-slate-400 mt-2">{review.type}</CardDescription></div>
+                      <div>
+                        <CardTitle className="text-xl text-slate-800 dark:text-slate-100">{review.title}</CardTitle>
+                        <CardDescription className="uppercase text-slate-600 dark:text-slate-400 mt-2">{review.type}</CardDescription>
+                      </div>
                       <div className="flex space-x-2">
-                        <Button onClick={() => handleEditReview(review)} variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Edit className="w-4 h-4" /></Button>
-                        <Button onClick={() => handleDeleteReview(review.id)} variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"><Trash2 className="w-4 h-4" /></Button>
+                        <Button variant="outline" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white border-0 shadow-lg">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button variant="destructive" size="sm" className="bg-red-600 hover:bg-red-700 border-0 shadow-lg">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent><p className="text-slate-600 dark:text-slate-400 line-clamp-2">{review.description}</p></CardContent>
+                  <CardContent>
+                    <p className="text-slate-600 dark:text-slate-400 line-clamp-2">{review.description}</p>
+                  </CardContent>
                 </Card>
               ))}
             </div>
-            {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).length === 0 && (<div className="text-center py-20"><div className="text-6xl mb-4 animate-bounce">📝</div><p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage.replace('manage-', '')} yet. Start creating!</p></div>)}
+            {reviews.filter(r => r.type === currentPage.replace('manage-', '').slice(0, -1)).length === 0 && (
+              <div className="text-center py-20">
+                <div className="text-6xl mb-4 animate-bounce">📝</div>
+                <p className="text-xl text-slate-600 dark:text-slate-400">No {currentPage.replace('manage-', '')} yet.</p>
+              </div>
+            )}
           </div>
         )}
-
-        {/* Other pages would continue with dark mode classes... */}
-        {/* For brevity, I'll just show the pattern - all pages need dark: classes added */}
       </main>
 
       {/* Footer */}
-      {!isAdmin && (
-        <footer className="border-t bg-white dark:bg-slate-900 mt-16 transition-colors duration-300">
-          <div className="container mx-auto px-4 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              <div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent mb-4">P</h3>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Sharing insights and reviews to help you make informed decisions.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-400 mb-4">Quick Links</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <button onClick={() => changePage('home')} className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-                      Home
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={() => changePage('blogs')} className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-                      Blogs
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={() => changePage('about')} className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-                      About
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={() => changePage('contact')} className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-                      Contact
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold text-blue-800 dark:text-blue-400 mb-4">Connect</h4>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110">
-                    <Github className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110">
-                    <Linkedin className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110">
-                    <Twitter className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110">
-                    <Mail className="w-6 h-6" />
-                  </a>
-                </div>
+      <footer className="border-t bg-white dark:bg-slate-900 mt-16 transition-colors duration-300">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent mb-4">P</div>
+              <p className="text-slate-600 dark:text-slate-400">A personal portfolio showcasing my work, reviews, and thoughts.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Quick Links</h4>
+              <div className="space-y-2">
+                <button onClick={() => changePage('home')} className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</button>
+                <button onClick={() => changePage('about')} className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</button>
+                <button onClick={() => changePage('contact')} className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</button>
               </div>
             </div>
-            <div className="border-t dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                © 2025 Portfolio. All rights reserved.
-              </p>
-              <button
-                onClick={() => setShowAdminLogin(true)}
-                className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 hover:scale-105 mt-4 md:mt-0"
-              >
-                Admin Access
-              </button>
+            <div>
+              <h4 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Connect</h4>
+              <div className="flex space-x-4">
+                <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"><Github className="w-6 h-6" /></a>
+                <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"><Linkedin className="w-6 h-6" /></a>
+                <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"><Twitter className="w-6 h-6" /></a>
+              </div>
             </div>
           </div>
-        </footer>
-      )}
+          <div className="border-t border-slate-200 dark:border-slate-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-slate-500 dark:text-slate-400 text-sm">© 2024 Portfolio. All rights reserved.</p>
+            <button 
+              onClick={() => setShowAdminLogin(true)} 
+              className="text-slate-400 dark:text-slate-500 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors mt-4 md:mt-0"
+            >
+              Admin
+            </button>
+          </div>
+        </div>
+      </footer>
 
-      {/* Admin Login Modal */}
+      {/* Admin Login Dialog */}
       <Dialog open={showAdminLogin} onOpenChange={setShowAdminLogin}>
-        <DialogContent className="sm:max-w-md dark:bg-slate-800 dark:border-slate-700">
+        <DialogContent className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700">
           <DialogHeader>
-            <DialogTitle className="text-2xl text-blue-800 dark:text-blue-400">Admin Login</DialogTitle>
-            <DialogDescription className="dark:text-slate-400">Enter your credentials to access the admin panel.</DialogDescription>
+            <DialogTitle className="text-2xl text-slate-800 dark:text-slate-100">Admin Login</DialogTitle>
+            <DialogDescription className="text-slate-600 dark:text-slate-400">Enter your credentials to access the admin panel.</DialogDescription>
           </DialogHeader>
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <Label htmlFor="username" className="dark:text-slate-300">Username</Label>
-              <Input
-                id="username"
-                value={loginForm.username}
-                onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
-                required
-                className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-slate-700 dark:text-slate-300">Username</Label>
+              <Input 
+                id="username" 
+                value={loginForm.username} 
+                onChange={(e) => setLoginForm({...loginForm, username: e.target.value})} 
+                placeholder="admin" 
+                required 
+                className="border-blue-200 dark:border-slate-600 focus:border-blue-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
               />
             </div>
-            <div>
-              <Label htmlFor="password" className="dark:text-slate-300">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={loginForm.password}
-                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
-                required
-                className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100"
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">Password</Label>
+              <Input 
+                id="password" 
+                type="password" 
+                value={loginForm.password} 
+                onChange={(e) => setLoginForm({...loginForm, password: e.target.value})} 
+                placeholder="••••••••" 
+                required 
+                className="border-blue-200 dark:border-slate-600 focus:border-blue-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
               />
             </div>
             <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+              <LogIn className="w-4 h-4 mr-2" />
               Login
             </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Role Management Modal */}
-      <Dialog open={showRoleModal} onOpenChange={setShowRoleModal}>
-        <DialogContent className="sm:max-w-md dark:bg-slate-800 dark:border-slate-700">
-          <DialogHeader>
-            <DialogTitle className="text-2xl text-blue-800 dark:text-blue-400">{editingRole ? 'Edit Role' : 'Add Role'}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={async (e) => { e.preventDefault(); try { const token = localStorage.getItem('adminToken'); if (editingRole) { await fetch(`/api/roles/${editingRole.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify(roleForm) }); } else { await fetch('/api/roles', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify(roleForm) }); } setShowRoleModal(false); setEditingRole(null); setRoleForm({ title: '' }); fetchRoles(); } catch (error) { console.error('Error saving role:', error); } }} className="space-y-4">
-            <div>
-              <Label htmlFor="role-title" className="dark:text-slate-300">Role Title</Label>
-              <Input id="role-title" value={roleForm.title} onChange={(e) => setRoleForm({ title: e.target.value })} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100" placeholder="e.g., Software Developer" />
-            </div>
-            <div className="flex space-x-2">
-              <Button type="submit" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">Save</Button>
-              <Button type="button" onClick={() => { setShowRoleModal(false); setEditingRole(null); }} variant="outline" className="hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-600 dark:hover:border-blue-400">Cancel</Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Review Management Modal */}
-      <Dialog open={showReviewModal} onOpenChange={setShowReviewModal}>
-        <DialogContent className="max-w-2xl dark:bg-slate-800 dark:border-slate-700">
-          <DialogHeader>
-            <DialogTitle className="text-2xl text-blue-800 dark:text-blue-400">{editingReview ? 'Edit Review' : 'Add Review'}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleSaveReview} className="space-y-4">
-            <div>
-              <Label htmlFor="type">Type</Label>
-              <Select value={reviewForm.type} onValueChange={(value) => setReviewForm({ ...reviewForm, type: value })}>
-                <SelectTrigger className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="blog">Blog</SelectItem>
-                  <SelectItem value="movie">Movie</SelectItem>
-                  <SelectItem value="book">Book</SelectItem>
-                  <SelectItem value="product">Product</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="title">Title</Label>
-              <Input id="title" value={reviewForm.title} onChange={(e) => setReviewForm({ ...reviewForm, title: e.target.value })} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
-            </div>
-            <div>
-              <Label htmlFor="image">Image URL</Label>
-              <Input id="image" value={reviewForm.image} onChange={(e) => setReviewForm({ ...reviewForm, image: e.target.value })} placeholder="https://example.com/image.jpg" className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
-            </div>
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea id="description" value={reviewForm.description} onChange={(e) => setReviewForm({ ...reviewForm, description: e.target.value })} rows={6} required className="border-blue-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 dark:bg-slate-900 dark:text-slate-100" />
-            </div>
-            <div className="flex space-x-2">
-              <Button type="submit" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">Save</Button>
-              <Button type="button" onClick={() => { setShowReviewModal(false); setEditingReview(null); }} variant="outline" className="hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-600 dark:hover:border-blue-400">Cancel</Button>
-            </div>
           </form>
         </DialogContent>
       </Dialog>
