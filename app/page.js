@@ -245,8 +245,8 @@ export default function App() {
             {settings.navbar.blogs && <button onClick={() => changePage('blogs')} className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${currentPage === 'blogs' ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-700 dark:text-slate-300'}`}>Blogs</button>}
             {(settings.navbar.movies || settings.navbar.books || settings.navbar.products) && (
               <div className="relative group">
-                <button className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-105">Reviews</button>
-                <div className="absolute hidden group-hover:block pt-2 animate-in fade-in-0 zoom-in-95 left-1/2 -translate-x-1/2">
+                <button className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-105 py-2">Reviews</button>
+                <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 pt-1 left-1/2 -translate-x-1/2 z-50">
                   <div className="bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-700 rounded-lg shadow-xl p-2 space-y-1 min-w-[140px]">
                     {settings.navbar.movies && <button onClick={() => changePage('movies')} className="block w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"><Film className="w-4 h-4 inline mr-2" />Movies</button>}
                     {settings.navbar.books && <button onClick={() => changePage('books')} className="block w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"><Book className="w-4 h-4 inline mr-2" />Books</button>}
