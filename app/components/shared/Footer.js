@@ -1,83 +1,116 @@
 'use client';
 
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin, Twitter, Cpu, Mail, MapPin } from 'lucide-react';
 
 export default function Footer({ changePage, setShowAdminLogin }) {
   return (
-    <footer className="border-t bg-white dark:bg-slate-900 mt-16 transition-colors duration-300">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="border-t border-purple-500/20 bg-slate-950 mt-16">
+      {/* Gradient Line */}
+      <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+      
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
-          <div>
-            <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent mb-4">
-              P
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
+                <Cpu className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                Portfolio
+              </span>
             </div>
-            <p className="text-slate-600 dark:text-slate-400">
-              A personal portfolio showcasing my work, reviews, and thoughts.
+            <p className="text-slate-400 leading-relaxed mb-6 max-w-md">
+              A personal portfolio showcasing my work in software development, AI, and technology. 
+              Building the future, one line of code at a time.
             </p>
+            <div className="flex items-center gap-4">
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-lg bg-slate-800/50 border border-purple-500/20 flex items-center justify-center text-slate-400 hover:text-purple-400 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-lg bg-slate-800/50 border border-purple-500/20 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a 
+                href="#" 
+                className="w-10 h-10 rounded-lg bg-slate-800/50 border border-purple-500/20 flex items-center justify-center text-slate-400 hover:text-pink-400 hover:border-pink-500/50 hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Quick Links</h4>
-            <div className="space-y-2">
+            <h4 className="text-white font-semibold mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+              Quick Links
+            </h4>
+            <div className="space-y-3">
               <button 
                 onClick={() => changePage('home')} 
-                className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="block text-slate-400 hover:text-purple-400 transition-colors duration-200"
               >
                 Home
               </button>
               <button 
                 onClick={() => changePage('about')} 
-                className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="block text-slate-400 hover:text-purple-400 transition-colors duration-200"
               >
                 About
               </button>
               <button 
+                onClick={() => changePage('blogs')} 
+                className="block text-slate-400 hover:text-purple-400 transition-colors duration-200"
+              >
+                Blogs
+              </button>
+              <button 
                 onClick={() => changePage('contact')} 
-                className="block text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="block text-slate-400 hover:text-purple-400 transition-colors duration-200"
               >
                 Contact
               </button>
             </div>
           </div>
 
-          {/* Social Links */}
+          {/* Contact Info */}
           <div>
-            <h4 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Connect</h4>
-            <div className="flex space-x-4">
-              <a 
-                href="#" 
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"
-              >
-                <Github className="w-6 h-6" />
-              </a>
-              <a 
-                href="#" 
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"
-              >
-                <Linkedin className="w-6 h-6" />
-              </a>
-              <a 
-                href="#" 
-                className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-125"
-              >
-                <Twitter className="w-6 h-6" />
-              </a>
+            <h4 className="text-white font-semibold mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
+              Get In Touch
+            </h4>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 text-slate-400">
+                <Mail className="w-4 h-4 text-purple-500" />
+                <span>hello@portfolio.dev</span>
+              </div>
+              <div className="flex items-center gap-3 text-slate-400">
+                <MapPin className="w-4 h-4 text-cyan-500" />
+                <span>Pune, India</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-200 dark:border-slate-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            © 2024 Portfolio. All rights reserved.
+        <div className="border-t border-purple-500/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-slate-500 text-sm">
+            © 2024 Portfolio. Crafted with 
+            <span className="text-purple-500 mx-1">♥</span> 
+            and lots of coffee.
           </p>
           <button 
             onClick={() => setShowAdminLogin(true)} 
-            className="text-slate-400 dark:text-slate-500 text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors mt-4 md:mt-0"
+            className="text-slate-600 text-sm hover:text-purple-400 transition-colors mt-4 md:mt-0"
           >
-            Admin
+            Admin Access
           </button>
         </div>
       </div>

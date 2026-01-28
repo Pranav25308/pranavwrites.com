@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Film, Book, Package, Moon, Sun } from 'lucide-react';
+import { Film, Book, Package, Moon, Sun, Cpu } from 'lucide-react';
 
 export default function PublicNav({ 
   currentPage, 
@@ -11,25 +11,30 @@ export default function PublicNav({
   toggleDarkMode 
 }) {
   return (
-    <nav className="border-b bg-white dark:bg-slate-900 sticky top-0 z-50 shadow-md transition-colors duration-300">
+    <nav className="border-b border-purple-500/20 bg-slate-950/95 backdrop-blur-xl sticky top-0 z-50 shadow-lg shadow-purple-500/5">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div 
-            className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent cursor-pointer hover:scale-110 transition-all duration-300" 
+            className="flex items-center gap-2 cursor-pointer group" 
             onClick={() => changePage('home')}
           >
-            P
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:shadow-purple-500/50 transition-all duration-300 group-hover:scale-110">
+              <Cpu className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              Portfolio
+            </span>
           </div>
 
           {/* Navigation Links */}
-          <div className="flex space-x-8">
+          <div className="flex space-x-1">
             <button 
               onClick={() => changePage('home')} 
-              className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 currentPage === 'home' 
-                  ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' 
-                  : 'text-slate-700 dark:text-slate-300'
+                  ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                  : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
               }`}
             >
               Home
@@ -38,10 +43,10 @@ export default function PublicNav({
             {settings.navbar.blogs && (
               <button 
                 onClick={() => changePage('blogs')} 
-                className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   currentPage === 'blogs' 
-                    ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' 
-                    : 'text-slate-700 dark:text-slate-300'
+                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                    : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
                 }`}
               >
                 Blogs
@@ -51,33 +56,33 @@ export default function PublicNav({
             {/* Reviews Dropdown */}
             {(settings.navbar.movies || settings.navbar.books || settings.navbar.products) && (
               <div className="relative group">
-                <button className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-105 py-2">
+                <button className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 transition-all duration-300">
                   Reviews
                 </button>
-                <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 pt-1 left-1/2 -translate-x-1/2 z-50">
-                  <div className="bg-white dark:bg-slate-800 border border-blue-200 dark:border-slate-700 rounded-lg shadow-xl p-2 space-y-1 min-w-[140px]">
+                <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 pt-2 left-1/2 -translate-x-1/2 z-50">
+                  <div className="bg-slate-900/95 backdrop-blur-xl border border-purple-500/20 rounded-xl shadow-2xl shadow-purple-500/10 p-2 space-y-1 min-w-[160px]">
                     {settings.navbar.movies && (
                       <button 
                         onClick={() => changePage('movies')} 
-                        className="block w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
+                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
                       >
-                        <Film className="w-4 h-4 inline mr-2" />Movies
+                        <Film className="w-4 h-4 mr-3 text-purple-500" />Movies
                       </button>
                     )}
                     {settings.navbar.books && (
                       <button 
                         onClick={() => changePage('books')} 
-                        className="block w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
+                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
                       >
-                        <Book className="w-4 h-4 inline mr-2" />Books
+                        <Book className="w-4 h-4 mr-3 text-cyan-500" />Books
                       </button>
                     )}
                     {settings.navbar.products && (
                       <button 
                         onClick={() => changePage('products')} 
-                        className="block w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 rounded transition-all duration-200"
+                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
                       >
-                        <Package className="w-4 h-4 inline mr-2" />Products
+                        <Package className="w-4 h-4 mr-3 text-pink-500" />Products
                       </button>
                     )}
                   </div>
@@ -88,10 +93,10 @@ export default function PublicNav({
             {settings.navbar.about && (
               <button 
                 onClick={() => changePage('about')} 
-                className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   currentPage === 'about' 
-                    ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' 
-                    : 'text-slate-700 dark:text-slate-300'
+                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                    : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
                 }`}
               >
                 About
@@ -100,10 +105,10 @@ export default function PublicNav({
 
             <button 
               onClick={() => changePage('contact')} 
-              className={`text-sm font-medium transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 currentPage === 'contact' 
-                  ? 'text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 dark:border-blue-400' 
-                  : 'text-slate-700 dark:text-slate-300'
+                  ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                  : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
               }`}
             >
               Contact
@@ -115,7 +120,7 @@ export default function PublicNav({
             onClick={toggleDarkMode} 
             variant="ghost" 
             size="icon"
-            className="text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-full"
+            className="text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-300"
           >
             {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </Button>
