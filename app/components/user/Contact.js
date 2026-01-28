@@ -10,42 +10,55 @@ import { Send, MessageSquare, Zap } from 'lucide-react';
 export default function Contact({ 
   contactForm, 
   setContactForm, 
-  handleContactSubmit 
+  handleContactSubmit,
+  darkMode 
 }) {
   return (
     <div className="min-h-screen max-w-2xl mx-auto relative">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 right-0 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-0 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl"></div>
+        <div className={`absolute top-20 right-0 w-72 h-72 rounded-full blur-3xl ${
+          darkMode ? 'bg-purple-600/10' : 'bg-purple-400/20'
+        }`}></div>
+        <div className={`absolute bottom-20 left-0 w-64 h-64 rounded-full blur-3xl ${
+          darkMode ? 'bg-cyan-600/10' : 'bg-cyan-400/20'
+        }`}></div>
       </div>
 
       {/* Page Header */}
       <div className="text-center mb-12 relative">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm mb-6">
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-6 ${
+          darkMode 
+            ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
+            : 'bg-purple-100 border border-purple-200 text-purple-700'
+        }`}>
           <MessageSquare className="w-4 h-4" />
           <span>Get In Touch</span>
         </div>
-        <h1 className="text-5xl font-bold text-white mb-4">
-          Let's <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Connect</span>
+        <h1 className={`text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+          Let's <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">Connect</span>
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className={`text-lg ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
           Have a project in mind? Let's create something amazing together.
         </p>
       </div>
       
-      <Card className="bg-slate-900/50 backdrop-blur-sm border border-purple-500/10 shadow-2xl overflow-hidden relative">
+      <Card className={`backdrop-blur-sm border shadow-2xl overflow-hidden relative ${
+        darkMode 
+          ? 'bg-slate-900/50 border-purple-500/10' 
+          : 'bg-white/80 border-purple-100'
+      }`}>
         {/* Top Gradient Line */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500"></div>
         
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-xl text-white">Send a Message</CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardTitle className={`text-xl ${darkMode ? 'text-white' : 'text-slate-800'}`}>Send a Message</CardTitle>
+              <CardDescription className={darkMode ? 'text-slate-400' : 'text-slate-600'}>
                 I'll get back to you as soon as possible.
               </CardDescription>
             </div>
@@ -56,18 +69,22 @@ export default function Contact({
           <form onSubmit={handleContactSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-slate-300">Name</Label>
+                <Label htmlFor="name" className={darkMode ? 'text-slate-300' : 'text-slate-700'}>Name</Label>
                 <Input 
                   id="name" 
                   value={contactForm.name} 
                   onChange={(e) => setContactForm({...contactForm, name: e.target.value})} 
                   placeholder="Your name" 
                   required 
-                  className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500 focus:ring-purple-500/20"
+                  className={`${
+                    darkMode 
+                      ? 'bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500' 
+                      : 'bg-white border-purple-200 focus:border-purple-400 text-slate-800 placeholder:text-slate-400'
+                  } focus:ring-purple-500/20`}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-300">Email</Label>
+                <Label htmlFor="email" className={darkMode ? 'text-slate-300' : 'text-slate-700'}>Email</Label>
                 <Input 
                   id="email" 
                   type="email" 
@@ -75,23 +92,31 @@ export default function Contact({
                   onChange={(e) => setContactForm({...contactForm, email: e.target.value})} 
                   placeholder="your@email.com" 
                   required 
-                  className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500 focus:ring-purple-500/20"
+                  className={`${
+                    darkMode 
+                      ? 'bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500' 
+                      : 'bg-white border-purple-200 focus:border-purple-400 text-slate-800 placeholder:text-slate-400'
+                  } focus:ring-purple-500/20`}
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="subject" className="text-slate-300">Subject</Label>
+              <Label htmlFor="subject" className={darkMode ? 'text-slate-300' : 'text-slate-700'}>Subject</Label>
               <Input 
                 id="subject" 
                 value={contactForm.subject} 
                 onChange={(e) => setContactForm({...contactForm, subject: e.target.value})} 
                 placeholder="What's this about?" 
                 required 
-                className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500 focus:ring-purple-500/20"
+                className={`${
+                  darkMode 
+                    ? 'bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500' 
+                    : 'bg-white border-purple-200 focus:border-purple-400 text-slate-800 placeholder:text-slate-400'
+                } focus:ring-purple-500/20`}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-slate-300">Message</Label>
+              <Label htmlFor="message" className={darkMode ? 'text-slate-300' : 'text-slate-700'}>Message</Label>
               <Textarea 
                 id="message" 
                 value={contactForm.message} 
@@ -99,7 +124,11 @@ export default function Contact({
                 placeholder="Tell me about your project..." 
                 rows={5} 
                 required 
-                className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500 focus:ring-purple-500/20 resize-none"
+                className={`resize-none ${
+                  darkMode 
+                    ? 'bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500' 
+                    : 'bg-white border-purple-200 focus:border-purple-400 text-slate-800 placeholder:text-slate-400'
+                } focus:ring-purple-500/20`}
               />
             </div>
             <Button 
@@ -116,9 +145,9 @@ export default function Contact({
 
       {/* Additional Contact Info */}
       <div className="mt-12 text-center">
-        <p className="text-slate-500 text-sm">
+        <p className={`text-sm ${darkMode ? 'text-slate-500' : 'text-slate-500'}`}>
           Or reach out directly at{' '}
-          <a href="mailto:hello@portfolio.dev" className="text-purple-400 hover:text-purple-300 transition-colors">
+          <a href="mailto:hello@portfolio.dev" className="text-purple-500 hover:text-purple-400 transition-colors">
             hello@portfolio.dev
           </a>
         </p>
