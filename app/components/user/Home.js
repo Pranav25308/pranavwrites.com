@@ -40,21 +40,9 @@ export default function Home({
           <Binary className={`absolute bottom-32 left-32 w-7 h-7 animate-bounce ${darkMode ? 'text-pink-500/20' : 'text-pink-500/30'}`} style={{ animationDelay: '1s', animationDuration: '3.5s' }} />
           <Sparkles className={`absolute bottom-20 right-20 w-8 h-8 animate-bounce ${darkMode ? 'text-purple-500/20' : 'text-purple-500/30'}`} style={{ animationDelay: '1.5s', animationDuration: '2s' }} />
         </div>
-        
-        {/* AI Badge */}
-        <div className="mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
-            darkMode 
-              ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
-              : 'bg-purple-100 border border-purple-200 text-purple-700'
-          }`}>
-            <Sparkles className="w-4 h-4" />
-            <span>AI-Powered Developer</span>
-          </div>
-        </div>
 
         {/* Greeting */}
-        <div className="mb-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 delay-100">
+        <div className="mb-6 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
           <div className="inline-block">
             <h1 className="text-7xl font-bold flex items-center justify-center gap-4">
               <span className="text-6xl animate-bounce">🙏</span>
