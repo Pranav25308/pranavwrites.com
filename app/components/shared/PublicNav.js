@@ -11,7 +11,11 @@ export default function PublicNav({
   toggleDarkMode 
 }) {
   return (
-    <nav className="border-b border-purple-500/20 bg-slate-950/95 backdrop-blur-xl sticky top-0 z-50 shadow-lg shadow-purple-500/5">
+    <nav className={`border-b sticky top-0 z-50 shadow-lg transition-all duration-300 ${
+      darkMode 
+        ? 'border-purple-500/20 bg-slate-950/95 backdrop-blur-xl shadow-purple-500/5' 
+        : 'border-purple-200/50 bg-white/95 backdrop-blur-xl shadow-purple-500/10'
+    }`}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -19,10 +23,12 @@ export default function PublicNav({
             className="flex items-center gap-2 cursor-pointer group" 
             onClick={() => changePage('home')}
           >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:shadow-purple-500/50 transition-all duration-300 group-hover:scale-110">
+            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg transition-all duration-300 ${
+              darkMode ? 'shadow-purple-500/25 group-hover:shadow-purple-500/50' : 'shadow-purple-500/30 group-hover:shadow-purple-500/50'
+            } group-hover:scale-110`}>
               <Cpu className="w-5 h-5 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">
               Portfolio
             </span>
           </div>
@@ -33,8 +39,12 @@ export default function PublicNav({
               onClick={() => changePage('home')} 
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 currentPage === 'home' 
-                  ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
-                  : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
+                  ? darkMode 
+                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                    : 'bg-purple-100 text-purple-700 shadow-inner shadow-purple-500/20'
+                  : darkMode 
+                    ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                    : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
               }`}
             >
               Home
@@ -45,8 +55,12 @@ export default function PublicNav({
                 onClick={() => changePage('blogs')} 
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   currentPage === 'blogs' 
-                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
-                    : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
+                    ? darkMode 
+                      ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                      : 'bg-purple-100 text-purple-700 shadow-inner shadow-purple-500/20'
+                    : darkMode 
+                      ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                      : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
                 }`}
               >
                 Blogs
@@ -56,15 +70,27 @@ export default function PublicNav({
             {/* Reviews Dropdown */}
             {(settings.navbar.movies || settings.navbar.books || settings.navbar.products) && (
               <div className="relative group">
-                <button className="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 transition-all duration-300">
+                <button className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  darkMode 
+                    ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                    : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+                }`}>
                   Reviews
                 </button>
                 <div className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 pt-2 left-1/2 -translate-x-1/2 z-50">
-                  <div className="bg-slate-900/95 backdrop-blur-xl border border-purple-500/20 rounded-xl shadow-2xl shadow-purple-500/10 p-2 space-y-1 min-w-[160px]">
+                  <div className={`backdrop-blur-xl border rounded-xl shadow-2xl p-2 space-y-1 min-w-[160px] ${
+                    darkMode 
+                      ? 'bg-slate-900/95 border-purple-500/20 shadow-purple-500/10' 
+                      : 'bg-white/95 border-purple-200 shadow-purple-500/20'
+                  }`}>
                     {settings.navbar.movies && (
                       <button 
                         onClick={() => changePage('movies')} 
-                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
+                        className={`flex items-center w-full text-left px-4 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                          darkMode 
+                            ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                            : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+                        }`}
                       >
                         <Film className="w-4 h-4 mr-3 text-purple-500" />Movies
                       </button>
@@ -72,7 +98,11 @@ export default function PublicNav({
                     {settings.navbar.books && (
                       <button 
                         onClick={() => changePage('books')} 
-                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
+                        className={`flex items-center w-full text-left px-4 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                          darkMode 
+                            ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                            : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+                        }`}
                       >
                         <Book className="w-4 h-4 mr-3 text-cyan-500" />Books
                       </button>
@@ -80,7 +110,11 @@ export default function PublicNav({
                     {settings.navbar.products && (
                       <button 
                         onClick={() => changePage('products')} 
-                        className="flex items-center w-full text-left px-4 py-2.5 text-sm text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-200"
+                        className={`flex items-center w-full text-left px-4 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                          darkMode 
+                            ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                            : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+                        }`}
                       >
                         <Package className="w-4 h-4 mr-3 text-pink-500" />Products
                       </button>
@@ -95,8 +129,12 @@ export default function PublicNav({
                 onClick={() => changePage('about')} 
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   currentPage === 'about' 
-                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
-                    : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
+                    ? darkMode 
+                      ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                      : 'bg-purple-100 text-purple-700 shadow-inner shadow-purple-500/20'
+                    : darkMode 
+                      ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                      : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
                 }`}
               >
                 About
@@ -107,8 +145,12 @@ export default function PublicNav({
               onClick={() => changePage('contact')} 
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 currentPage === 'contact' 
-                  ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
-                  : 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
+                  ? darkMode 
+                    ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
+                    : 'bg-purple-100 text-purple-700 shadow-inner shadow-purple-500/20'
+                  : darkMode 
+                    ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                    : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
               }`}
             >
               Contact
@@ -120,7 +162,11 @@ export default function PublicNav({
             onClick={toggleDarkMode} 
             variant="ghost" 
             size="icon"
-            className="text-slate-400 hover:text-purple-400 hover:bg-purple-600/10 rounded-lg transition-all duration-300"
+            className={`rounded-lg transition-all duration-300 ${
+              darkMode 
+                ? 'text-slate-400 hover:text-yellow-400 hover:bg-yellow-500/10' 
+                : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+            }`}
           >
             {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </Button>
