@@ -206,6 +206,7 @@ export default function App() {
             typedText={typedText}
             filteredReviews={filteredReviews}
             changePage={changePage}
+            darkMode={darkMode}
           />
         )}
 
@@ -214,6 +215,7 @@ export default function App() {
           <Reviews 
             currentPage={currentPage}
             filteredReviews={filteredReviews}
+            darkMode={darkMode}
           />
         )}
 
@@ -224,6 +226,7 @@ export default function App() {
             skills={skills}
             workExperience={workExperience}
             domains={domains}
+            darkMode={darkMode}
           />
         )}
 
@@ -233,6 +236,7 @@ export default function App() {
             contactForm={contactForm}
             setContactForm={setContactForm}
             handleContactSubmit={handleContactSubmit}
+            darkMode={darkMode}
           />
         )}
 
