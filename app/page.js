@@ -288,6 +288,7 @@ export default function App() {
       <Footer 
         changePage={changePage}
         setShowAdminLogin={setShowAdminLogin}
+        darkMode={darkMode}
       />
 
       {/* Admin Login Dialog */}
