@@ -7,7 +7,8 @@ import { Brain, Mail, ChevronRight, Sparkles, Zap, Binary } from 'lucide-react';
 export default function Home({ 
   typedText, 
   filteredReviews, 
-  changePage 
+  changePage,
+  darkMode 
 }) {
   return (
     <div className="min-h-screen">
@@ -16,23 +17,37 @@ export default function Home({
         {/* Animated Background Elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {/* Gradient Orbs */}
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+          <div className={`absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl animate-pulse ${
+            darkMode ? 'bg-purple-600/20' : 'bg-purple-400/20'
+          }`}></div>
+          <div className={`absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl animate-pulse delay-1000 ${
+            darkMode ? 'bg-cyan-600/20' : 'bg-cyan-400/20'
+          }`}></div>
+          <div className={`absolute top-1/2 left-1/2 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500 ${
+            darkMode ? 'bg-pink-600/10' : 'bg-pink-400/15'
+          }`}></div>
           
           {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+          <div className={`absolute inset-0 ${
+            darkMode 
+              ? 'bg-[linear-gradient(rgba(139,92,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.03)_1px,transparent_1px)]' 
+              : 'bg-[linear-gradient(rgba(139,92,246,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.07)_1px,transparent_1px)]'
+          } bg-[size:60px_60px]`}></div>
           
           {/* Floating Icons */}
-          <Brain className="absolute top-20 left-20 w-8 h-8 text-purple-500/20 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }} />
-          <Zap className="absolute top-32 right-32 w-6 h-6 text-cyan-500/20 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '2.5s' }} />
-          <Binary className="absolute bottom-32 left-32 w-7 h-7 text-pink-500/20 animate-bounce" style={{ animationDelay: '1s', animationDuration: '3.5s' }} />
-          <Sparkles className="absolute bottom-20 right-20 w-8 h-8 text-purple-500/20 animate-bounce" style={{ animationDelay: '1.5s', animationDuration: '2s' }} />
+          <Brain className={`absolute top-20 left-20 w-8 h-8 animate-bounce ${darkMode ? 'text-purple-500/20' : 'text-purple-500/30'}`} style={{ animationDelay: '0s', animationDuration: '3s' }} />
+          <Zap className={`absolute top-32 right-32 w-6 h-6 animate-bounce ${darkMode ? 'text-cyan-500/20' : 'text-cyan-500/30'}`} style={{ animationDelay: '0.5s', animationDuration: '2.5s' }} />
+          <Binary className={`absolute bottom-32 left-32 w-7 h-7 animate-bounce ${darkMode ? 'text-pink-500/20' : 'text-pink-500/30'}`} style={{ animationDelay: '1s', animationDuration: '3.5s' }} />
+          <Sparkles className={`absolute bottom-20 right-20 w-8 h-8 animate-bounce ${darkMode ? 'text-purple-500/20' : 'text-purple-500/30'}`} style={{ animationDelay: '1.5s', animationDuration: '2s' }} />
         </div>
         
         {/* AI Badge */}
         <div className="mb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-700">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm">
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+            darkMode 
+              ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
+              : 'bg-purple-100 border border-purple-200 text-purple-700'
+          }`}>
             <Sparkles className="w-4 h-4" />
             <span>AI-Powered Developer</span>
           </div>
@@ -43,7 +58,7 @@ export default function Home({
           <div className="inline-block">
             <h1 className="text-7xl font-bold flex items-center justify-center gap-4">
               <span className="text-6xl animate-bounce">🙏</span>
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-600 via-pink-500 to-cyan-500 bg-clip-text text-transparent">
                 Namaskar
               </span>
             </h1>
@@ -51,15 +66,21 @@ export default function Home({
         </div>
 
         {/* Welcome Text */}
-        <p className="text-2xl font-medium text-slate-300 mb-4 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000">
-          Welcome to my <span className="text-purple-400">Digital Universe</span>
+        <p className={`text-2xl font-medium mb-4 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000 ${
+          darkMode ? 'text-slate-300' : 'text-slate-600'
+        }`}>
+          Welcome to my <span className="text-purple-500">Digital Universe</span>
         </p>
 
         {/* Typing Animation */}
         <div className="h-14 mb-10 flex items-center justify-center animate-in fade-in-0 slide-in-from-bottom-12 duration-1000">
-          <div className="px-6 py-3 rounded-xl bg-slate-800/50 border border-purple-500/20 backdrop-blur-sm">
-            <p className="text-xl text-slate-300">
-              I'm a <span className="font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">{typedText}</span>
+          <div className={`px-6 py-3 rounded-xl backdrop-blur-sm ${
+            darkMode 
+              ? 'bg-slate-800/50 border border-purple-500/20' 
+              : 'bg-white/70 border border-purple-200 shadow-lg'
+          }`}>
+            <p className={`text-xl ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+              I'm a <span className="font-bold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">{typedText}</span>
               <span className="inline-block w-0.5 h-6 bg-purple-500 ml-1 animate-pulse"></span>
             </p>
           </div>
@@ -78,7 +99,11 @@ export default function Home({
           <Button
             onClick={() => changePage('about')}
             variant="outline"
-            className="border-purple-500/30 text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 px-8"
+            className={`transition-all duration-300 hover:scale-105 px-8 ${
+              darkMode 
+                ? 'border-purple-500/30 text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/50' 
+                : 'border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-400'
+            }`}
             size="lg"
           >
             Learn More
@@ -91,17 +116,21 @@ export default function Home({
         {/* Section Header */}
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-white">
-              Recent <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Reviews</span>
+            <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+              Recent <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">Reviews</span>
             </h2>
           </div>
           <Button 
             onClick={() => changePage('blogs')} 
             variant="ghost"
-            className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 transition-all duration-300"
+            className={`transition-all duration-300 ${
+              darkMode 
+                ? 'text-purple-400 hover:text-purple-300 hover:bg-purple-500/10' 
+                : 'text-purple-600 hover:text-purple-700 hover:bg-purple-50'
+            }`}
           >
             View All <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
@@ -112,40 +141,62 @@ export default function Home({
           {filteredReviews.map((review, index) => (
             <Card 
               key={review.id} 
-              className="group bg-slate-900/50 backdrop-blur-sm border border-purple-500/10 hover:border-purple-500/30 shadow-lg hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4"
+              className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4 ${
+                darkMode 
+                  ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10' 
+                  : 'bg-white/80 border-purple-100 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/20'
+              }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Image */}
-              <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden relative">
+              <div className={`aspect-video overflow-hidden relative ${
+                darkMode ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-purple-50 to-cyan-50'
+              }`}>
                 {review.image ? (
                   <img 
                     src={review.image} 
                     alt={review.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" 
+                    className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
+                      darkMode ? 'opacity-80 group-hover:opacity-100' : 'opacity-90 group-hover:opacity-100'
+                    }`} 
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <Brain className="w-16 h-16 text-purple-500/30" />
+                    <Brain className={`w-16 h-16 ${darkMode ? 'text-purple-500/30' : 'text-purple-300'}`} />
                   </div>
                 )}
                 {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                <div className={`absolute inset-0 ${
+                  darkMode 
+                    ? 'bg-gradient-to-t from-slate-900 via-transparent to-transparent' 
+                    : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'
+                }`}></div>
                 
                 {/* Type Badge */}
                 <div className="absolute top-3 right-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/30 backdrop-blur-sm uppercase tracking-wider">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm uppercase tracking-wider ${
+                    darkMode 
+                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' 
+                      : 'bg-purple-100 text-purple-700 border border-purple-200'
+                  }`}>
                     {review.type}
                   </span>
                 </div>
               </div>
 
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-white group-hover:text-purple-400 transition-colors duration-300">
+                <CardTitle className={`text-lg transition-colors duration-300 ${
+                  darkMode 
+                    ? 'text-white group-hover:text-purple-400' 
+                    : 'text-slate-800 group-hover:text-purple-600'
+                }`}>
                   {review.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-400 text-sm line-clamp-2">{review.description}</p>
+                <p className={`text-sm line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                  {review.description}
+                </p>
               </CardContent>
             </Card>
           ))}
