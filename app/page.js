@@ -170,7 +170,11 @@ export default function App() {
 
   // ==================== RENDER ====================
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      darkMode 
+        ? 'bg-slate-950 text-white' 
+        : 'bg-gradient-to-br from-slate-50 via-purple-50/30 to-cyan-50/30 text-slate-900'
+    }`}>
       
       {/* Navigation */}
       {isAdmin ? (
