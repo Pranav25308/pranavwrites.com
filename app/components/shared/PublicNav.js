@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Film, Book, Package, Moon, Sun, Cpu } from 'lucide-react';
+import { Film, Book, Package, Moon, Sun } from 'lucide-react';
 
 export default function PublicNav({ 
   currentPage, 
@@ -18,18 +18,13 @@ export default function PublicNav({
     }`}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Name Only */}
           <div 
-            className="flex items-center gap-2 cursor-pointer group" 
+            className="cursor-pointer group" 
             onClick={() => changePage('home')}
           >
-            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center shadow-lg transition-all duration-300 ${
-              darkMode ? 'shadow-purple-500/25 group-hover:shadow-purple-500/50' : 'shadow-purple-500/30 group-hover:shadow-purple-500/50'
-            } group-hover:scale-110`}>
-              <Cpu className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">
-              Portfolio
+            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent group-hover:from-purple-500 group-hover:to-cyan-400 transition-all duration-300">
+              Pranav
             </span>
           </div>
 
@@ -50,25 +45,8 @@ export default function PublicNav({
               Home
             </button>
 
-            {settings.navbar.blogs && (
-              <button 
-                onClick={() => changePage('blogs')} 
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  currentPage === 'blogs' 
-                    ? darkMode 
-                      ? 'bg-purple-600/20 text-purple-400 shadow-inner shadow-purple-500/20' 
-                      : 'bg-purple-100 text-purple-700 shadow-inner shadow-purple-500/20'
-                    : darkMode 
-                      ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
-                      : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
-                }`}
-              >
-                Blogs
-              </button>
-            )}
-
             {/* Reviews Dropdown */}
-            {(settings.navbar.movies || settings.navbar.books || settings.navbar.products) && (
+            {(settings.navbar.movies || settings.navbar.books || settings.navbar.products || settings.navbar.blogs) && (
               <div className="relative group">
                 <button className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   darkMode 
@@ -83,6 +61,18 @@ export default function PublicNav({
                       ? 'bg-slate-900/95 border-purple-500/20 shadow-purple-500/10' 
                       : 'bg-white/95 border-purple-200 shadow-purple-500/20'
                   }`}>
+                    {settings.navbar.blogs && (
+                      <button 
+                        onClick={() => changePage('blogs')} 
+                        className={`flex items-center w-full text-left px-4 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                          darkMode 
+                            ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10' 
+                            : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+                        }`}
+                      >
+                        Blogs
+                      </button>
+                    )}
                     {settings.navbar.movies && (
                       <button 
                         onClick={() => changePage('movies')} 
