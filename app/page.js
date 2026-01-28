@@ -284,27 +284,28 @@ export default function App() {
 
       {/* Admin Login Dialog */}
       <Dialog open={showAdminLogin} onOpenChange={setShowAdminLogin}>
-        <DialogContent className="bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-slate-700">
+        <DialogContent className="bg-slate-900/95 backdrop-blur-xl border border-purple-500/20 shadow-2xl shadow-purple-500/10">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500"></div>
           <DialogHeader>
-            <DialogTitle className="text-2xl text-slate-800 dark:text-slate-100">Admin Login</DialogTitle>
-            <DialogDescription className="text-slate-600 dark:text-slate-400">
+            <DialogTitle className="text-2xl text-white">Admin Access</DialogTitle>
+            <DialogDescription className="text-slate-400">
               Enter your credentials to access the admin panel.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-slate-700 dark:text-slate-300">Username</Label>
+              <Label htmlFor="username" className="text-slate-300">Username</Label>
               <Input 
                 id="username" 
                 value={loginForm.username} 
                 onChange={(e) => setLoginForm({...loginForm, username: e.target.value})} 
                 placeholder="admin" 
                 required 
-                className="border-blue-200 dark:border-slate-600 focus:border-blue-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+                className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">Password</Label>
+              <Label htmlFor="password" className="text-slate-300">Password</Label>
               <Input 
                 id="password" 
                 type="password" 
@@ -312,12 +313,12 @@ export default function App() {
                 onChange={(e) => setLoginForm({...loginForm, password: e.target.value})} 
                 placeholder="••••••••" 
                 required 
-                className="border-blue-200 dark:border-slate-600 focus:border-blue-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+                className="bg-slate-800/50 border-purple-500/20 focus:border-purple-500/50 text-white placeholder:text-slate-500"
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-full bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300"
             >
               <LogIn className="w-4 h-4 mr-2" />
               Login
