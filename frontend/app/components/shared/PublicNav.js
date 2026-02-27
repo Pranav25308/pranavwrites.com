@@ -29,6 +29,8 @@ export default function PublicNav() {
       } else {
         document.documentElement.classList.remove('dark');
       }
+      // Dispatch custom event so other components can update
+      window.dispatchEvent(new Event('darkModeChange'));
     }
   };
 
