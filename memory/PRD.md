@@ -105,3 +105,11 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 2. Connect MongoDB services for persistent data
 3. Add content management for blogs/reviews
 4. Implement proper authentication system
+
+### Jan 27, 2026 - Admin Panel Fix
+- Fixed admin navbar not showing after login
+- Created NavigationWrapper component to conditionally show user/admin navigation
+- Admin routes (`/admin/*`) now show only admin navbar
+- User routes show public navbar and footer
+- Login now properly reloads page to update layout state
+- Admin dashboard shows quick overview with stats cards
