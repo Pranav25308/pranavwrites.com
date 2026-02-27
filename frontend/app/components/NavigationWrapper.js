@@ -1,8 +1,8 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import PublicNav from "./components/shared/PublicNav";
-import Footer from "./components/shared/Footer";
+import PublicNav from "@/app/components/shared/PublicNav";
+import Footer from "@/app/components/shared/Footer";
 
 export default function NavigationWrapper({ children }) {
   const pathname = usePathname();
