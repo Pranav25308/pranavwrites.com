@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Mail, ChevronRight, Sparkles, Zap, Binary } from 'lucide-react';
@@ -10,6 +11,7 @@ export default function Home({
   changePage,
   darkMode 
 }) {
+  const router = useRouter();
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -77,7 +79,10 @@ export default function Home({
         {/* CTA Buttons */}
         <div className="flex items-center justify-center gap-4 animate-in fade-in-0 zoom-in-95 duration-1000 delay-200">
           <Button
-            onClick={() => changePage('contact')}
+            onClick={() => {
+              changePage?.('contact');
+              router.push('/contact');
+            }}
             className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 hover:scale-105 px-8"
             size="lg"
           >
@@ -112,7 +117,10 @@ export default function Home({
             </h2>
           </div>
           <Button 
-            onClick={() => changePage('blogs')} 
+            onClick={() => {
+              changePage?.('blogs');
+              router.push('/blogs');
+            }} 
             variant="ghost"
             className={`transition-all duration-300 ${
               darkMode 

@@ -1,8 +1,11 @@
 'use client';
 
 import { Github, Linkedin, Twitter, Cpu, Mail, MapPin } from 'lucide-react';
+import { useRouter } from "next/navigation";
+
 
 export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
+  const router = useRouter();
   return (
     <footer className={`border-t mt-16 transition-colors duration-300 ${
       darkMode 
@@ -141,7 +144,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
             and lots of coffee.
           </p>
           <button 
-            onClick={() => setShowAdminLogin(true)} 
+            onClick={() => router.push("/admin/login")}
             className={`text-sm transition-colors mt-4 md:mt-0 ${
               darkMode 
                 ? 'text-slate-600 hover:text-purple-400' 

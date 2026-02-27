@@ -23,13 +23,31 @@ export default function Reviews({
   filteredReviews,
   darkMode 
 }) {
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/93dacc2c-0e60-40d5-9ec1-7ba2dfaec91a', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: `log_${Date.now()}_reviews`,
+      runId: 'initial',
+      hypothesisId: 'H4',
+      location: 'app/components/user/Reviews.js:21',
+      message: 'Reviews render',
+      data: {
+        currentPage,
+        count: filteredReviews?.length ?? 0
+      },
+      timestamp: Date.now()
+    })
+  }).catch(() => {});
+  // #endregion
   const pageTitle = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
   const reviewType = currentPage.slice(0, -1); // blogs -> blog
   const IconComponent = typeIcons[reviewType] || Brain;
   const colorGradient = typeColors[reviewType] || 'from-purple-600 to-cyan-500';
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative max-w-6xl mx-auto px-4 pt-4">
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className={`absolute top-20 left-1/4 w-96 h-96 rounded-full blur-3xl ${
@@ -42,13 +60,6 @@ export default function Reviews({
 
       {/* Page Header */}
       <div className="text-center mb-16 relative">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${colorGradient} text-white text-sm mb-6`}>
-          <IconComponent className="w-4 h-4" />
-          <span>{pageTitle}</span>
-        </div>
-        <h1 className={`text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-          My <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">{pageTitle}</span>
-        </h1>
         <p className={`text-lg max-w-2xl mx-auto ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
           {currentPage === 'blogs' && 'Thoughts, tutorials, and insights on software development'}
           {currentPage === 'movies' && 'Reviews of films that inspired and entertained me'}
@@ -58,7 +69,7 @@ export default function Reviews({
       </div>
       
       {/* Reviews Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
         {filteredReviews.map((review, index) => {
           const ReviewIcon = typeIcons[review.type] || Brain;
           const reviewColor = typeColors[review.type] || 'from-purple-600 to-cyan-500';
@@ -106,7 +117,7 @@ export default function Reviews({
               </div>
 
               <CardHeader className="pb-2">
-                <CardTitle className={`text-lg line-clamp-2 transition-colors duration-300 ${
+                <CardTitle className={`text-lg transition-colors duration-300 ${
                   darkMode 
                     ? 'text-white group-hover:text-purple-400' 
                     : 'text-slate-800 group-hover:text-purple-600'
@@ -115,7 +126,7 @@ export default function Reviews({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className={`text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                <p className={`text-sm line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                   {review.description}
                 </p>
               </CardContent>

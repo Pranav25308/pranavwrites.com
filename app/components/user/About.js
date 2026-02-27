@@ -63,11 +63,17 @@ export default function About({
             </div>
           </div>
           <div className="space-y-4">
-            {aboutContent.split('\n\n').map((paragraph, index) => (
+            {/* {aboutContent.split('\n\n').map((paragraph, index) => (
               <p key={index} className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                 {paragraph}
               </p>
+            ))} */}
+            {(aboutContent ?? "").split("\n\n").map((paragraph, index) => (
+              <p key={index} className={`leading-relaxed ${darkMode ? "text-slate-300" : "text-slate-600"}`}>
+                {paragraph}
+              </p>
             ))}
+
           </div>
         </CardContent>
       </Card>
@@ -84,7 +90,8 @@ export default function About({
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {skills.map((skill, index) => {
+          {/* {skills.map((skill, index) => { */}
+          {(skills ?? []).map((skill, index) => {
             const IconComponent = iconMap[skill.icon] || Code;
             return (
               <Card 
@@ -127,7 +134,7 @@ export default function About({
         </div>
 
         <div className="space-y-6">
-          {workExperience.map((job, index) => (
+          {(workExperience ?? []).map((job, index) => (
             <Card 
               key={index} 
               className={`group backdrop-blur-sm border shadow-lg transition-all duration-300 overflow-hidden ${
@@ -180,7 +187,7 @@ export default function About({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {domains.map((domain, index) => {
+          {(domains ?? []).map((domain, index) => {
             const IconComponent = iconMap[domain.icon] || Activity;
             return (
               <Card 

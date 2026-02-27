@@ -7,23 +7,16 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { LogIn } from 'lucide-react';
 
-// Import Data
-import { 
-  DUMMY_ROLES, 
-  DUMMY_REVIEWS, 
-  DUMMY_CONTACTS, 
-  DUMMY_ANALYTICS, 
-  DUMMY_ABOUT, 
-  DUMMY_SETTINGS,
-  SKILLS,
-  WORK_EXPERIENCE,
-  DOMAINS
-} from './data/dummyData';
+// Import Data - page-wise modules
+import { DUMMY_ROLES, DUMMY_CONTACTS, DUMMY_ANALYTICS } from '@/app/admin/data';
+import { DUMMY_REVIEWS } from '@/app/reviews/data';
+import { DUMMY_ABOUT, SKILLS, WORK_EXPERIENCE, DOMAINS } from '@/app/about/data';
+import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
 
 // Import Components - Shared
-import PublicNav from './components/shared/PublicNav';
+// import PublicNav from './components/shared/PublicNav';
 import AdminNav from './components/shared/AdminNav';
-import Footer from './components/shared/Footer';
+// import Footer from './components/shared/Footer';
 
 // Import Components - User Side
 import Home from './components/user/Home';
@@ -168,6 +161,27 @@ export default function App() {
     setDarkMode(!darkMode);
   };
 
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/93dacc2c-0e60-40d5-9ec1-7ba2dfaec91a', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: `log_${Date.now()}_appPage`,
+      runId: 'initial',
+      hypothesisId: 'H3',
+      location: 'app/page.js:171',
+      message: 'App page state snapshot before render',
+      data: {
+        isAdmin,
+        currentPage,
+        hasNavbarSettings: !!settings?.navbar,
+        navbar: settings?.navbar ?? null
+      },
+      timestamp: Date.now()
+    })
+  }).catch(() => {});
+  // #endregion
+
   // ==================== RENDER ====================
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
@@ -177,7 +191,7 @@ export default function App() {
     }`}>
       
       {/* Navigation */}
-      {isAdmin ? (
+      {/* {isAdmin ? (
         <AdminNav 
           currentPage={currentPage}
           changePage={changePage}
@@ -192,6 +206,15 @@ export default function App() {
           settings={settings}
           darkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
+        />
+      )} */}
+      {isAdmin && (
+        <AdminNav
+          currentPage={currentPage}
+          changePage={changePage}
+          darkMode={darkMode}
+          toggleDarkMode={toggleDarkMode}
+          handleLogout={handleLogout}
         />
       )}
 
@@ -285,11 +308,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer 
+      {/* <Footer 
         changePage={changePage}
         setShowAdminLogin={setShowAdminLogin}
         darkMode={darkMode}
-      />
+      /> */}
 
       {/* Admin Login Dialog */}
       <Dialog open={showAdminLogin} onOpenChange={setShowAdminLogin}>
