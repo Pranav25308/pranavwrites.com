@@ -1,17 +1,27 @@
 'use client';
 
 import { Github, Linkedin, Twitter, Cpu, Mail, MapPin } from 'lucide-react';
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useState, useEffect } from 'react';
 
+export default function Footer() {
+  const [darkMode, setDarkMode] = useState(false);
 
-export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
-  const router = useRouter();
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setDarkMode(localStorage.getItem('darkMode') === 'true');
+    }
+  }, []);
+
   return (
-    <footer className={`border-t mt-16 transition-colors duration-300 ${
-      darkMode 
-        ? 'border-purple-500/20 bg-slate-950' 
-        : 'border-purple-200 bg-white'
-    }`}>
+    <footer 
+      data-testid="footer"
+      className={`border-t mt-16 transition-colors duration-300 ${
+        darkMode 
+          ? 'border-purple-500/20 bg-slate-950' 
+          : 'border-purple-200 bg-white'
+      }`}
+    >
       {/* Gradient Line */}
       <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
       
@@ -24,7 +34,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
                 <Cpu className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">
-                Portfolio
+                Pranav Writes
               </span>
             </div>
             <p className={`leading-relaxed mb-6 max-w-md ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -34,6 +44,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
             <div className="flex items-center gap-4">
               <a 
                 href="#" 
+                data-testid="social-github"
                 className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-300 ${
                   darkMode 
                     ? 'bg-slate-800/50 border-purple-500/20 text-slate-400 hover:text-purple-400 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20' 
@@ -44,6 +55,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
               </a>
               <a 
                 href="#" 
+                data-testid="social-linkedin"
                 className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-300 ${
                   darkMode 
                     ? 'bg-slate-800/50 border-purple-500/20 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/20' 
@@ -54,6 +66,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
               </a>
               <a 
                 href="#" 
+                data-testid="social-twitter"
                 className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-300 ${
                   darkMode 
                     ? 'bg-slate-800/50 border-purple-500/20 text-slate-400 hover:text-pink-400 hover:border-pink-500/50 hover:shadow-lg hover:shadow-pink-500/20' 
@@ -72,8 +85,9 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
               Quick Links
             </h4>
             <div className="space-y-3">
-              <button 
-                onClick={() => changePage('home')} 
+              <Link 
+                href="/" 
+                data-testid="footer-home"
                 className={`block transition-colors duration-200 ${
                   darkMode 
                     ? 'text-slate-400 hover:text-purple-400' 
@@ -81,9 +95,10 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
                 }`}
               >
                 Home
-              </button>
-              <button 
-                onClick={() => changePage('about')} 
+              </Link>
+              <Link 
+                href="/about" 
+                data-testid="footer-about"
                 className={`block transition-colors duration-200 ${
                   darkMode 
                     ? 'text-slate-400 hover:text-purple-400' 
@@ -91,9 +106,10 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
                 }`}
               >
                 About
-              </button>
-              <button 
-                onClick={() => changePage('blogs')} 
+              </Link>
+              <Link 
+                href="/blogs" 
+                data-testid="footer-blogs"
                 className={`block transition-colors duration-200 ${
                   darkMode 
                     ? 'text-slate-400 hover:text-purple-400' 
@@ -101,9 +117,10 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
                 }`}
               >
                 Blogs
-              </button>
-              <button 
-                onClick={() => changePage('contact')} 
+              </Link>
+              <Link 
+                href="/contact" 
+                data-testid="footer-contact"
                 className={`block transition-colors duration-200 ${
                   darkMode 
                     ? 'text-slate-400 hover:text-purple-400' 
@@ -111,7 +128,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
                 }`}
               >
                 Contact
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -124,7 +141,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
             <div className="space-y-4">
               <div className={`flex items-center gap-3 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                 <Mail className="w-4 h-4 text-purple-500" />
-                <span>hello@portfolio.dev</span>
+                <span>hello@pranavwrites.com</span>
               </div>
               <div className={`flex items-center gap-3 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                 <MapPin className="w-4 h-4 text-cyan-500" />
@@ -139,12 +156,13 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
           darkMode ? 'border-purple-500/10' : 'border-purple-100'
         }`}>
           <p className={`text-sm ${darkMode ? 'text-slate-500' : 'text-slate-500'}`}>
-            © 2024 Portfolio. Crafted with 
+            © 2024 Pranav Writes. Crafted with 
             <span className="text-purple-500 mx-1">♥</span> 
             and lots of coffee.
           </p>
-          <button 
-            onClick={() => router.push("/admin/login")}
+          <Link 
+            href="/admin"
+            data-testid="footer-admin"
             className={`text-sm transition-colors mt-4 md:mt-0 ${
               darkMode 
                 ? 'text-slate-600 hover:text-purple-400' 
@@ -152,7 +170,7 @@ export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
             }`}
           >
             Admin Access
-          </button>
+          </Link>
         </div>
       </div>
     </footer>
