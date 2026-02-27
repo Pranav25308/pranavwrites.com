@@ -1,7 +1,7 @@
  'use client';
 
 import { useEffect, useState } from 'react';
-import Contact from "@/components/user/Contact";
+import Contact from "@/app/components/user/Contact";
 
 export default function ContactPage() {
   const [darkMode, setDarkMode] = useState(false);

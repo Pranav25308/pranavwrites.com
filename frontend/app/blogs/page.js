@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BlogsReviews from '@/components/user/Reviews/Blogs';
+import BlogsReviews from '@/app/components/user/Reviews/Blogs';
 import { DUMMY_REVIEWS } from '@/app/reviews/data';
 
 export default function BlogsPage() {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import About from "@/components/user/About";
+import About from "@/app/components/user/About";
 import { DUMMY_ABOUT, SKILLS, WORK_EXPERIENCE, DOMAINS } from "@/app/about/data";
 
 export default function AboutPage() {

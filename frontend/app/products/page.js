@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ProductsReviews from '@/components/user/Reviews/Products';
+import ProductsReviews from '@/app/components/user/Reviews/Products';
 import { DUMMY_REVIEWS } from '@/app/reviews/data';
 
 export default function ProductsPage() {

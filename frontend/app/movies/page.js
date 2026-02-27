@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import MoviesReviews from '@/components/user/Reviews/Movies';
+import MoviesReviews from '@/app/components/user/Reviews/Movies';
 import { DUMMY_REVIEWS } from '@/app/reviews/data';
 
 export default function MoviesPage() {
