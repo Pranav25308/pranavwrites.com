@@ -23,31 +23,15 @@ export default function Reviews({
   filteredReviews,
   darkMode 
 }) {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/93dacc2c-0e60-40d5-9ec1-7ba2dfaec91a', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: `log_${Date.now()}_reviews`,
-      runId: 'initial',
-      hypothesisId: 'H4',
-      location: 'app/components/user/Reviews.js:21',
-      message: 'Reviews render',
-      data: {
-        currentPage,
-        count: filteredReviews?.length ?? 0
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
   const pageTitle = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
   const reviewType = currentPage.slice(0, -1); // blogs -> blog
   const IconComponent = typeIcons[reviewType] || Brain;
-  const colorGradient = typeColors[reviewType] || 'from-purple-600 to-cyan-500';
 
   return (
-    <div className="min-h-screen relative max-w-6xl mx-auto px-4 pt-4">
+    <div 
+      data-testid={`reviews-${currentPage}`}
+      className="min-h-screen relative max-w-6xl mx-auto px-4 pt-4"
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className={`absolute top-20 left-1/4 w-96 h-96 rounded-full blur-3xl ${
@@ -77,6 +61,7 @@ export default function Reviews({
           return (
             <Card 
               key={review.id} 
+              data-testid={`review-card-${review.id}`}
               className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4 ${
                 darkMode 
                   ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10' 
