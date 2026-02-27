@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Mail, ChevronRight, Sparkles, Zap, Binary } from 'lucide-react';
@@ -8,12 +9,12 @@ import { Brain, Mail, ChevronRight, Sparkles, Zap, Binary } from 'lucide-react';
 export default function Home({ 
   typedText, 
   filteredReviews, 
-  changePage,
   darkMode 
 }) {
   const router = useRouter();
+  
   return (
-    <div className="min-h-screen">
+    <div data-testid="home-page" className="min-h-screen">
       {/* Hero Section */}
       <div className="text-center py-24 relative overflow-hidden">
         {/* Animated Background Elements */}
@@ -79,10 +80,8 @@ export default function Home({
         {/* CTA Buttons */}
         <div className="flex items-center justify-center gap-4 animate-in fade-in-0 zoom-in-95 duration-1000 delay-200">
           <Button
-            onClick={() => {
-              changePage?.('contact');
-              router.push('/contact');
-            }}
+            onClick={() => router.push('/contact')}
+            data-testid="cta-contact"
             className="bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 hover:scale-105 px-8"
             size="lg"
           >
@@ -90,7 +89,8 @@ export default function Home({
             Get In Touch
           </Button>
           <Button
-            onClick={() => changePage('about')}
+            onClick={() => router.push('/about')}
+            data-testid="cta-about"
             variant="outline"
             className={`transition-all duration-300 hover:scale-105 px-8 ${
               darkMode 
@@ -116,20 +116,19 @@ export default function Home({
               Recent <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">Reviews</span>
             </h2>
           </div>
-          <Button 
-            onClick={() => {
-              changePage?.('blogs');
-              router.push('/blogs');
-            }} 
-            variant="ghost"
-            className={`transition-all duration-300 ${
-              darkMode 
-                ? 'text-purple-400 hover:text-purple-300 hover:bg-purple-500/10' 
-                : 'text-purple-600 hover:text-purple-700 hover:bg-purple-50'
-            }`}
-          >
-            View All <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
+          <Link href="/blogs">
+            <Button 
+              data-testid="view-all-reviews"
+              variant="ghost"
+              className={`transition-all duration-300 ${
+                darkMode 
+                  ? 'text-purple-400 hover:text-purple-300 hover:bg-purple-500/10' 
+                  : 'text-purple-600 hover:text-purple-700 hover:bg-purple-50'
+              }`}
+            >
+              View All <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </Link>
         </div>
 
         {/* Reviews Grid */}
@@ -137,6 +136,7 @@ export default function Home({
           {filteredReviews.map((review, index) => (
             <Card 
               key={review.id} 
+              data-testid={`home-review-${review.id}`}
               className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4 ${
                 darkMode 
                   ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10' 
