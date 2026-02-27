@@ -1,6 +1,5 @@
 import './globals.css'
-import PublicNav from "./components/shared/PublicNav";
-import Footer from "./components/shared/Footer";
+import NavigationWrapper from "./components/NavigationWrapper";
 
 export const metadata = {
   title: 'Pranav Writes',
@@ -11,9 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <PublicNav />
-        {children}
-        <Footer />
+        <NavigationWrapper>
+          {children}
+        </NavigationWrapper>
       </body>
     </html>
   );
