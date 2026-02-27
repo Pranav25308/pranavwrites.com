@@ -8,9 +8,39 @@ export default function Footer() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setDarkMode(localStorage.getItem('darkMode') === 'true');
-    }
+    // Initial check
+    const checkDarkMode = () => {
+      if (typeof window !== 'undefined') {
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(isDark);
+      }
+    };
+    
+    checkDarkMode();
+
+    // Listen for storage changes (when dark mode is toggled)
+    const handleStorageChange = (e) => {
+      if (e.key === 'darkMode') {
+        setDarkMode(e.newValue === 'true');
+      }
+    };
+
+    // Listen for custom dark mode change event
+    const handleDarkModeChange = () => {
+      checkDarkMode();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('darkModeChange', handleDarkModeChange);
+    
+    // Also check periodically for changes made in the same tab
+    const interval = setInterval(checkDarkMode, 100);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('darkModeChange', handleDarkModeChange);
+      clearInterval(interval);
+    };
   }, []);
 
   return (
