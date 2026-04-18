@@ -1,29 +1,18 @@
 'use client';
 
-import Link from 'next/link';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminIndexPage() {
-  const links = [
-    { href: '/admin/analytics', label: 'Analytics' },
-    { href: '/admin/users', label: 'Users' },
-    { href: '/admin/settings', label: 'Settings' }
-  ];
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/admin/visits');
+  }, [router]);
 
   return (
-    <main className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Admin Panel</h1>
-      <ul className="grid gap-4 sm:grid-cols-3">
-        {links.map((l) => (
-          <li key={l.href}>
-            <Link
-              href={l.href}
-              className="block p-6 rounded-lg border border-slate-200 hover:border-purple-500 transition-colors"
-            >
-              <span className="text-lg font-semibold">{l.label}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="min-h-[40vh] flex items-center justify-center">
+      <p className="text-slate-500 dark:text-slate-400">Redirecting...</p>
+    </div>
   );
 }
