@@ -14,23 +14,23 @@ import { DUMMY_ABOUT, SKILLS, WORK_EXPERIENCE, DOMAINS } from '@/app/about/data'
 import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
 
 // Import Components - Shared
-// import PublicNav from './components/shared/PublicNav';
-import AdminNav from './components/shared/AdminNav';
-// import Footer from './components/shared/Footer';
+// import PublicNav from '@/components/shared/PublicNav';
+import AdminNav from '@/components/shared/AdminNav';
+// import Footer from '@/components/shared/Footer';
 
 // Import Components - User Side
-import Home from './components/user/Home';
-import About from './components/user/About';
-import Contact from './components/user/Contact';
-import Reviews from './components/user/Reviews';
+import Home from '@/components/user/Home';
+import About from '@/components/user/About';
+import Contact from '@/components/user/Contact';
+import Reviews from '@/components/user/Reviews';
 
 // Import Components - Admin Side
-import Visits from './components/admin/Visits';
-import Analysis from './components/admin/Analysis';
-import Messages from './components/admin/Messages';
-import Roles from './components/admin/Roles';
-import Settings from './components/admin/Settings';
-import Manage from './components/admin/Manage';
+import Visits from '@/components/admin/Visits';
+import Analysis from '@/components/admin/Analysis';
+import Messages from '@/components/admin/Messages';
+import Roles from '@/components/admin/Roles';
+import Settings from '@/components/admin/Settings';
+import Manage from '@/components/admin/Manage';
 
 export default function App() {
   // ==================== STATE ====================
