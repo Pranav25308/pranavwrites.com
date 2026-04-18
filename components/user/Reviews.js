@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Film, Book, Package, FileText } from 'lucide-react';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 // Icon mapping based on review type
 const typeIcons = {
@@ -18,29 +19,11 @@ const typeColors = {
   product: 'from-orange-600 to-red-500'
 };
 
-export default function Reviews({ 
-  currentPage, 
+export default function Reviews({
+  currentPage,
   filteredReviews,
-  darkMode 
 }) {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/93dacc2c-0e60-40d5-9ec1-7ba2dfaec91a', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: `log_${Date.now()}_reviews`,
-      runId: 'initial',
-      hypothesisId: 'H4',
-      location: 'app/components/user/Reviews.js:21',
-      message: 'Reviews render',
-      data: {
-        currentPage,
-        count: filteredReviews?.length ?? 0
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
+  const { darkMode } = useTheme();
   const pageTitle = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
   const reviewType = currentPage.slice(0, -1); // blogs -> blog
   const IconComponent = typeIcons[reviewType] || Brain;

@@ -2,49 +2,22 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, Briefcase, Award, Code, Laptop, Database, Layers, Zap, Activity, Gamepad2, Server, Brain, Cpu, Network } from 'lucide-react';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 // Icon mapping for dynamic rendering
 const iconMap = {
   Code, Laptop, Database, Layers, Zap, Sparkles, Activity, Gamepad2, Server, Brain, Cpu, Network
 };
 
-export default function About({ 
-  aboutContent, 
-  skills, 
-  workExperience, 
+export default function About({
+  aboutContent,
+  skills,
+  workExperience,
   domains,
-  darkMode 
 }) {
+  const { darkMode } = useTheme();
   return (
-    <div className="min-h-screen max-w-6xl mx-auto relative">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl ${
-          darkMode ? 'bg-purple-600/10' : 'bg-purple-400/20'
-        }`}></div>
-        <div className={`absolute bottom-1/3 left-0 w-80 h-80 rounded-full blur-3xl ${
-          darkMode ? 'bg-cyan-600/10' : 'bg-cyan-400/20'
-        }`}></div>
-      </div>
-
-      {/* Page Header */}
-      <div className="text-center mb-16 relative">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-6 ${
-          darkMode 
-            ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
-            : 'bg-purple-100 border border-purple-200 text-purple-700'
-        }`}>
-          <Brain className="w-4 h-4" />
-          <span>About Me</span>
-        </div>
-        <h1 className={`text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-          Crafting <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">Digital Experiences</span>
-        </h1>
-        <p className={`text-lg max-w-2xl mx-auto ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-          Passionate about building innovative solutions with cutting-edge technology
-        </p>
-      </div>
-      
+    <div className="min-h-screen max-w-6xl mx-auto relative pt-8">
       {/* Bio Card */}
       <Card className={`backdrop-blur-sm border shadow-xl mb-16 overflow-hidden relative ${
         darkMode 

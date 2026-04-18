@@ -180,33 +180,13 @@ import { usePathname } from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Film, Book, Package, Moon, Sun } from 'lucide-react';
 import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 export default function PublicNav({
   settings = DUMMY_SETTINGS,
-  darkMode = false,
-  toggleDarkMode = () => {}
 }) {
   const pathname = usePathname();
-
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/93dacc2c-0e60-40d5-9ec1-7ba2dfaec91a', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: `log_${Date.now()}_publicNav`,
-      runId: 'initial',
-      hypothesisId: 'H1',
-      location: 'app/components/shared/PublicNav.js:190',
-      message: 'PublicNav render',
-      data: {
-        pathname,
-        navbar: settings?.navbar ?? null,
-        darkMode: !!darkMode
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
+  const { darkMode, toggleDarkMode } = useTheme();
 
   const isActive = (path) => pathname === path;
 

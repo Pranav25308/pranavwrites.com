@@ -6,43 +6,17 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Send, MessageSquare, Zap } from 'lucide-react';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
-export default function Contact({ 
-  contactForm, 
-  setContactForm, 
+export default function Contact({
+  contactForm,
+  setContactForm,
   handleContactSubmit,
-  darkMode 
 }) {
+  const { darkMode } = useTheme();
   return (
-    <div className="min-h-screen max-w-2xl mx-auto relative">
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className={`absolute top-20 right-0 w-72 h-72 rounded-full blur-3xl ${
-          darkMode ? 'bg-purple-600/10' : 'bg-purple-400/20'
-        }`}></div>
-        <div className={`absolute bottom-20 left-0 w-64 h-64 rounded-full blur-3xl ${
-          darkMode ? 'bg-cyan-600/10' : 'bg-cyan-400/20'
-        }`}></div>
-      </div>
+    <div className="min-h-screen max-w-2xl mx-auto relative pt-8">
 
-      {/* Page Header */}
-      <div className="text-center mb-12 relative">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-6 ${
-          darkMode 
-            ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' 
-            : 'bg-purple-100 border border-purple-200 text-purple-700'
-        }`}>
-          <MessageSquare className="w-4 h-4" />
-          <span>Get In Touch</span>
-        </div>
-        <h1 className={`text-5xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-          Let's <span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">Connect</span>
-        </h1>
-        <p className={`text-lg ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-          Have a project in mind? Let's create something amazing together.
-        </p>
-      </div>
-      
       <Card className={`backdrop-blur-sm border shadow-2xl overflow-hidden relative ${
         darkMode 
           ? 'bg-slate-900/50 border-purple-500/10' 

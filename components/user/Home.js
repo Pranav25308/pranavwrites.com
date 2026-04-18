@@ -4,14 +4,15 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Mail, ChevronRight, Sparkles, Zap, Binary } from 'lucide-react';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
-export default function Home({ 
-  typedText, 
-  filteredReviews, 
+export default function Home({
+  typedText,
+  filteredReviews,
   changePage,
-  darkMode 
 }) {
   const router = useRouter();
+  const { darkMode } = useTheme();
   return (
     <div className="min-h-screen">
       {/* Hero Section */}

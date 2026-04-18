@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import AdminNav from '@/components/shared/AdminNav';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { darkMode, toggleDarkMode } = useTheme();
   const [isAuthed, setIsAuthed] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
 
   const isLoginRoute = pathname === '/admin/login';
 
@@ -19,9 +20,6 @@ export default function AdminLayout({ children }) {
     const token = localStorage.getItem('adminToken');
     const authed = token === 'admin-token-123';
     setIsAuthed(authed);
-
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(savedDarkMode);
 
     if (!authed && !isLoginRoute) {
       router.replace('/admin/login');
@@ -33,18 +31,6 @@ export default function AdminLayout({ children }) {
     }
     setChecked(true);
   }, [pathname, isLoginRoute, router]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    localStorage.setItem('darkMode', darkMode.toString());
-  }, [darkMode]);
-
-  const toggleDarkMode = () => setDarkMode((d) => !d);
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {

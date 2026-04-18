@@ -2,10 +2,12 @@
 
 import { Github, Linkedin, Twitter, Cpu, Mail, MapPin } from 'lucide-react';
 import { useRouter } from "next/navigation";
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 
-export default function Footer({ changePage, setShowAdminLogin, darkMode }) {
+export default function Footer({ changePage, setShowAdminLogin }) {
   const router = useRouter();
+  const { darkMode } = useTheme();
   return (
     <footer className={`border-t mt-16 transition-colors duration-300 ${
       darkMode 
