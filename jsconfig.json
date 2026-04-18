@@ -11,13 +11,26 @@
 //     "exclude": ["node_modules", ".next"]
 //   }
 
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./*"],
+//       "@/components/*": ["./app/components/*"],
+//       "@/lib/*": ["./app/lib/*"],
+//       "@/app/*": ["./app/*"]
+//     }
+//   },
+//   "exclude": ["node_modules", ".next"]
+// }
+
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./app/components/*"],
-      "@/lib/*": ["./app/lib/*"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
       "@/app/*": ["./app/*"]
     }
   },
