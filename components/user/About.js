@@ -17,11 +17,11 @@ export default function About({
 }) {
   const { darkMode } = useTheme();
   return (
-    <div className="min-h-screen max-w-6xl mx-auto relative pt-8">
-      {/* Bio Card */}
+    <div className="min-h-screen max-w-6xl mx-auto relative pt-8 px-4 sm:px-6 lg:px-8">
+      {/* ===== Bio Card (Hello, World!) ===== */}
       <Card className={`backdrop-blur-sm border shadow-xl mb-16 overflow-hidden relative ${
-        darkMode 
-          ? 'bg-slate-900/50 border-purple-500/10' 
+        darkMode
+          ? 'bg-slate-900/50 border-purple-500/10'
           : 'bg-white/80 border-purple-100'
       }`}>
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500"></div>
@@ -36,22 +36,60 @@ export default function About({
             </div>
           </div>
           <div className="space-y-4">
-            {/* {aboutContent.split('\n\n').map((paragraph, index) => (
+            {(aboutContent ?? '').split('\n\n').map((paragraph, index) => (
               <p key={index} className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                 {paragraph}
               </p>
-            ))} */}
-            {(aboutContent ?? "").split("\n\n").map((paragraph, index) => (
-              <p key={index} className={`leading-relaxed ${darkMode ? "text-slate-300" : "text-slate-600"}`}>
-                {paragraph}
-              </p>
             ))}
-
           </div>
         </CardContent>
       </Card>
 
-      {/* Skills Section */}
+      {/* ===== Domain Expertise Section (moved up) ===== */}
+      <div className="mb-16">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-600 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-500/25">
+            <Award className="w-5 h-5 text-white" />
+          </div>
+          <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>
+            Domain <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">Expertise</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {(domains ?? []).map((domain) => {
+            const IconComponent = iconMap[domain.icon] || Activity;
+            return (
+              <Card
+                key={domain.name}
+                className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden ${
+                  darkMode
+                    ? 'bg-slate-900/50 border-purple-500/10 hover:border-pink-500/30 hover:shadow-pink-500/10'
+                    : 'bg-white/80 border-purple-100 hover:border-pink-300 hover:shadow-pink-500/20'
+                }`}
+              >
+                <CardContent className="pt-8 pb-8 text-center relative">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${domain.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+
+                  <div className={`w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br ${domain.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300`}>
+                    <IconComponent className="w-10 h-10 text-white" />
+                  </div>
+                  <h3 className={`text-xl font-bold mb-3 transition-colors duration-300 ${
+                    darkMode
+                      ? 'text-white group-hover:text-pink-400'
+                      : 'text-slate-800 group-hover:text-pink-600'
+                  }`}>
+                    {domain.name}
+                  </h3>
+                  <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{domain.description}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ===== Skills Section ===== */}
       <div className="mb-16">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
@@ -61,31 +99,29 @@ export default function About({
             Skills & <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Technologies</span>
           </h2>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* {skills.map((skill, index) => { */}
           {(skills ?? []).map((skill, index) => {
             const IconComponent = iconMap[skill.icon] || Code;
             return (
-              <Card 
-                key={skill.name} 
+              <Card
+                key={skill.name}
                 className={`group backdrop-blur-sm border shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden ${
-                  darkMode 
-                    ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-purple-500/10' 
+                  darkMode
+                    ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-purple-500/10'
                     : 'bg-white/80 border-purple-100 hover:border-purple-300 hover:shadow-purple-500/20'
                 }`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <CardContent className="pt-6 pb-6 text-center relative">
-                  {/* Glow Effect */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-                  
+
                   <div className={`w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
                     <IconComponent className="w-7 h-7 text-white" />
                   </div>
                   <p className={`font-semibold transition-colors duration-300 ${
-                    darkMode 
-                      ? 'text-slate-200 group-hover:text-white' 
+                    darkMode
+                      ? 'text-slate-200 group-hover:text-white'
                       : 'text-slate-700 group-hover:text-slate-900'
                   }`}>{skill.name}</p>
                 </CardContent>
@@ -95,8 +131,8 @@ export default function About({
         </div>
       </div>
 
-      {/* Work Experience Section */}
-      <div className="mb-16">
+      {/* ===== Work Experience Section ===== */}
+      <div className="mb-8">
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-600 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/25">
             <Briefcase className="w-5 h-5 text-white" />
@@ -108,28 +144,28 @@ export default function About({
 
         <div className="space-y-6">
           {(workExperience ?? []).map((job, index) => (
-            <Card 
-              key={index} 
+            <Card
+              key={index}
               className={`group backdrop-blur-sm border shadow-lg transition-all duration-300 overflow-hidden ${
-                darkMode 
-                  ? 'bg-slate-900/50 border-purple-500/10 hover:border-cyan-500/30 hover:shadow-cyan-500/10' 
+                darkMode
+                  ? 'bg-slate-900/50 border-purple-500/10 hover:border-cyan-500/30 hover:shadow-cyan-500/10'
                   : 'bg-white/80 border-purple-100 hover:border-cyan-300 hover:shadow-cyan-500/20'
               }`}
             >
               <CardContent className="pt-6 pb-6 px-6">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
                       <h3 className={`text-xl font-bold transition-colors duration-300 ${
-                        darkMode 
-                          ? 'text-white group-hover:text-cyan-400' 
+                        darkMode
+                          ? 'text-white group-hover:text-cyan-400'
                           : 'text-slate-800 group-hover:text-cyan-600'
                       }`}>
                         {job.position}
                       </h3>
                       <span className={`px-3 py-1 rounded-full text-xs ${
-                        darkMode 
-                          ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' 
+                        darkMode
+                          ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
                           : 'bg-cyan-100 text-cyan-700 border border-cyan-200'
                       }`}>
                         {job.duration}
@@ -145,51 +181,6 @@ export default function About({
               </CardContent>
             </Card>
           ))}
-        </div>
-      </div>
-
-      {/* Domain Expertise Section */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-600 to-rose-500 flex items-center justify-center shadow-lg shadow-pink-500/25">
-            <Award className="w-5 h-5 text-white" />
-          </div>
-          <h2 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>
-            Domain <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">Expertise</span>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {(domains ?? []).map((domain, index) => {
-            const IconComponent = iconMap[domain.icon] || Activity;
-            return (
-              <Card 
-                key={domain.name} 
-                className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden ${
-                  darkMode 
-                    ? 'bg-slate-900/50 border-purple-500/10 hover:border-pink-500/30 hover:shadow-pink-500/10' 
-                    : 'bg-white/80 border-purple-100 hover:border-pink-300 hover:shadow-pink-500/20'
-                }`}
-              >
-                <CardContent className="pt-8 pb-8 text-center relative">
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${domain.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-                  
-                  <div className={`w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br ${domain.gradient} flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300`}>
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className={`text-xl font-bold mb-3 transition-colors duration-300 ${
-                    darkMode 
-                      ? 'text-white group-hover:text-pink-400' 
-                      : 'text-slate-800 group-hover:text-pink-600'
-                  }`}>
-                    {domain.name}
-                  </h3>
-                  <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{domain.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
         </div>
       </div>
     </div>

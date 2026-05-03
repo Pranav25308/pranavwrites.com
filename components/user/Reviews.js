@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Film, Book, Package, FileText } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
@@ -17,6 +18,13 @@ const typeColors = {
   movie: 'from-cyan-600 to-blue-500',
   book: 'from-green-600 to-emerald-500',
   product: 'from-orange-600 to-red-500'
+};
+
+const TYPE_PATHS = {
+  blog: 'blogs',
+  movie: 'movies',
+  book: 'books',
+  product: 'products',
 };
 
 export default function Reviews({
@@ -56,64 +64,70 @@ export default function Reviews({
         {filteredReviews.map((review, index) => {
           const ReviewIcon = typeIcons[review.type] || Brain;
           const reviewColor = typeColors[review.type] || 'from-purple-600 to-cyan-500';
-          
+          const slug = TYPE_PATHS[review.type] || 'blogs';
+
           return (
-            <Card 
-              key={review.id} 
-              className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4 ${
-                darkMode 
-                  ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10' 
-                  : 'bg-white/80 border-purple-100 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/20'
-              }`}
-              style={{ animationDelay: `${index * 100}ms` }}
+            <Link
+              key={review.id}
+              href={`/${slug}/${review.id}`}
+              className="block focus:outline-none focus:ring-2 focus:ring-purple-500/50 rounded-xl"
             >
-              {/* Image */}
-              <div className={`aspect-video overflow-hidden relative ${
-                darkMode ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-purple-50 to-cyan-50'
-              }`}>
-                {review.image ? (
-                  <img 
-                    src={review.image} 
-                    alt={review.title} 
-                    className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
-                      darkMode ? 'opacity-80 group-hover:opacity-100' : 'opacity-90 group-hover:opacity-100'
-                    }`} 
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <ReviewIcon className={`w-16 h-16 ${darkMode ? 'text-purple-500/30' : 'text-purple-300'}`} />
-                  </div>
-                )}
-                {/* Overlay Gradient */}
-                <div className={`absolute inset-0 ${
-                  darkMode 
-                    ? 'bg-gradient-to-t from-slate-900 via-transparent to-transparent' 
-                    : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'
-                }`}></div>
-                
-                {/* Icon Badge */}
-                <div className="absolute top-3 left-3">
-                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${reviewColor} flex items-center justify-center shadow-lg`}>
-                    <ReviewIcon className="w-5 h-5 text-white" />
+              <Card
+                className={`group backdrop-blur-sm border shadow-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer overflow-hidden animate-in fade-in-0 slide-in-from-bottom-4 ${
+                  darkMode
+                    ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10'
+                    : 'bg-white/80 border-purple-100 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/20'
+                }`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {/* Image */}
+                <div className={`aspect-video overflow-hidden relative ${
+                  darkMode ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-purple-50 to-cyan-50'
+                }`}>
+                  {review.image ? (
+                    <img
+                      src={review.image}
+                      alt={review.title}
+                      className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
+                        darkMode ? 'opacity-80 group-hover:opacity-100' : 'opacity-90 group-hover:opacity-100'
+                      }`}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <ReviewIcon className={`w-16 h-16 ${darkMode ? 'text-purple-500/30' : 'text-purple-300'}`} />
+                    </div>
+                  )}
+                  {/* Overlay Gradient */}
+                  <div className={`absolute inset-0 ${
+                    darkMode
+                      ? 'bg-gradient-to-t from-slate-900 via-transparent to-transparent'
+                      : 'bg-gradient-to-t from-white/80 via-transparent to-transparent'
+                  }`}></div>
+
+                  {/* Icon Badge */}
+                  <div className="absolute top-3 left-3">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${reviewColor} flex items-center justify-center shadow-lg`}>
+                      <ReviewIcon className="w-5 h-5 text-white" />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <CardHeader className="pb-2">
-                <CardTitle className={`text-lg transition-colors duration-300 ${
-                  darkMode 
-                    ? 'text-white group-hover:text-purple-400' 
-                    : 'text-slate-800 group-hover:text-purple-600'
-                }`}>
-                  {review.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className={`text-sm line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {review.description}
-                </p>
-              </CardContent>
-            </Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className={`text-lg transition-colors duration-300 ${
+                    darkMode
+                      ? 'text-white group-hover:text-purple-400'
+                      : 'text-slate-800 group-hover:text-purple-600'
+                  }`}>
+                    {review.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className={`text-sm line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                    {review.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
           );
         })}
       </div>

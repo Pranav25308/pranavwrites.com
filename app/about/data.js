@@ -34,23 +34,21 @@ export const WORK_EXPERIENCE = [
 
 export const DOMAINS = [
   {
-    name: 'Streaming',
-    description: 'Real-time data processing and event-driven architectures with Kafka',
+    name: 'Streaming / OTT',
+    description: 'Building OTT and streaming experiences across platforms like Roku, with focus on playback, video pipelines, and content delivery.',
     icon: 'Activity',
     gradient: 'from-blue-600 to-cyan-600'
   },
   {
-    name: 'Game Development',
-    description: 'Creating interactive gaming experiences on Roku platform',
-    icon: 'Gamepad2',
+    name: 'Gen AI',
+    description: 'Designing intelligent applications powered by LLMs, RAG, and modern Gen AI workflows.',
+    icon: 'Brain',
     gradient: 'from-purple-600 to-pink-600'
   },
   {
-    name: 'Data Engineering',
-    description: 'Building robust data pipelines and ETL processes',
-    icon: 'Server',
+    name: 'Video Engineering',
+    description: 'Working on video pipelines, encoding, streaming protocols, and end-to-end media engineering.',
+    icon: 'Network',
     gradient: 'from-orange-600 to-red-600'
   }
 ];
-
-
