@@ -121,6 +121,16 @@ export default function Home({
         </div>
 
         {/* Reviews Grid */}
+        {(!filteredReviews || filteredReviews.length === 0) ? (
+          <div className={`text-center py-16 rounded-xl border ${
+            darkMode
+              ? 'bg-slate-900/50 border-purple-500/10 text-slate-400'
+              : 'bg-white/80 border-purple-100 text-slate-600'
+          }`}>
+            <Sparkles className={`w-12 h-12 mx-auto mb-3 ${darkMode ? 'text-purple-500/50' : 'text-purple-400'}`} />
+            <p className="text-lg font-medium">No reviews available</p>
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredReviews.map((review, index) => {
             const slug = TYPE_PATHS[review.type] || 'blogs';
@@ -192,6 +202,7 @@ export default function Home({
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );
