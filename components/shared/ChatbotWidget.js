@@ -8,11 +8,31 @@ export default function ChatbotWidget() {
   const { darkMode } = useTheme();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   // Mount flag avoids hydration mismatch for theme-dependent classes
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Hide the widget when the footer is visible, so it doesn't block
+  // links like "Admin Access" at the bottom of the page.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const footer = document.querySelector('footer');
+    if (!footer || !('IntersectionObserver' in window)) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.05;
+        setHidden(isVisible);
+        if (isVisible) setOpen(false);
+      },
+      { threshold: [0, 0.05, 0.2] }
+    );
+    io.observe(footer);
+    return () => io.disconnect();
+  }, [mounted]);
 
   // Close on ESC
   useEffect(() => {
@@ -28,8 +48,15 @@ export default function ChatbotWidget() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+      className={[
+        'fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3',
+        'transition-all duration-300 ease-out',
+        hidden
+          ? 'opacity-0 translate-y-6 pointer-events-none'
+          : 'opacity-100 translate-y-0',
+      ].join(' ')}
       data-testid="chatbot-widget"
+      aria-hidden={hidden}
     >
       {/* Chat panel */}
       <div
