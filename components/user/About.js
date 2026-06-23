@@ -3,6 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, Briefcase, Award, Code, Laptop, Database, Layers, Zap, Activity, Gamepad2, Server, Brain, Cpu, Network } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
+import { useSkills } from '@/lib/use-skills';
 
 // Icon mapping for dynamic rendering
 const iconMap = {
@@ -16,6 +17,10 @@ export default function About({
   domains,
 }) {
   const { darkMode } = useTheme();
+  // Prefer admin-managed skills (persisted in localStorage). If a parent
+  // explicitly passes a `skills` prop, it acts as the initial fallback.
+  const dynamicSkills = useSkills();
+  const skillsToRender = dynamicSkills && dynamicSkills.length > 0 ? dynamicSkills : (skills ?? []);
   return (
     <div className="min-h-screen max-w-6xl mx-auto relative pt-8 px-4 sm:px-6 lg:px-8">
       {/* ===== Bio Card (Hello, World!) ===== */}
@@ -100,12 +105,22 @@ export default function About({
           </h2>
         </div>
 
+        {(!skillsToRender || skillsToRender.length === 0) ? (
+          <div className={`text-center py-12 rounded-xl border ${
+            darkMode
+              ? 'bg-slate-900/50 border-purple-500/10 text-slate-400'
+              : 'bg-white/80 border-purple-100 text-slate-600'
+          }`}>
+            <Sparkles className={`w-10 h-10 mx-auto mb-3 ${darkMode ? 'text-purple-500/50' : 'text-purple-400'}`} />
+            <p className="text-lg font-medium">No skills available</p>
+          </div>
+        ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {(skills ?? []).map((skill, index) => {
+          {(skillsToRender ?? []).map((skill, index) => {
             const IconComponent = iconMap[skill.icon] || Code;
             return (
               <Card
-                key={skill.name}
+                key={skill.id || skill.name}
                 className={`group backdrop-blur-sm border shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden ${
                   darkMode
                     ? 'bg-slate-900/50 border-purple-500/10 hover:border-purple-500/30 hover:shadow-purple-500/10'
@@ -129,6 +144,7 @@ export default function About({
             );
           })}
         </div>
+        )}
       </div>
 
       {/* ===== Work Experience Section ===== */}

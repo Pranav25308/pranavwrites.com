@@ -1,9 +1,10 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import PublicNav from '@/components/shared/PublicNav';
 import Footer from '@/components/shared/Footer';
+import NavigationProgress from '@/components/shared/NavigationProgress';
 import { ThemeProvider, useTheme } from '@/components/theme/ThemeProvider';
 
 function InnerShell({ children, isAdminRoute }) {
@@ -14,8 +15,6 @@ function InnerShell({ children, isAdminRoute }) {
   // Scroll to top on every route change / refresh
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Disable browser's default scroll restoration so refreshing a page
-      // always starts at the top.
       if ('scrollRestoration' in window.history) {
         window.history.scrollRestoration = 'manual';
       }
@@ -62,6 +61,9 @@ export default function PublicShell({ children }) {
 
   return (
     <ThemeProvider>
+      <Suspense fallback={null}>
+        <NavigationProgress />
+      </Suspense>
       <InnerShell isAdminRoute={isAdminRoute}>{children}</InnerShell>
     </ThemeProvider>
   );

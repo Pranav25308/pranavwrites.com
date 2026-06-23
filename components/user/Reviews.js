@@ -142,7 +142,7 @@ export default function Reviews({
           }`}>
             <IconComponent className={`w-12 h-12 ${darkMode ? 'text-purple-500/50' : 'text-purple-400'}`} />
           </div>
-          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>No {pageTitle} Yet</h3>
+          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-slate-800'}`}>No {pageTitle} available</h3>
           <p className={darkMode ? 'text-slate-400' : 'text-slate-600'}>
             Check back soon for new content!
           </p>
