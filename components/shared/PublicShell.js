@@ -5,10 +5,13 @@ import { Suspense, useEffect } from 'react';
 import PublicNav from '@/components/shared/PublicNav';
 import Footer from '@/components/shared/Footer';
 import NavigationProgress from '@/components/shared/NavigationProgress';
+import ChatbotWidget from '@/components/shared/ChatbotWidget';
 import { ThemeProvider, useTheme } from '@/components/theme/ThemeProvider';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 function InnerShell({ children, isAdminRoute }) {
   const { darkMode } = useTheme();
+  const { settings } = useSiteSettings();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -40,6 +43,8 @@ function InnerShell({ children, isAdminRoute }) {
     return <>{children}</>;
   }
 
+  const chatbotEnabled = settings?.features?.chatbot !== false;
+
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
@@ -51,6 +56,7 @@ function InnerShell({ children, isAdminRoute }) {
       <PublicNav />
       {children}
       <Footer changePage={changePage} />
+      {chatbotEnabled && <ChatbotWidget />}
     </div>
   );
 }

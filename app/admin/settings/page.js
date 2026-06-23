@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import Settings from '@/components/admin/Settings';
-import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState(DUMMY_SETTINGS);
+  const { settings, setSettings } = useSiteSettings();
   return <Settings settings={settings} setSettings={setSettings} />;
 }
