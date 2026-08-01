@@ -106,6 +106,25 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 3. Add content management for blogs/reviews
 4. Implement proper authentication system
 
+### June 23, 2026 - Chatbot Widget & Env Fixes (prev session)
+- Pulled branch 1.0.1; fixed `@/components/user/Home` path alias (tsconfig) and browserslist warning
+- Added theme-aware floating ChatbotWidget (user pages only) with admin toggle (localStorage via `hooks/useSiteSettings.js`)
+- Fixed preview Bad Gateway with supervisor wrappers: `/app/frontend/package.json` (Next.js on 3000) and `/app/backend/server.py` (FastAPI proxy on 8001). DO NOT DELETE these wrappers
+- Fixed chatbot overlapping footer using IntersectionObserver
+
+### June 23, 2026 - About Page Content Update
+- Domain Expertise: removed "Gen AI", added "Streaming Media Pipeline" (ingest, transcoding, packaging, DRM, AWS Media Services)
+- Skills updated to: Roku, Python, AWS Media Services, DRM, REST API, SQL, DSA, Kafka, Debugging
+- Added Cloud/Lock/Bug icons to iconMaps (About.js, admin skills page) and ICON_OPTIONS
+- Bumped skills localStorage key `pranav_skills_v1` → `pranav_skills_v2` so new defaults apply for all visitors
+- Files: `app/about/data.js`, `app/services/aboutService.js`, `components/user/About.js`, `lib/skills-store.js`, `app/admin/manage/skills/page.js`
+- Verified via screenshots on /about
+
+### Pending Backlog (from chatbot session)
+- P1: Connect chatbot UI to real AI backend (Emergent LLM Key)
+- P2: Persist site settings (chatbot visibility) server-side in MongoDB
+- P2: Ctrl+K command palette for admin navigation
+
 ### Jan 27, 2026 - Admin Panel Fix
 - Fixed admin navbar not showing after login
 - Created NavigationWrapper component to conditionally show user/admin navigation

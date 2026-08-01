@@ -1,13 +1,13 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Sparkles, Briefcase, Award, Code, Laptop, Database, Layers, Zap, Activity, Gamepad2, Server, Brain, Cpu, Network } from 'lucide-react';
+import { Sparkles, Briefcase, Award, Code, Laptop, Database, Layers, Zap, Activity, Gamepad2, Server, Brain, Cpu, Network, Cloud, Lock, Bug } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
 import { useSkills } from '@/lib/use-skills';
 
 // Icon mapping for dynamic rendering
 const iconMap = {
-  Code, Laptop, Database, Layers, Zap, Sparkles, Activity, Gamepad2, Server, Brain, Cpu, Network
+  Code, Laptop, Database, Layers, Zap, Sparkles, Activity, Gamepad2, Server, Brain, Cpu, Network, Cloud, Lock, Bug
 };
 
 export default function About({

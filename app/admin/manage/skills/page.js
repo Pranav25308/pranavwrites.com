@@ -18,6 +18,9 @@ import {
   Brain,
   Cpu,
   Network,
+  Cloud,
+  Lock,
+  Bug,
   Plus,
   Edit,
   Trash2,
@@ -47,6 +50,9 @@ const iconMap = {
   Brain,
   Cpu,
   Network,
+  Cloud,
+  Lock,
+  Bug,
 };
 
 export default function ManageSkillsPage() {

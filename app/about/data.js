@@ -9,12 +9,13 @@ When I'm not coding, you can find me exploring new technologies, contributing to
 export const SKILLS = [
   { name: 'Roku', icon: 'Laptop', color: 'from-purple-500 to-indigo-500' },
   { name: 'Python', icon: 'Code', color: 'from-blue-600 to-yellow-500' },
-  { name: 'MySQL', icon: 'Database', color: 'from-blue-500 to-blue-700' },
-  { name: 'NLP', icon: 'Sparkles', color: 'from-green-500 to-emerald-600' },
-  { name: 'RAG', icon: 'Layers', color: 'from-orange-500 to-red-500' },
-  { name: 'MongoDB', icon: 'Database', color: 'from-green-600 to-teal-600' },
+  { name: 'AWS Media Services', icon: 'Cloud', color: 'from-orange-500 to-red-500' },
+  { name: 'DRM', icon: 'Lock', color: 'from-pink-500 to-rose-500' },
+  { name: 'REST API', icon: 'Network', color: 'from-green-600 to-teal-600' },
+  { name: 'SQL', icon: 'Database', color: 'from-blue-500 to-blue-700' },
+  { name: 'DSA', icon: 'Layers', color: 'from-cyan-500 to-blue-600' },
   { name: 'Kafka', icon: 'Zap', color: 'from-slate-700 to-slate-900' },
-  { name: 'DSA', icon: 'Code', color: 'from-cyan-500 to-blue-600' }
+  { name: 'Debugging', icon: 'Bug', color: 'from-green-500 to-emerald-600' }
 ];
 
 export const WORK_EXPERIENCE = [
@@ -40,9 +41,9 @@ export const DOMAINS = [
     gradient: 'from-blue-600 to-cyan-600'
   },
   {
-    name: 'Gen AI',
-    description: 'Designing intelligent applications powered by LLMs, RAG, and modern Gen AI workflows.',
-    icon: 'Brain',
+    name: 'Streaming Media Pipeline',
+    description: 'Designing end-to-end media pipelines — ingest, transcoding, packaging, DRM, and delivery using AWS Media Services.',
+    icon: 'Layers',
     gradient: 'from-purple-600 to-pink-600'
   },
   {
