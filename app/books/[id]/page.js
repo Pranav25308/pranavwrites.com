@@ -6,6 +6,23 @@ export function generateStaticParams() {
   return DUMMY_REVIEWS.filter((r) => r.type === 'book').map((r) => ({ id: r.id }));
 }
 
+export function generateMetadata({ params }) {
+  const review = DUMMY_REVIEWS.find((r) => r.id === params.id && r.type === 'book');
+  if (!review) return { title: 'Review Not Found' };
+  return {
+    title: `${review.title} | Pranav Writes`,
+    description: review.description,
+    alternates: { canonical: `/books/${review.id}` },
+    openGraph: {
+      title: `${review.title} | Pranav Writes`,
+      description: review.description,
+      url: `/books/${review.id}`,
+      images: review.image ? [{ url: review.image }] : undefined,
+      type: 'article',
+    },
+  };
+}
+
 export default function BookDetailPage({ params }) {
   const review = DUMMY_REVIEWS.find(
     (r) => r.id === params.id && r.type === 'book'

@@ -6,6 +6,23 @@ export function generateStaticParams() {
   return DUMMY_REVIEWS.filter((r) => r.type === 'blog').map((r) => ({ id: r.id }));
 }
 
+export function generateMetadata({ params }) {
+  const review = DUMMY_REVIEWS.find((r) => r.id === params.id && r.type === 'blog');
+  if (!review) return { title: 'Blog Not Found' };
+  return {
+    title: `${review.title} | Pranav Writes`,
+    description: review.description,
+    alternates: { canonical: `/blogs/${review.id}` },
+    openGraph: {
+      title: `${review.title} | Pranav Writes`,
+      description: review.description,
+      url: `/blogs/${review.id}`,
+      images: review.image ? [{ url: review.image }] : undefined,
+      type: 'article',
+    },
+  };
+}
+
 export default function BlogDetailPage({ params }) {
   const review = DUMMY_REVIEWS.find(
     (r) => r.id === params.id && r.type === 'blog'

@@ -120,6 +120,13 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 - Files: `app/about/data.js`, `app/services/aboutService.js`, `components/user/About.js`, `lib/skills-store.js`, `app/admin/manage/skills/page.js`
 - Verified via screenshots on /about
 
+### June 23, 2026 - SEO Metadata
+- Root layout: metadataBase (pranavwrites.com), title template, keywords, OpenGraph, Twitter card, robots
+- Per-route metadata via new layout.js: /about, /contact, /blogs, /movies, /books, /products
+- Dynamic generateMetadata on all 4 [id] detail pages (title, description, canonical, OG image/article)
+- Added app/sitemap.js (sitemap.xml) and app/robots.js (robots.txt, disallows /admin and /api)
+- Verified titles/OG tags/sitemap/robots via curl on all routes
+
 ### Pending Backlog (from chatbot session)
 - P1: Connect chatbot UI to real AI backend (Emergent LLM Key)
 - P2: Persist site settings (chatbot visibility) server-side in MongoDB
