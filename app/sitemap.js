@@ -1,6 +1,6 @@
 export default function sitemap() {
   const base = 'https://pranavwrites.com';
-  const routes = ['', '/about', '/contact', '/blogs', '/movies', '/books', '/products'];
+  const routes = ['', '/about', '/contact', '/blogs', '/movies', '/books', '/products', '/projects'];
   return routes.map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date(),

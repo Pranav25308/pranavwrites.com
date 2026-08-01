@@ -302,6 +302,22 @@ export default function PublicNav({
               </div>
             )}
 
+            <Link
+              href="/projects"
+              data-testid="nav-projects-link"
+              className={`${baseBtn} ${
+                isActive("/projects")
+                  ? darkMode
+                    ? 'bg-purple-600/20 text-purple-400 shadow-inner'
+                    : 'bg-purple-100 text-purple-700 shadow-inner'
+                  : darkMode
+                  ? 'text-slate-400 hover:text-purple-400 hover:bg-purple-600/10'
+                  : 'text-slate-600 hover:text-purple-600 hover:bg-purple-50'
+              }`}
+            >
+              Projects
+            </Link>
+
             {settings.navbar.about && (
               <Link
                 href="/about"

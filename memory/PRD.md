@@ -127,6 +127,11 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 - Added app/sitemap.js (sitemap.xml) and app/robots.js (robots.txt, disallows /admin and /api)
 - Verified titles/OG tags/sitemap/robots via curl on all routes
 
+### June 23, 2026 - Projects Menu Item
+- Added "Projects" nav link in PublicNav (between Recommendations and About)
+- New /projects page with themed "Projects Coming Soon" placeholder card + SEO metadata layout
+- Added /projects to sitemap; verified nav click + page render via screenshot
+
 ### Pending Backlog (from chatbot session)
 - P1: Connect chatbot UI to real AI backend (Emergent LLM Key)
 - P2: Persist site settings (chatbot visibility) server-side in MongoDB
