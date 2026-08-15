@@ -139,7 +139,7 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 - Verified via screenshots: ad placeholders render on /blogs and /blogs/1, privacy page renders, footer link navigates correctly
 
 ### Pending Backlog (from chatbot session)
-- P1: Connect chatbot UI to real AI backend (Emergent LLM Key)
+- P1: Connect chatbot to real AI (Emergent LLM Key) — USER REQUIREMENT (Jun 2026): chatbot must answer ONLY from portfolio content (about/bio, skills, domains, work experience, blogs/reviews, projects). Out-of-scope questions get a polite refusal redirecting to portfolio topics. User said "we will get back to it later" — do NOT implement until user asks.
 - P2: Persist site settings (chatbot visibility) server-side in MongoDB
 - P2: Ctrl+K command palette for admin navigation
 
