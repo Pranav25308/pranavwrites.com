@@ -132,6 +132,12 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 - New /projects page with themed "Projects Coming Soon" placeholder card + SEO metadata layout
 - Added /projects to sitemap; verified nav click + page render via screenshot
 
+### June 23, 2026 - Monetization Prep (Ads + Privacy)
+- New reusable `components/shared/AdSlot.js`: shows themed "Advertisement" placeholder until AdSense client ID is set in `app/config/siteSettings.js` (`ads.adsenseClientId`); auto-loads adsbygoogle script + real ad units once set
+- Placed AdSlots on review listing pages (below grid) and review detail pages (below article)
+- New /privacy page (10-section policy incl. cookies/AdSense disclosure, AdSense-approval ready) with SEO layout; linked from footer bottom bar next to Admin Access; added to sitemap
+- Verified via screenshots: ad placeholders render on /blogs and /blogs/1, privacy page renders, footer link navigates correctly
+
 ### Pending Backlog (from chatbot session)
 - P1: Connect chatbot UI to real AI backend (Emergent LLM Key)
 - P2: Persist site settings (chatbot visibility) server-side in MongoDB

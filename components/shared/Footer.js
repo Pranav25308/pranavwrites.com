@@ -145,16 +145,29 @@ export default function Footer({ changePage, setShowAdminLogin }) {
             <span className="text-purple-500 mx-1">♥</span> 
             and lots of coffee.
           </p>
-          <button 
-            onClick={() => router.push("/admin/login")}
-            className={`text-sm transition-colors mt-4 md:mt-0 ${
-              darkMode 
-                ? 'text-slate-600 hover:text-purple-400' 
-                : 'text-slate-400 hover:text-purple-600'
-            }`}
-          >
-            Admin Access
-          </button>
+          <div className="flex items-center gap-6 mt-4 md:mt-0">
+            <button
+              onClick={() => router.push("/privacy")}
+              data-testid="footer-privacy-link"
+              className={`text-sm transition-colors ${
+                darkMode
+                  ? 'text-slate-600 hover:text-purple-400'
+                  : 'text-slate-400 hover:text-purple-600'
+              }`}
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={() => router.push("/admin/login")}
+              className={`text-sm transition-colors ${
+                darkMode
+                  ? 'text-slate-600 hover:text-purple-400'
+                  : 'text-slate-400 hover:text-purple-600'
+              }`}
+            >
+              Admin Access
+            </button>
+          </div>
         </div>
       </div>
     </footer>

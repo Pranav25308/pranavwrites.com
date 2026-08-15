@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Brain, Film, Book, Package, FileText } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
-
-// Icon mapping based on review type
+import AdSlot from '@/components/shared/AdSlot';
 const typeIcons = {
   blog: FileText,
   movie: Film,
@@ -131,6 +130,8 @@ export default function Reviews({
           );
         })}
       </div>
+
+      {filteredReviews.length > 0 && <AdSlot className="relative" />}
 
       {/* Empty State */}
       {filteredReviews.length === 0 && (
