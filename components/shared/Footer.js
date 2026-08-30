@@ -157,16 +157,6 @@ export default function Footer({ changePage, setShowAdminLogin }) {
             >
               Privacy Policy
             </button>
-            <button
-              onClick={() => router.push("/admin/login")}
-              className={`text-sm transition-colors ${
-                darkMode
-                  ? 'text-slate-600 hover:text-purple-400'
-                  : 'text-slate-400 hover:text-purple-600'
-              }`}
-            >
-              Admin Access
-            </button>
           </div>
         </div>
       </div>
