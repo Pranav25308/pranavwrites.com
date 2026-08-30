@@ -1,9 +1,7 @@
 'use client';
 
-import ProductsReviews from '@/components/user/Reviews/Products';
-import { DUMMY_REVIEWS } from '@/app/reviews/data';
+import ReviewsListPage from '@/components/user/ReviewsListPage';
 
 export default function ProductsPage() {
-  const filteredReviews = DUMMY_REVIEWS.filter((r) => r.type === 'product');
-  return <ProductsReviews filteredReviews={filteredReviews} />;
+  return <ReviewsListPage type="product" currentPage="products" />;
 }

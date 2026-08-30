@@ -1,13 +1,11 @@
 import ReviewDetail from '@/components/user/ReviewDetail';
-import { DUMMY_REVIEWS } from '@/app/reviews/data';
+import { getReviewById } from '@/app/lib/reviews-server';
 import { notFound } from 'next/navigation';
 
-export function generateStaticParams() {
-  return DUMMY_REVIEWS.filter((r) => r.type === 'movie').map((r) => ({ id: r.id }));
-}
+export const dynamic = 'force-dynamic';
 
-export function generateMetadata({ params }) {
-  const review = DUMMY_REVIEWS.find((r) => r.id === params.id && r.type === 'movie');
+export async function generateMetadata({ params }) {
+  const review = await getReviewById(params.id, 'movie');
   if (!review) return { title: 'Review Not Found' };
   return {
     title: `${review.title} | Pranav Writes`,
@@ -23,10 +21,8 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function MovieDetailPage({ params }) {
-  const review = DUMMY_REVIEWS.find(
-    (r) => r.id === params.id && r.type === 'movie'
-  );
+export default async function MovieDetailPage({ params }) {
+  const review = await getReviewById(params.id, 'movie');
   if (!review) notFound();
   return <ReviewDetail review={review} />;
 }

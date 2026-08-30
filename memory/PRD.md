@@ -138,6 +138,18 @@ Pull branch 1.0.1 from https://github.com/Pranav25308/pranavwrites.com.git and c
 - New /privacy page (10-section policy incl. cookies/AdSense disclosure, AdSense-approval ready) with SEO layout; linked from footer bottom bar next to Admin Access; added to sitemap
 - Verified via screenshots: ad placeholders render on /blogs and /blogs/1, privacy page renders, footer link navigates correctly
 
+### June 2026 - MongoDB Migration (MAJOR)
+- All static/dummy content removed; site now fully DB-driven (MongoDB local: mongodb://localhost:27017, db `portfolio_db`, env in `/app/.env.local`)
+- Collections: `reviews` (blogs/movies/books/products + likes/dislikes), `contacts` (real contact form messages), `settings` (navbar toggles incl. projects/contact, chatbot, adsenseClientId), `visits` (real page-visit events)
+- API routes (Next.js route handlers): /api/reviews (CRUD + ?type/?limit), /api/reviews/[id], /api/reviews/[id]/reaction (like/dislike with vote-switch, clamped ≥0), /api/messages (+[id] PATCH read/DELETE), /api/settings (GET/PUT merged with defaults), /api/visits (POST track / GET aggregated stats)
+- Admin panel: full CRUD Manage for Blogs/Movies/Books/Products (Skills REMOVED from menu + files deleted); real Messages (read/unread, delete); real Visits & Analysis dashboards; Settings persist to DB incl. AdSense ID field
+- Public: listing pages fetch from DB (loading + empty states), detail pages are server components (DB fetch + dynamic SEO metadata), contact form saves to DB, visit tracking on route change (visitorId in localStorage), navbar/chatbot/ads driven by DB settings
+- Like/Dislike ReactionBar on BLOG detail pages only (optimistic UI, localStorage dedup, animated pills)
+- Roles remain static in code (user decision); About page skills/domains static in code (use-skills/skills-store deleted)
+- Key server helper: `app/lib/reviews-server.js` (serializeReview, getReviewById)
+- TESTED: testing agent iteration_1 — 15/15 backend pytest, all UI flows pass; 2 minor findings fixed (setState-in-render warning via queueMicrotask defer in useSiteSettings; DB_NAME fallback removed from db.js)
+- Backend test suite: /app/backend/tests/backend_test.py
+
 ### Pending Backlog (from chatbot session)
 - P1: Connect chatbot to real AI (Emergent LLM Key) — USER REQUIREMENT (Jun 2026): chatbot must answer ONLY from portfolio content (about/bio, skills, domains, work experience, blogs/reviews, projects). Out-of-scope questions get a polite refusal redirecting to portfolio topics. User said "we will get back to it later" — do NOT implement until user asks.
 - P2: Persist site settings (chatbot visibility) server-side in MongoDB

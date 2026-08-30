@@ -3,7 +3,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Sparkles, Briefcase, Award, Code, Laptop, Database, Layers, Zap, Activity, Gamepad2, Server, Brain, Cpu, Network, Cloud, Lock, Bug } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
-import { useSkills } from '@/lib/use-skills';
 
 // Icon mapping for dynamic rendering
 const iconMap = {
@@ -17,10 +16,7 @@ export default function About({
   domains,
 }) {
   const { darkMode } = useTheme();
-  // Prefer admin-managed skills (persisted in localStorage). If a parent
-  // explicitly passes a `skills` prop, it acts as the initial fallback.
-  const dynamicSkills = useSkills();
-  const skillsToRender = dynamicSkills && dynamicSkills.length > 0 ? dynamicSkills : (skills ?? []);
+  const skillsToRender = skills ?? [];
   return (
     <div className="min-h-screen max-w-6xl mx-auto relative pt-8 px-4 sm:px-6 lg:px-8">
       {/* ===== Bio Card (Hello, World!) ===== */}

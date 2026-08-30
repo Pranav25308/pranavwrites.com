@@ -27,8 +27,7 @@ const MANAGE_ITEMS = [
   { href: '/admin/manage/blogs', label: 'Blogs' },
   { href: '/admin/manage/movies', label: 'Movies' },
   { href: '/admin/manage/books', label: 'Books' },
-  { href: '/admin/manage/products', label: 'Products' },
-  { href: '/admin/manage/skills', label: 'Skills' }
+  { href: '/admin/manage/products', label: 'Products' }
 ];
 
 export default function AdminNav({ darkMode, toggleDarkMode, handleLogout }) {

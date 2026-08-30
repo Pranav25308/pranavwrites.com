@@ -25,6 +25,21 @@ function InnerShell({ children, isAdminRoute }) {
     }
   }, [pathname]);
 
+  // Track real visits (skip admin routes)
+  useEffect(() => {
+    if (typeof window === 'undefined' || pathname.startsWith('/admin')) return;
+    let visitorId = window.localStorage.getItem('visitorId');
+    if (!visitorId) {
+      visitorId = `v_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+      window.localStorage.setItem('visitorId', visitorId);
+    }
+    fetch('/api/visits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: pathname, visitorId }),
+    }).catch(() => {});
+  }, [pathname]);
+
   const changePage = (page) => {
     const map = {
       home: '/',

@@ -179,12 +179,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Film, Book, Package, Moon, Sun } from 'lucide-react';
-import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { useTheme } from '@/components/theme/ThemeProvider';
 
-export default function PublicNav({
-  settings = DUMMY_SETTINGS,
-}) {
+export default function PublicNav() {
+  const { settings } = useSiteSettings();
   const pathname = usePathname();
   const { darkMode, toggleDarkMode } = useTheme();
 
@@ -302,6 +301,7 @@ export default function PublicNav({
               </div>
             )}
 
+            {settings.navbar.projects !== false && (
             <Link
               href="/projects"
               data-testid="nav-projects-link"
@@ -317,6 +317,7 @@ export default function PublicNav({
             >
               Projects
             </Link>
+            )}
 
             {settings.navbar.about && (
               <Link
@@ -335,6 +336,7 @@ export default function PublicNav({
               </Link>
             )}
 
+            {settings.navbar.contact !== false && (
             <Link
               href="/contact"
               className={`${baseBtn} ${
@@ -349,6 +351,7 @@ export default function PublicNav({
             >
               Contact
             </Link>
+            )}
           </div>
 
           {/* Dark mode */}

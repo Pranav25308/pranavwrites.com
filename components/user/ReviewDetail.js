@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
 import AdSlot from '@/components/shared/AdSlot';
+import ReactionBar from '@/components/user/ReactionBar';
 
 const typeIcons = {
   blog: FileText,
@@ -204,6 +205,14 @@ export default function ReviewDetail({ review }) {
           </div>
         </CardContent>
       </Card>
+
+      {review.type === 'blog' && (
+        <ReactionBar
+          reviewId={review.id}
+          initialLikes={review.likes || 0}
+          initialDislikes={review.dislikes || 0}
+        />
+      )}
 
       <AdSlot />
     </div>

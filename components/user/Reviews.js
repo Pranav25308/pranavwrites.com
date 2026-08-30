@@ -29,6 +29,7 @@ const TYPE_PATHS = {
 export default function Reviews({
   currentPage,
   filteredReviews,
+  loading = false,
 }) {
   const { darkMode } = useTheme();
   const pageTitle = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
@@ -58,7 +59,19 @@ export default function Reviews({
         </p>
       </div>
       
+      {/* Loading state */}
+      {loading && (
+        <div className="flex flex-col items-center justify-center py-24 relative" data-testid="reviews-loading">
+          <div className="relative mb-4">
+            <div className={`w-12 h-12 rounded-full border-4 ${darkMode ? 'border-slate-800' : 'border-purple-100'}`} />
+            <div className="absolute inset-0 w-12 h-12 rounded-full border-4 border-transparent border-t-purple-600 border-r-cyan-500 animate-spin" />
+          </div>
+          <p className={darkMode ? 'text-slate-400' : 'text-slate-600'}>Loading {pageTitle.toLowerCase()}...</p>
+        </div>
+      )}
+
       {/* Reviews Grid */}
+      {!loading && (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
         {filteredReviews.map((review, index) => {
           const ReviewIcon = typeIcons[review.type] || Brain;
@@ -130,11 +143,12 @@ export default function Reviews({
           );
         })}
       </div>
+      )}
 
-      {filteredReviews.length > 0 && <AdSlot className="relative" />}
+      {!loading && filteredReviews.length > 0 && <AdSlot className="relative" />}
 
       {/* Empty State */}
-      {filteredReviews.length === 0 && (
+      {!loading && filteredReviews.length === 0 && (
         <div className="text-center py-20 relative">
           <div className={`w-24 h-24 mx-auto mb-6 rounded-2xl flex items-center justify-center border ${
             darkMode 

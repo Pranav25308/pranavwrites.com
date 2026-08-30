@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { Megaphone } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
-import { DUMMY_SETTINGS } from '@/app/config/siteSettings';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 let scriptLoaded = false;
 
@@ -19,8 +19,9 @@ function loadAdsenseScript(clientId) {
 
 export default function AdSlot({ slot = '', format = 'auto', className = '' }) {
   const { darkMode } = useTheme();
+  const { settings } = useSiteSettings();
   const insRef = useRef(null);
-  const clientId = DUMMY_SETTINGS.ads?.adsenseClientId || '';
+  const clientId = settings?.ads?.adsenseClientId || '';
 
   useEffect(() => {
     if (!clientId || !insRef.current) return;

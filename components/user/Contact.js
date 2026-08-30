@@ -12,6 +12,8 @@ export default function Contact({
   contactForm,
   setContactForm,
   handleContactSubmit,
+  status = null,
+  submitting = false,
 }) {
   const { darkMode } = useTheme();
   return (
@@ -105,13 +107,31 @@ export default function Contact({
                 } focus:ring-purple-500/20`}
               />
             </div>
+            {status && (
+              <div
+                data-testid="contact-status"
+                className={`p-4 rounded-lg text-sm font-medium border ${
+                  status.type === 'success'
+                    ? darkMode
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                      : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                    : darkMode
+                    ? 'bg-rose-500/10 border-rose-500/30 text-rose-400'
+                    : 'bg-rose-50 border-rose-200 text-rose-700'
+                }`}
+              >
+                {status.text}
+              </div>
+            )}
             <Button 
               type="submit" 
+              disabled={submitting}
+              data-testid="contact-submit-button"
               className="w-full bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 hover:scale-[1.02]"
               size="lg"
             >
               <Send className="w-5 h-5 mr-2" />
-              Send Message
+              {submitting ? 'Sending...' : 'Send Message'}
             </Button>
           </form>
         </CardContent>

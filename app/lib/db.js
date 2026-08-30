@@ -5,7 +5,7 @@
 import { MongoClient } from 'mongodb';
 
 const MONGO_URL = process.env.MONGO_URL;
-const DB_NAME = process.env.DB_NAME || 'portfolio';
+const DB_NAME = process.env.DB_NAME;
 
 if (!MONGO_URL) {
   console.warn('Warning: MONGO_URL is not defined in environment variables');

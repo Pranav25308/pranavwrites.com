@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Settings as SettingsIcon, MessageCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { Settings as SettingsIcon, MessageCircle, Megaphone, Check } from 'lucide-react';
 
 const FEATURE_META = {
   chatbot: {
@@ -14,6 +16,9 @@ const FEATURE_META = {
 };
 
 export default function Settings({ settings, setSettings }) {
+  const [adsenseId, setAdsenseId] = useState(settings?.ads?.adsenseClientId ?? '');
+  const [adsSaved, setAdsSaved] = useState(false);
+
   const handleNavToggle = (key) => {
     setSettings({
       ...settings,
@@ -26,6 +31,15 @@ export default function Settings({ settings, setSettings }) {
       ...settings,
       features: { ...(settings.features || {}), [key]: !settings?.features?.[key] },
     });
+  };
+
+  const handleSaveAds = () => {
+    setSettings({
+      ...settings,
+      ads: { ...(settings.ads || {}), adsenseClientId: adsenseId.trim() },
+    });
+    setAdsSaved(true);
+    setTimeout(() => setAdsSaved(false), 2500);
   };
 
   const features = settings?.features || {};
@@ -136,13 +150,56 @@ export default function Settings({ settings, setSettings }) {
             </div>
 
             <Button
-              onClick={() => alert('Settings saved!')}
+              onClick={() => alert('Settings are saved automatically to the database.')}
               data-testid="save-settings-btn"
               className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               size="lg"
             >
               <SettingsIcon className="w-5 h-5 mr-2" />
               Save Settings
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Ads settings */}
+      <Card
+        className="mt-8 mb-16 shadow-2xl dark:shadow-blue-900/50 border-2 border-blue-100 dark:border-slate-700 bg-white dark:bg-slate-800 animate-in fade-in-0 slide-in-from-bottom-4 duration-700"
+        data-testid="ads-settings-card"
+      >
+        <CardContent className="pt-6">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-100 mb-1 flex items-center gap-2">
+                <Megaphone className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                Advertising
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                Paste your Google AdSense client ID (e.g. ca-pub-1234567890) to activate real ads on all ad slots. Leave empty to show placeholders.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="adsense-id" className="text-slate-800 dark:text-slate-100">
+                AdSense Client ID
+              </Label>
+              <Input
+                id="adsense-id"
+                value={adsenseId}
+                onChange={(e) => setAdsenseId(e.target.value)}
+                placeholder="ca-pub-XXXXXXXXXXXXXXXX"
+                data-testid="adsense-id-input"
+              />
+            </div>
+
+            <Button
+              onClick={handleSaveAds}
+              data-testid="save-ads-btn"
+              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg"
+              size="lg"
+            >
+              {adsSaved ? <Check className="w-5 h-5 mr-2" /> : <Megaphone className="w-5 h-5 mr-2" />}
+              {adsSaved ? 'Saved!' : 'Save Ad Settings'}
             </Button>
           </div>
         </CardContent>
