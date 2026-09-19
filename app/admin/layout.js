@@ -18,18 +18,52 @@ export default function AdminLayout({ children }) {
     if (typeof window === 'undefined') return;
 
     const token = localStorage.getItem('adminToken');
-    const authed = token === 'admin-token-123';
-    setIsAuthed(authed);
+    if (!token) {
+      setIsAuthed(false);
+      if (!isLoginRoute) {
+        router.replace('/admin/login');
+        return;
+      }
+      setChecked(true);
+      return;
+    }
 
-    if (!authed && !isLoginRoute) {
-      router.replace('/admin/login');
-      return;
-    }
-    if (authed && isLoginRoute) {
-      router.replace('/admin/visits');
-      return;
-    }
-    setChecked(true);
+    let active = true;
+    fetch('/api/auth/verify', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!active) return;
+        if (data.valid) {
+          setIsAuthed(true);
+          if (isLoginRoute) {
+            router.replace('/admin/visits');
+            return;
+          }
+        } else {
+          localStorage.removeItem('adminToken');
+          setIsAuthed(false);
+          if (!isLoginRoute) {
+            router.replace('/admin/login');
+            return;
+          }
+        }
+        setChecked(true);
+      })
+      .catch(() => {
+        if (!active) return;
+        setIsAuthed(false);
+        if (!isLoginRoute) {
+          router.replace('/admin/login');
+          return;
+        }
+        setChecked(true);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [pathname, isLoginRoute, router]);
 
   const handleLogout = () => {

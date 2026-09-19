@@ -5,18 +5,23 @@ export const dynamic = 'force-dynamic';
 
 const VISITS_COLLECTION = 'visits';
 
+// Handle POST requests to record a new visit log in the database
 export async function POST(request) {
   try {
+    // Parse page name and unique visitor ID from the request payload
     const { page, visitorId } = await request.json();
     if (!page || !visitorId) {
       return NextResponse.json({ error: 'page and visitorId are required' }, { status: 400 });
     }
-    const collection = await getCollection(VISITS_COLLECTION);
-    await collection.insertOne({
-      page,
-      visitorId,
-      createdAt: new Date().toISOString(),
-    });
+    // Retrieve the visits collection from the database
+    // const collection = await getCollection(VISITS_COLLECTION);
+    // Insert the visit log with a timestamp
+    // await collection.insertOne({
+    //   page,
+    //   visitorId,
+    //   createdAt: new Date().toISOString(),
+    // });
+    // Return a success response
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
     console.error('POST /api/visits error:', error);

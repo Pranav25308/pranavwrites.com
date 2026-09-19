@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getCollection, COLLECTIONS } from '@/app/lib/db';
 import { serializeReview } from '@/app/lib/reviews-server';
+import { verifyAdminRequest } from '@/app/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,11 @@ export async function GET(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
+  const auth = verifyAdminRequest(request);
+  if (!auth.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const _id = toObjectId(params.id);
   if (!_id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
   try {
@@ -53,6 +59,11 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const auth = verifyAdminRequest(request);
+  if (!auth.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const _id = toObjectId(params.id);
   if (!_id) return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
   try {

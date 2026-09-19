@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getCollection, COLLECTIONS } from '@/app/lib/db';
 import { DEFAULT_SETTINGS } from '@/app/config/siteSettings';
+import { verifyAdminRequest } from '@/app/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +25,11 @@ export async function GET() {
 }
 
 export async function PUT(request) {
+  const auth = verifyAdminRequest(request);
+  if (!auth.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const settings = mergeWithDefaults(body);

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Edit, Trash2, Plus, X, Save, ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
+import { getAuthHeaders } from '@/app/lib/auth-client';
 
 const EMPTY_FORM = { title: '', description: '', image: '', content: '', date: '' };
 
@@ -69,7 +70,7 @@ export default function Manage({ type, title }) {
       const method = editingId ? 'PUT' : 'POST';
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ ...form, type }),
       });
       if (!res.ok) {
@@ -89,7 +90,10 @@ export default function Manage({ type, title }) {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this entry permanently?')) return;
     try {
-      const res = await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/reviews/${id}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders(),
+      });
       if (res.ok) setReviews((prev) => prev.filter((r) => r.id !== id));
     } catch {}
   };

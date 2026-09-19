@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, MessageSquare, Loader2 } from 'lucide-react';
 import { DUMMY_ROLES } from '@/app/admin/data';
+import { getAuthHeaders } from '@/app/lib/auth-client';
 
 export default function Analysis() {
   const [reviews, setReviews] = useState([]);
@@ -14,7 +15,7 @@ export default function Analysis() {
   useEffect(() => {
     Promise.all([
       fetch('/api/reviews').then((r) => r.json()).catch(() => ({ reviews: [] })),
-      fetch('/api/messages').then((r) => r.json()).catch(() => ({ messages: [] })),
+      fetch('/api/messages', { headers: getAuthHeaders() }).then((r) => r.json()).catch(() => ({ messages: [] })),
       fetch('/api/visits').then((r) => r.json()).catch(() => ({ totalVisits: 0, uniqueVisitors: 0 })),
     ])
       .then(([rev, msg, vis]) => {

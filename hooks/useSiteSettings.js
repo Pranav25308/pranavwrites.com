@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { DEFAULT_SETTINGS } from '@/app/config/siteSettings';
+import { getAuthHeaders } from '@/app/lib/auth-client';
 
 const EVENT_NAME = 'siteSettingsChange';
 
@@ -45,7 +46,7 @@ export function useSiteSettings() {
       queueMicrotask(() => {
         fetch('/api/settings', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
           body: JSON.stringify(value),
         }).catch(() => {});
         window.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: value }));

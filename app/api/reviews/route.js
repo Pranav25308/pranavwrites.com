@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getCollection, COLLECTIONS } from '@/app/lib/db';
 import { serializeReview } from '@/app/lib/reviews-server';
+import { verifyAdminRequest } from '@/app/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,11 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  const auth = verifyAdminRequest(request);
+  if (!auth.authorized) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { type, title, description, image = '', content = '', date = '' } = body;

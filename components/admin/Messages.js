@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Trash2, MailOpen, Mail, Loader2 } from 'lucide-react';
+import { getAuthHeaders } from '@/app/lib/auth-client';
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/messages')
+    fetch('/api/messages', { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((data) => setMessages(data.messages || []))
       .catch(() => {})
@@ -22,14 +23,17 @@ export default function Messages() {
     setMessages((prev) => prev.map((m) => (m.id === msg.id ? { ...m, read } : m)));
     fetch(`/api/messages/${msg.id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ read }),
     }).catch(() => {});
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this message permanently?')) return;
-    const res = await fetch(`/api/messages/${id}`, { method: 'DELETE' }).catch(() => null);
+    const res = await fetch(`/api/messages/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    }).catch(() => null);
     if (res?.ok) setMessages((prev) => prev.filter((m) => m.id !== id));
   };
 

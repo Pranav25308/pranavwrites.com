@@ -3,11 +3,11 @@
 
 import { getCollection, COLLECTIONS } from '../lib/db';
 import { v4 as uuidv4 } from 'uuid';
+import { createAdminToken, verifyAdminToken } from '../lib/auth-server';
 
-// Hardcoded admin credentials (change in production)
 const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: 'admin'
+  username: process.env.ADMIN_USERNAME,
+  password: process.env.ADMIN_PASSWORD
 };
 
 /**
@@ -18,12 +18,16 @@ const ADMIN_CREDENTIALS = {
  */
 export async function login(username, password) {
   try {
-    // Check against hardcoded credentials (for demo)
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-      const token = uuidv4();
+    if (
+      ADMIN_CREDENTIALS.username &&
+      ADMIN_CREDENTIALS.password &&
+      username === ADMIN_CREDENTIALS.username &&
+      password === ADMIN_CREDENTIALS.password
+    ) {
+      const token = createAdminToken(username);
       return {
         success: true,
-        token: token,
+        token,
         user: { username, role: 'admin' }
       };
     }
@@ -54,9 +58,8 @@ export async function login(username, password) {
  * @returns {Promise<boolean>}
  */
 export async function verifyToken(token) {
-  // For demo, any non-empty token is valid
-  // In production, implement proper JWT verification
-  return token && token.length > 0;
+  const result = verifyAdminToken(token);
+  return result.valid;
 }
 
 /**

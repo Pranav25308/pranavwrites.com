@@ -14,18 +14,30 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    if (form.username === 'admin' && form.password === 'admin') {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('adminToken', 'admin-token-123');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: form.username, password: form.password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setError(data.error || 'Invalid credentials');
+        setLoading(false);
+        return;
       }
+
+      localStorage.setItem('adminToken', data.token);
       router.push('/admin/visits');
-    } else {
-      setError('Invalid credentials. Use username: admin, password: admin');
+    } catch {
+      setError('Unable to sign in. Please try again.');
       setLoading(false);
     }
   };
@@ -50,7 +62,7 @@ export default function AdminLoginPage() {
                 id="username"
                 value={form.username}
                 onChange={(e) => setForm({ ...form, username: e.target.value })}
-                placeholder="admin"
+                placeholder="Username"
                 required
                 autoFocus
               />
@@ -80,9 +92,6 @@ export default function AdminLoginPage() {
               {loading ? 'Signing in...' : 'Login'}
             </Button>
 
-            <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-              Demo credentials: <span className="font-mono">admin / admin</span>
-            </p>
           </form>
         </CardContent>
       </Card>

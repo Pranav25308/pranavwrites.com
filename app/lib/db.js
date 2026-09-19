@@ -5,37 +5,39 @@
 import { MongoClient } from 'mongodb';
 
 const MONGO_URL = process.env.MONGO_URL;
-const DB_NAME = process.env.DB_NAME;
+const DB_NAME = process.env.DB_NAME || 'pranavWrites';
 
-if (!MONGO_URL) {
+if (!MONGO_URL && process.env.NODE_ENV !== 'test') {
   console.warn('Warning: MONGO_URL is not defined in environment variables');
 }
 
-let client = null;
-let db = null;
+let client;
+let clientPromise;
+
+if (process.env.NODE_ENV === 'development') {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(MONGO_URL);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(MONGO_URL);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+}
 
 /**
  * Connect to MongoDB database
  * @returns {Promise<Db>} MongoDB database instance
  */
 export async function connectToDatabase() {
-  if (db) {
-    return db;
+  if (!MONGO_URL) {
+    throw new Error('MONGO_URL environment variable is missing');
   }
-
-  try {
-    if (!client) {
-      client = new MongoClient(MONGO_URL);
-      await client.connect();
-      console.log('Connected to MongoDB successfully');
-    }
-    
-    db = client.db(DB_NAME);
-    return db;
-  } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
-    throw error;
-  }
+  const connectedClient = await clientPromise;
+  return connectedClient.db(DB_NAME);
 }
 
 /**

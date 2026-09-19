@@ -12,8 +12,10 @@ import { v4 as uuidv4 } from 'uuid';
  */
 export async function trackPageView(page, metadata = {}) {
   try {
+    // Access the analytics collection from the database
     const collection = await getCollection(COLLECTIONS.ANALYTICS);
     
+    // Construct the visit log document with metadata and identifiers
     const pageView = {
       id: uuidv4(),
       type: 'pageview',
@@ -25,6 +27,7 @@ export async function trackPageView(page, metadata = {}) {
       ip: metadata.ip || ''
     };
 
+    // Insert the structured visit log into the database
     await collection.insertOne(pageView);
     return { success: true };
   } catch (error) {
