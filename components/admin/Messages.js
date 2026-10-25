@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Trash2, MailOpen, Mail, Loader2 } from 'lucide-react';
-import { getAuthHeaders } from '@/app/lib/auth-client';
+import { getAuthHeaders } from '@/lib/auth-client';
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);

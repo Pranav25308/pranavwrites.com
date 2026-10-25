@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifyAdminRequest } from '@/app/lib/auth-server';
+import { verifyAdminRequest } from '@/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 

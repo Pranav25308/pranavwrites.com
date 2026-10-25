@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getCollection, COLLECTIONS } from '@/app/lib/db';
-import { DEFAULT_SETTINGS } from '@/app/config/siteSettings';
-import { verifyAdminRequest } from '@/app/lib/auth-server';
+import { getCollection, COLLECTIONS } from '@/lib/db';
+import { DEFAULT_SETTINGS } from '@/lib/siteSettings';
+import { verifyAdminRequest } from '@/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 

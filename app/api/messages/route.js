@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getCollection, COLLECTIONS } from '@/app/lib/db';
-import { verifyAdminRequest } from '@/app/lib/auth-server';
+import { getCollection, COLLECTIONS } from '@/lib/db';
+import { verifyAdminRequest } from '@/lib/auth-server';
 
 export const dynamic = 'force-dynamic';
 

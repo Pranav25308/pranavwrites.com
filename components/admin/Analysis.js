@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart3, MessageSquare, Loader2 } from 'lucide-react';
 import { DUMMY_ROLES } from '@/app/admin/data';
-import { getAuthHeaders } from '@/app/lib/auth-client';
+import { getAuthHeaders } from '@/lib/auth-client';
 
 export default function Analysis() {
   const [reviews, setReviews] = useState([]);

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
-import { getCollection, COLLECTIONS } from '@/app/lib/db';
+import { getCollection, COLLECTIONS } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 

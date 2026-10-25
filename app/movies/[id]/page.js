@@ -1,5 +1,5 @@
 import ReviewDetail from '@/components/user/ReviewDetail';
-import { getReviewById } from '@/app/lib/reviews-server';
+import { getReviewById } from '@/lib/reviews-server';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';

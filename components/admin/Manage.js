@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Edit, Trash2, Plus, X, Save, ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
-import { getAuthHeaders } from '@/app/lib/auth-client';
+import { getAuthHeaders } from '@/lib/auth-client';
 
 const EMPTY_FORM = { title: '', description: '', image: '', content: '', date: '' };
 

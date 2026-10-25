@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { DEFAULT_SETTINGS } from '@/app/config/siteSettings';
-import { getAuthHeaders } from '@/app/lib/auth-client';
+import { DEFAULT_SETTINGS } from '@/lib/siteSettings';
+import { getAuthHeaders } from '@/lib/auth-client';
 
 const EVENT_NAME = 'siteSettingsChange';
 
